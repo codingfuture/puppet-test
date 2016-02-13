@@ -1,0 +1,65 @@
+---
+lookup_options:
+  cfnetwork::dnat_ports:
+    merge: deep
+  cfnetwork::client_ports:
+    merge: deep
+  cfnetwork::service_ports:
+    merge: deep
+  cfnetwork::describe_services:
+    merge: deep
+  cfnetwork::router_ports:
+    merge: deep
+
+# Just for reference, this settings must be set during host init
+cfsystem::hierapool::location: 'somelocation'
+cfsystem::hierapool::pool: 'infra'
+
+cfnetwork::main:
+    device: eth0
+    address: '192.168.0.30/24'
+    extra_addresses: '192.168.0.40/24'
+    gateway: '192.168.0.1'
+    # even though it has private IP, treat as public interface
+    # with all consequences of its definition in cfnetwork
+    force_public: true
+    
+cfnetwork::ifaces:
+    infradmz:
+        device: eth1
+        address: '10.0.1.1/24'
+    dbdmz:
+        device: eth2
+        address: '10.0.2.1/24'
+    webdmz:
+        device: eth3
+        address: '10.0.2.1/24'
+# DNAT from public IP to DMZ servers
+cfnetwork::dnat_ports:
+    'main/webdmz:cfhttp':
+        dst: '192.168.0.40'
+        to_dst: '10.0.2.10'
+# Internal routing
+# NOTE: some rules depend on DNS resolvable names, which
+#       appear on 'maint' only after those hosts are deployed
+cfnetwork::router_ports:
+    # Allow maint host ot access outer worlds
+    'intradmz/main:cfhttp:apt':
+        src: 'maint'
+    'intradmz/main:ntp':
+        src: 'maint'
+    # Allow puppet host to download modules
+    'intradmz/puppet:cfhttp:puppet':
+    # Allow DMZ servers to access infrastructure services
+    'any/infradmz:ntp':
+        src: '10.0.0.0/8'
+        dst: 'maint'
+    'any/infradmz:dns':
+        src: '10.0.0.0/8'
+        dst: 'maint'
+    'any/infradmz:aptproxy':
+        src: '10.0.0.0/8'
+        dst: 'maint'
+    'any/infradmz:puppet':
+        src: '10.0.0.0/8'
+        dst: 'puppet'

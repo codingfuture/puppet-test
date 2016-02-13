@@ -1,0 +1,19 @@
+---
+lookup_options:
+  cfnetwork::dnat_ports:
+    merge: deep
+  cfnetwork::client_ports:
+    merge: deep
+  cfnetwork::service_ports:
+    merge: deep
+  cfnetwork::describe_services:
+    merge: deep
+
+# Just for reference, this settings must be set during host init
+cfsystem::hierapool::location: 'somelocation'
+cfsystem::hierapool::pool: 'infra'
+
+cfnetwork::main:
+    device: eth0
+    address: '10.0.2.10/24'
+    gateway: '10.0.2.1'

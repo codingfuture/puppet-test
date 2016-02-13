@@ -1,0 +1,31 @@
+---
+classes:
+  - cfsystem
+ 
+cfauth::admin_user: adminuser
+# mkpasswd -m sha-512: 'testpass'
+cfauth::admin_password: '$6$WCxU2C1WB8Z8$mmB.L9L9ZkTuBpvC3vy0I6eujlf82a3Zjb0K0o5.w8SpqSOdaS62wqLCg1Nelm/xdNljwCH5/Af3BapG6qHoH0'
+cfauth::sudo_no_password_all: true
+cfauth::admin_auth_keys:
+  data_test:
+    key: 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiruOsKA2xTeITRnmLlWph1xNdyoX7cufWU48737E8KQSltRZEeyyLKKPR0L+XTwrvpIhwymikP+7K77KMF8yEg9f98FaYtxGdEvPqGVO7Dezdg3eQmQzYce0/wlgLXn0GJa2TcrG7lvSnHkCjbOV5lRWP5vY92skYQHhuwtMgtQ=='
+    # defaults:
+    #type: ssh-rsa 
+    #
+    # not strictly needed
+    options:
+      - 'from="10.0.0.0/8,192.168.0.0/24,172.16.0.0/12"'
+# You may want a more specific IP list here
+# Also, check cfauth::admin_auth_keys options, if any
+cfauth::admin_hosts:
+    - '10.0.0.0/8'
+    - '192.168.0.0/24'
+    - '172.16.0.0/12'
+
+# Setup your own
+#cfsystem::admin_email: admin@example.com
+cfnetwork::describe_services:
+    cfhttp:
+        server:
+            - 'tcp/80'
+            - 'tcp/443'
