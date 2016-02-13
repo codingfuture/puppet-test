@@ -27,18 +27,23 @@ cfnetwork::main:
 cfnetwork::ifaces:
     infradmz:
         device: eth1
-        address: '10.0.1.1/24'
+        address: '10.10.1.1/24'
     dbdmz:
         device: eth2
-        address: '10.0.2.1/24'
+        address: '10.10.2.1/24'
     webdmz:
         device: eth3
-        address: '10.0.2.1/24'
+        address: '10.10.2.1/24'
+
+# custom services
+cfnetwork::describe_services:
+    testdb:
+        server: 'tcp/1234'
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
         dst: '192.168.0.40'
-        to_dst: '10.0.2.10'
+        to_dst: '10.10.2.10'
 # Internal routing
 # NOTE: some rules depend on DNS resolvable names, which
 #       appear on 'maint' only after those hosts are deployed
@@ -52,14 +57,16 @@ cfnetwork::router_ports:
     'intradmz/puppet:cfhttp:puppet':
     # Allow DMZ servers to access infrastructure services
     'any/infradmz:ntp':
-        src: '10.0.0.0/8'
+        src: '10.10.0.0/8'
         dst: 'maint'
     'any/infradmz:dns':
-        src: '10.0.0.0/8'
+        src: '10.10.0.0/8'
         dst: 'maint'
     'any/infradmz:aptproxy':
-        src: '10.0.0.0/8'
+        src: '10.10.0.0/8'
         dst: 'maint'
     'any/infradmz:puppet':
-        src: '10.0.0.0/8'
+        src: '10.10.0.0/8'
         dst: 'puppet'
+    # Allow web to access DB servers
+    'webdmz/dbdmz:testdb': {}

@@ -15,8 +15,8 @@ cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
     device: eth0
-    address: '10.0.1.10/24'
-    gateway: '10.0.1.1'
+    address: '10.10.1.10/24'
+    gateway: '10.10.1.1'
     
 cfnetwork::dns: '$serve'
 
