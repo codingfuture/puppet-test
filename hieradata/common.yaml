@@ -2,9 +2,9 @@
 classes:
   - cfsystem
  
-cfauth::admin_user: adminuser
-# mkpasswd -m sha-512: 'testpass'
-cfauth::admin_password: '$6$WCxU2C1WB8Z8$mmB.L9L9ZkTuBpvC3vy0I6eujlf82a3Zjb0K0o5.w8SpqSOdaS62wqLCg1Nelm/xdNljwCH5/Af3BapG6qHoH0'
+cfauth::admin_user: vagrant
+# mkpasswd -m sha-512: 'vagrant'
+cfauth::admin_password: '$6$W32Psa5h$l7iIrVFdG.6SRta86n1GlDcMBapDP3fpzLD4F2Vkz2xTfd2GFg34h5CEBH3JifiVRszumAteGDLXZEbp2bx3Z0'
 cfauth::sudo_no_password_all: true
 cfauth::admin_auth_keys:
   data_test:
@@ -14,12 +14,12 @@ cfauth::admin_auth_keys:
     #
     # not strictly needed
     options:
-      - 'from="10.0.0.0/8,192.168.0.0/24,172.16.0.0/12"'
+      - 'from="10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"'
 # You may want a more specific IP list here
 # Also, check cfauth::admin_auth_keys options, if any
 cfauth::admin_hosts:
     - '10.0.0.0/8'
-    - '192.168.0.0/24'
+    - '192.168.0.0/16'
     - '172.16.0.0/12'
 
 # Setup your own

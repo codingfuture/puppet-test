@@ -16,24 +16,29 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
-    device: eth0
-    address: '192.168.0.30/24'
-    extra_addresses: '192.168.0.40/24'
-    gateway: '192.168.0.1'
+    device: eth1
+    address: '192.168.1.30/24'
+    extra_addresses: '192.168.1.40/24'
+    gateway: '192.168.1.1'
     # even though it has private IP, treat as public interface
     # with all consequences of its definition in cfnetwork
     force_public: true
     
 cfnetwork::ifaces:
+    vagrant:
+        device: eth0
+        method: dhcp
+        # notify cffirehol of vagrant address space
+        extra_routes: '10.0.1.1/25'
     infradmz:
-        device: eth1
-        address: '10.10.1.1/24'
-    dbdmz:
         device: eth2
-        address: '10.10.2.1/24'
-    webdmz:
+        address: '10.10.1.254/24'
+    dbdmz:
         device: eth3
-        address: '10.10.2.1/24'
+        address: '10.10.2.254/24'
+    webdmz:
+        device: eth4
+        address: '10.10.2.254/24'
 
 # custom services
 cfnetwork::describe_services:
@@ -42,7 +47,7 @@ cfnetwork::describe_services:
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
-        dst: '192.168.0.40'
+        dst: '192.168.1.40'
         to_dst: '10.10.2.10'
 # Internal routing
 # NOTE: some rules depend on DNS resolvable names, which

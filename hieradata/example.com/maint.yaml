@@ -14,10 +14,17 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
-    device: eth0
+    device: eth1
     address: '10.10.1.10/24'
-    gateway: '10.10.1.1'
-    
+    gateway: '10.10.1.254'
+
+cfnetwork::ifaces:
+    vagrant:
+        device: eth0
+        method: dhcp
+        # notify cffirehol of vagrant address space
+        extra_routes: '10.0.1.1/25'
+
 cfnetwork::dns: '$serve'
 
 cfsystem::add_repo_cacher: true
