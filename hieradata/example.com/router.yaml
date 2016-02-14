@@ -55,23 +55,23 @@ cfnetwork::dnat_ports:
 cfnetwork::router_ports:
     # Allow maint host ot access outer worlds
     'intradmz/main:cfhttp:apt':
-        src: 'maint'
+        src: 'maint.example.com'
     'intradmz/main:ntp':
-        src: 'maint'
+        src: 'maint.example.com'
     # Allow puppet host to download modules
     'intradmz/puppet:cfhttp:puppet':
     # Allow DMZ servers to access infrastructure services
     'any/infradmz:ntp':
         src: '10.10.0.0/8'
-        dst: 'maint'
+        dst: 'maint.example.com'
     'any/infradmz:dns':
         src: '10.10.0.0/8'
-        dst: 'maint'
+        dst: 'maint.example.com'
     'any/infradmz:aptproxy':
         src: '10.10.0.0/8'
-        dst: 'maint'
+        dst: 'maint.example.com'
     'any/infradmz:puppet':
         src: '10.10.0.0/8'
-        dst: 'puppet'
+        dst: 'puppet.example.com'
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}

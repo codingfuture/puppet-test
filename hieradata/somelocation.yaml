@@ -1,4 +1,4 @@
 ---
 # maint.example.com
 cfnetwork::dns: '10.10.1.10'
-cfsystem::ntp_servers: 'maint'
+cfsystem::ntp_servers: 'maint.example.com'

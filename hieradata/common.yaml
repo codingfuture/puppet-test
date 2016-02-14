@@ -29,3 +29,9 @@ cfnetwork::describe_services:
         server:
             - 'tcp/80'
             - 'tcp/443'
+
+# APT proxy
+cfsystem::repo_proxy:
+    host: maint.example.com
+    port: 3142
+

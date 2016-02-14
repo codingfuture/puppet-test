@@ -168,3 +168,4 @@ EOCONF
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
 service puppetserver restart
 #---
+true

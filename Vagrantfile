@@ -59,6 +59,7 @@ grep \\\$hostname /etc/hosts | read || \
 grep puppet /etc/hosts | read || \
    /opt/puppetlabs/bin/puppet resource host puppet ip=10.10.1.11
    
+true
 EOT
 EOINIT
 
