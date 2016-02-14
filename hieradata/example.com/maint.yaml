@@ -41,4 +41,8 @@ cfsystem::email::listen_ifaces: 'main'
 
 # this needs to be disabled for initial provisiong
 # and can be enabled once maint is configured
-cfsystem::repo_proxy:
+# APT proxy
+#cfsystem::repo_proxy:
+#    host: maint.example.com
+#    port: 3142
+
