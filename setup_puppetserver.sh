@@ -60,6 +60,9 @@ rundir = /var/run/puppetlabs/puppetserver
 pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
 codedir = /etc/puppetlabs/code
 
+# !!! NOT FOR PRODUCTION !!!
+autosign = true
+
 EOF
 
 apt-get update && \
@@ -79,8 +82,6 @@ sed -i -e "s/^.*JAVA_ARGS.*$/JAVA_ARGS=\"-Xms${psmem}m -Xmx${psmem}m\"/g" \
 #---
 PUPPET=/opt/puppetlabs/bin/puppet
 $PUPPET resource service puppetserver ensure=running enable=true
-$PUPPET agent --test --waitforcert 0
-$PUPPET cert sign $certname
 $PUPPET agent --test
 
 # Setup postgres

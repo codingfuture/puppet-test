@@ -43,7 +43,7 @@ cat > /etc/puppetlabs/puppet/puppet.conf <<EOF
 [main]
 environment = master
 certname = \\\$hostname
-server = 10.10.1.11
+server = puppet
 environment = production
 EOF
 
@@ -56,6 +56,9 @@ apt-get update && \
 grep \\\$hostname /etc/hosts | read || \
    /opt/puppetlabs/bin/puppet resource host \\\$hostname ip=\\\$(/opt/puppetlabs/bin/facter networking.ip)
 
+grep puppet /etc/hosts | read || \
+   /opt/puppetlabs/bin/puppet resource host puppet ip=10.10.1.11
+   
 EOT
 EOINIT
 
@@ -206,8 +209,4 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'puppet_init', type: 'shell',
             inline: puppet_init
     end
-    
-    config.vm.provision 'puppet_agent', type: 'shell',
-        inline: 'test -e /opt/puppetlabs/bin/puppet && /opt/puppetlabs/bin/puppet agent --test --waitforcert 0 || true',
-        run: 'always'
 end
