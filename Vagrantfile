@@ -41,9 +41,8 @@ mkdir -p /etc/puppetlabs/puppet
 
 cat > /etc/puppetlabs/puppet/puppet.conf <<EOF
 [main]
-environment = master
 certname = \\\$hostname
-server = puppet
+server = puppet.example.com
 environment = production
 EOF
 
@@ -56,8 +55,8 @@ apt-get update && \
 grep \\\$hostname /etc/hosts | read || \
    /opt/puppetlabs/bin/puppet resource host \\\$hostname ip=\\\$(/opt/puppetlabs/bin/facter networking.ip)
 
-grep puppet /etc/hosts | read || \
-   /opt/puppetlabs/bin/puppet resource host puppet ip=10.10.1.11
+grep puppet.example.com /etc/hosts | read || \
+   /opt/puppetlabs/bin/puppet resource host puppet.example.com ip=10.10.1.11
    
 true
 EOT

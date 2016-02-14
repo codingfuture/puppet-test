@@ -12,21 +12,21 @@ mod 'tohuwabohu/openntp', '2.0.2'
 # cfsystem, cfnetwork
 mod 'fiddyspence/sysctl', '1.1.0'
 
-if false {
+if false
     mod 'codingfuture/cfnetwork'
     mod 'codingfuture/cffirehol'
     mod 'codingfuture/cfauth'
     mod 'codingfuture/cfsystem'
     mod 'codingfuture/cfpuppetserver'
-} else {
+else
     mod 'codingfuture/cfnetwork',
-        :git => "git@github.com:codingfuture/puppet-cfnetwork"
+        :git => "https://github.com/codingfuture/puppet-cfnetwork"
     mod 'codingfuture/cffirehol',
-        :git => "git@github.com:codingfuture/puppet-cffirehol"
+        :git => "https://github.com/codingfuture/puppet-cffirehol"
     mod 'codingfuture/cfauth',
-        :git => "git@github.com:codingfuture/puppet-cfauth"
+        :git => "https://github.com/codingfuture/puppet-cfauth"
     mod 'codingfuture/cfsystem',
-        :git => "git@github.com:codingfuture/puppet-cfsystem"
+        :git => "https://github.com/codingfuture/puppet-cfsystem"
     mod 'codingfuture/cfpuppetserver',
-        :git => "git@github.com:codingfuture/puppet-cfpuppetserver"
-}
+        :git => "https://github.com/codingfuture/puppet-cfpuppetserver"
+end

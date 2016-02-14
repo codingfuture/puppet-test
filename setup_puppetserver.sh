@@ -48,7 +48,6 @@ mkdir -p /etc/puppetlabs/puppet
 
 cat >/etc/puppetlabs/puppet/puppet.conf <<EOF
 [main]
-environment = master
 certname = $certname
 server = $certname
 environment = production
@@ -148,6 +147,7 @@ EOCONF
 
 ln -sfn environments/production/hiera.yaml /etc/puppetlabs/code/hiera.yaml 
 chown -R puppet:puppet `puppet config print confdir`
+chown -R puppet:puppet /etc/puppetlabs/code
 systemctl enable puppetdb puppetserver
 
 # r10k
@@ -166,6 +166,7 @@ EOCONF
 
 /opt/puppetlabs/puppet/bin/gem install r10k
 /opt/puppetlabs/puppet/bin/r10k deploy environment -p
+service puppetdb restart
 service puppetserver restart
 #---
 true

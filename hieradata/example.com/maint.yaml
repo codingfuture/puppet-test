@@ -38,3 +38,7 @@ cfsystem::ntp_servers:
 
 cfsystem::email::smarthost:
 cfsystem::email::listen_ifaces: 'main'
+
+# this needs to be disabled for initial provisiong
+# and can be enabled once maint is configured
+cfsystem::repo_proxy:
