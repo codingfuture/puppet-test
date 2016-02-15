@@ -1,16 +1,18 @@
 ---
-:backends:
-  - yaml
-:hierarchy:
-  - "%{::trusted.domain}/%{::trusted.hostname}"
-  - "%{::trusted.domain}"
-  - "%{::cf_location}/%{::cf_location_pool}"
-  - "%{::cf_location}"
-  - common
-:merge_behavior: deeper
-:yaml:
-# datadir is empty here, so hiera uses its defaults:
-# - /etc/puppetlabs/code/environments/%{environment}/hieradata on *nix
-# - %CommonAppData%\PuppetLabs\code\environments\%{environment}\hieradata on Windows
-# When specifying a datadir, make sure the directory exists.
-  :datadir:
+version: 4
+datadir: data
+hierarchy:
+  - name: "Domain Nodes"
+    backend: yaml
+    path: "/%{trusted.domain}/%{trusted.hostname}"
+  - name: "Domains"
+    backend: yaml
+    path: "/%{trusted.domain}"
+  - name: 'Location Pools'
+    backend: yaml
+    path: "/%{facts.cf_location}/%{facts.cf_location_pool}"
+  - name: "Locations"
+    backend: yaml
+    path: "/%{facts.cf_location}"
+  - name: common
+    backend: yaml

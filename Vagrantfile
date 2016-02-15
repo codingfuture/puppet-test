@@ -168,9 +168,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'setup_puppetserver', type: 'shell',
             path: 'setup_puppetserver.sh'
         node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
-            type: 'rsync'
-        node.vm.provision 'r10k-deploy', type: 'shell',
-            inline: '/opt/puppetlabs/puppet/bin/r10k deploy environment -p'
+            type: 'rsync', owner: 'puppet', group: 'puppet'
     end
     config.vm.define 'db' do |node|
         node.vm.box = "debian/jessie64"

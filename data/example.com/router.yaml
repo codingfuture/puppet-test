@@ -1,16 +1,4 @@
 ---
-lookup_options:
-  cfnetwork::dnat_ports:
-    merge: deep
-  cfnetwork::client_ports:
-    merge: deep
-  cfnetwork::service_ports:
-    merge: deep
-  cfnetwork::describe_services:
-    merge: deep
-  cfnetwork::router_ports:
-    merge: deep
-
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
@@ -56,12 +44,12 @@ cfnetwork::dnat_ports:
 #       appear on 'maint' only after those hosts are deployed
 cfnetwork::router_ports:
     # Allow maint host ot access outer worlds
-    'intradmz/main:cfhttp:apt':
+    'infradmz/main:cfhttp:apt':
         src: 'maint.example.com'
-    'intradmz/main:ntp':
+    'infradmz/main:ntp':
         src: 'maint.example.com'
     # Allow puppet host to download modules
-    'intradmz/puppet:cfhttp:puppet':
+    'infradmz/main:cfhttp:puppet': {}
     # Allow DMZ servers to access infrastructure services
     'any/infradmz:ntp':
         src: '10.10.0.0/8'

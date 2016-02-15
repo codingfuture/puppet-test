@@ -52,6 +52,8 @@ certname = $certname
 server = $certname
 environment = production
 
+environment_data_provider = hiera
+
 [master]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
@@ -145,7 +147,23 @@ master:
     cache: yaml
 EOCONF
 
-ln -sfn environments/production/hiera.yaml /etc/puppetlabs/code/hiera.yaml 
+cat >/etc/puppetlabs/code/hiera.yaml <<EOCONF
+---
+:backends:
+  - yaml
+:hierarchy:
+  - "%{trusted.domain}/%{trusted.hostname}"
+  - "%{trusted.domain}"
+  - "%{facts.cf_location}/%{facts.cf_location_pool}"
+  - "%{facts.cf_location}"
+  - common
+:merge_behavior: deeper
+:yaml:
+  # Make sure to use hiera.yaml in environments
+  #:datadir: /etc/puppetlabs/code/hieradata
+  # Per-environment hiera.yaml is still buggy
+  :datadir: "/etc/puppetlabs/code/environments/%{::environment}/data"
+EOCONF
 chown -R puppet:puppet `puppet config print confdir`
 chown -R puppet:puppet /etc/puppetlabs/code
 systemctl enable puppetdb puppetserver
@@ -160,12 +178,14 @@ cat >/etc/puppetlabs/r10k/r10k.yaml <<EOCONF
 # A list of git repositories to create
 :sources:
   :conf:
-    remote: '/vagrant'
+    remote: '{PUT_REPO_URL_HERE}'
     basedir: '/etc/puppetlabs/code/environments'
 EOCONF
 
 /opt/puppetlabs/puppet/bin/gem install r10k
-/opt/puppetlabs/puppet/bin/r10k deploy environment -p
+/opt/puppetlabs/puppet/bin/gem install deep_merge
+puppetserver gem install deep_merge
+#/opt/puppetlabs/puppet/bin/r10k deploy environment -p
 service puppetdb restart
 service puppetserver restart
 #---

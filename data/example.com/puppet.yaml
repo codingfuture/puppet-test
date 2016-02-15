@@ -1,14 +1,4 @@
 ---
-lookup_options:
-  cfnetwork::dnat_ports:
-    merge: deep
-  cfnetwork::client_ports:
-    merge: deep
-  cfnetwork::service_ports:
-    merge: deep
-  cfnetwork::describe_services:
-    merge: deep
-
 classes:
     - cfpuppetserver
 

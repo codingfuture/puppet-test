@@ -1,13 +1,6 @@
 ---
-lookup_options:
-  cfnetwork::dnat_ports:
-    merge: deep
-  cfnetwork::client_ports:
-    merge: deep
-  cfnetwork::service_ports:
-    merge: deep
-  cfnetwork::describe_services:
-    merge: deep
+classes:
+    - cfpuppetserver
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -15,12 +8,14 @@ cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
     device: eth1
-    address: '10.10.2.10/24'
-    gateway: '10.10.2.254'
-    
+    address: '10.10.1.11/24'
+    gateway: '10.10.1.254'
+
 cfnetwork::ifaces:
     vagrant:
         device: eth0
         method: dhcp
         # notify cffirehol of vagrant address space
         extra_routes: '10.0.1.1/25'
+    
+cfpuppetserver::puppet_host: 'puppet.example.com'
