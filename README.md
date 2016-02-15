@@ -17,6 +17,7 @@ The provisioning is not so simple:
 3. All VMs depend on `puppet` for true PuppetServer based provisioning
 
 So, what happens:
+
 1. We provision bare VM images with proper network setup
 2. Each VM gets Puppet Agent installation
 3. `puppet` VM gets also Puppet Server with Puppet DB
