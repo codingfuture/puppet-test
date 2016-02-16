@@ -4,7 +4,7 @@ classes:
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
-cfsystem::hierapool::pool: 'infra'
+cfsystem::hierapool::pool: 'web'
 
 cfnetwork::main:
     device: eth1

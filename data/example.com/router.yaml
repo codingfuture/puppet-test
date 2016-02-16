@@ -19,7 +19,7 @@ cfnetwork::ifaces:
         device: eth0
         method: dhcp
         # notify cffirehol of vagrant address space
-        extra_routes: '10.0.1.1/25'
+        extra_routes: ['10.0.1.1/25']
     infradmz:
         device: eth2
         address: '10.10.1.254/24'

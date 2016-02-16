@@ -12,7 +12,7 @@ mod 'tohuwabohu/openntp', '2.0.2'
 # cfsystem, cfnetwork
 mod 'fiddyspence/sysctl', '1.1.0'
 
-if false
+if true
     mod 'codingfuture/cfnetwork'
     mod 'codingfuture/cffirehol'
     mod 'codingfuture/cfauth'

@@ -1,7 +1,7 @@
 ---
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
-cfsystem::hierapool::pool: 'infra'
+cfsystem::hierapool::pool: 'db'
 
 cfnetwork::main:
     device: eth1
