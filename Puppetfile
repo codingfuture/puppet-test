@@ -12,7 +12,11 @@ mod 'tohuwabohu/openntp', '2.0.2'
 # cfsystem, cfnetwork
 mod 'fiddyspence/sysctl', '1.1.0'
 
-if true
+PUPPETFILE_LOAD = 'Puppetfile.local'
+
+if File.exists? PUPPETFILE_LOAD
+    eval(File.read(PUPPETFILE_LOAD)) 
+elsif !ENV['PUPPETFILE_USE_GIT']
     mod 'codingfuture/cfnetwork'
     mod 'codingfuture/cffirehol'
     mod 'codingfuture/cfauth'
