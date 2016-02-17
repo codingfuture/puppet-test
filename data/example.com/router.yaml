@@ -19,7 +19,7 @@ cfnetwork::ifaces:
         device: eth0
         method: dhcp
         # notify cffirehol of vagrant address space
-        extra_routes: ['10.0.1.1/25']
+        extra_routes: '10.0.1.1/25'
     infradmz:
         device: eth2
         address: '10.10.1.254/24'
@@ -48,20 +48,22 @@ cfnetwork::router_ports:
         src: 'maint.example.com'
     'infradmz/main:ntp':
         src: 'maint.example.com'
+    'infradmz/main:dns':
+        src: 'maint.example.com'
     # Allow puppet host to download modules
     'infradmz/main:cfhttp:puppet': {}
     # Allow DMZ servers to access infrastructure services
     'any/infradmz:ntp':
-        src: '10.10.0.0/8'
+        src: '10.10.0.0/16'
         dst: 'maint.example.com'
     'any/infradmz:dns':
-        src: '10.10.0.0/8'
+        src: '10.10.0.0/16'
         dst: 'maint.example.com'
     'any/infradmz:aptproxy':
-        src: '10.10.0.0/8'
+        src: '10.10.0.0/16'
         dst: 'maint.example.com'
     'any/infradmz:puppet':
-        src: '10.10.0.0/8'
+        src: '10.10.0.0/16'
         dst: 'puppet.example.com'
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}

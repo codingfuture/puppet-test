@@ -30,3 +30,4 @@ cfnetwork::describe_services:
             - 'tcp/80'
             - 'tcp/443'
 
+cffirehol::enable: true
