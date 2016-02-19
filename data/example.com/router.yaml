@@ -28,7 +28,7 @@ cfnetwork::ifaces:
         address: '10.10.2.254/24'
     webdmz:
         device: eth4
-        address: '10.10.2.254/24'
+        address: '10.10.3.254/24'
 
 # custom services
 cfnetwork::describe_services:
