@@ -1,17 +1,5 @@
 forge 'https://forgeapi.puppetlabs.com'
 
-# Forge Modules
-# all
-mod 'puppetlabs/stdlib', '4.11.0'
-# cfsystem, cffirehol
-mod 'puppetlabs/apt', '2.2.1'
-# cfsystem
-mod 'puppetlabs/git', '0.4.0'
-mod 'saz/timezone', '3.3.0'
-mod 'tohuwabohu/openntp', '2.0.2'
-# cfsystem, cfnetwork
-mod 'fiddyspence/sysctl', '1.1.0'
-
 PUPPETFILE_LOAD = 'Puppetfile.local'
 
 if File.exists? PUPPETFILE_LOAD
