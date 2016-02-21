@@ -4,15 +4,15 @@ datadir: data
 hierarchy:
   - name: "Domain Nodes"
     backend: yaml
-    path: "/%{trusted.domain}/%{trusted.hostname}"
+    path: "%{trusted.domain}/%{trusted.hostname}"
   - name: "Domains"
     backend: yaml
-    path: "/%{trusted.domain}"
+    path: "%{trusted.domain}"
   - name: 'Location Pools'
     backend: yaml
-    path: "/%{facts.cf_location}/%{facts.cf_location_pool}"
+    path: "%{facts.cf_location}/%{facts.cf_location_pool}"
   - name: "Locations"
     backend: yaml
-    path: "/%{facts.cf_location}"
+    path: "%{facts.cf_location}"
   - name: common
     backend: yaml

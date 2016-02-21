@@ -29,13 +29,7 @@ cfsystem::ntp_servers:
 cfsystem::email::smarthost:
 cfsystem::email::listen_ifaces: 'main'
 
-# this needs to be disabled for initial provisiong
-# and can be enabled once maint is configured
-# APT proxy
-cfsystem::repo_proxy:
-    host: maint.example.com
-    port: 3142
-
 cfsystem::rc_local:
     - 'echo "rc.local test #1"'
     - 'echo "rc.local test #2"'
+    

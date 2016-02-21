@@ -1,7 +1,4 @@
 ---
-classes:
-    - cfpuppetserver
-
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'web'

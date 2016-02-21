@@ -69,6 +69,13 @@ Vagrant.configure(2) do |config|
         v.memory = 256
         v.cpus = 1
     end
+    
+    if ENV['USE_UBUNTU'] == 'y'
+        config.vm.box = "ubuntu/wily64"
+    else
+        config.vm.box = "debian/jessie64"
+    end
+
 
     config.ssh.username = 'vagrant'
     #config.ssh.password = 'vagrant'
@@ -82,7 +89,6 @@ Vagrant.configure(2) do |config|
     config.ssh.pty = false
 
     config.vm.define 'router' do |node|
-        node.vm.box = "debian/jessie64"
         node.vm.network(
             'public_network',
             ip: "192.168.1.30",
@@ -128,7 +134,6 @@ Vagrant.configure(2) do |config|
             inline: puppet_init
     end
     config.vm.define 'maint' do |node|
-        node.vm.box = "debian/jessie64"
         node.vm.network(
             "private_network",
             ip: "10.10.1.10",
@@ -149,7 +154,6 @@ Vagrant.configure(2) do |config|
         config.vm.provider "virtualbox" do |v|
             v.memory = 1024
         end
-        node.vm.box = "debian/jessie64"
         node.vm.network(
             "private_network",
             ip: "10.10.1.11",
@@ -171,7 +175,6 @@ Vagrant.configure(2) do |config|
             type: 'rsync', owner: 'puppet', group: 'puppet'
     end
     config.vm.define 'db' do |node|
-        node.vm.box = "debian/jessie64"
         node.vm.network(
             "private_network",
             ip: "10.10.2.10",
@@ -189,8 +192,6 @@ Vagrant.configure(2) do |config|
             inline: puppet_init
     end
     config.vm.define 'web' do |node|
-        #node.vm.box = "ubuntu/wily64"
-        node.vm.box = "debian/jessie64"
         node.vm.network(
             "private_network",
             ip: "10.10.3.10",

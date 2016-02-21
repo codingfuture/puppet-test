@@ -30,4 +30,13 @@ cfnetwork::describe_services:
             - 'tcp/80'
             - 'tcp/443'
 
+cfnetwork::client_ports:
+    'vagrant:dhcp': {}
+            
 cffirehol::enable: true
+
+# APT proxy
+cfsystem::repo_proxy:
+    host: maint.example.com
+    port: 3142
+
