@@ -24,3 +24,6 @@ cfpuppetserver::puppet_host: 'puppet.example.com'
 cfsystem::repo_proxy:
     host: maint.example.com
     port: 3142
+    
+cfpuppetserver::puppetserver::autosign: true
+cfpuppetserver::repo_url: 'file:///vagrant'
