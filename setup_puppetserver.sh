@@ -155,19 +155,19 @@ cat >/etc/puppetlabs/code/hiera.yaml <<EOCONF
 :backends:
   - yaml
 :hierarchy:
-  - "%{trusted.domain}/%{trusted.hostname}"
-  - "%{trusted.domain}"
-  - "%{facts.cf_location}/%{facts.cf_location_pool}"
-  - "%{facts.cf_location}"
-  - common
-:merge_behavior: deeper
+  - global
 :yaml:
   # Make sure to use hiera.yaml in environments
-  #:datadir: /etc/puppetlabs/code/hieradata
-  # Per-environment hiera.yaml is still buggy
-  :datadir: "/etc/puppetlabs/code/environments/%{::environment}/data"
-# TO BE OVERWRITTEN  
+  :datadir: "/etc/puppetlabs/code/hieradata"
+# TO BE OVERWRITTEN
 EOCONF
+mkdir /etc/puppetlabs/code/hieradata
+cat >/etc/puppetlabs/code/hieradata/global.yaml <<EOCONF
+---
+{}
+# TO BE OVERWRITTEN
+EOCONF
+
 chown -R puppet:puppet `puppet config print confdir`
 chown -R puppet:puppet /etc/puppetlabs/code
 systemctl enable puppetdb puppetserver

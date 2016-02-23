@@ -1,7 +1,8 @@
 
 # WARNING: This will not work with per-environment heira.yaml version 4 any more
-# It does lookup only in external Hiera!
-hiera_include('classes')
+# It does lookup only in Global Hiera!
+#hiera_include('classes')
 
-# Required https://tickets.puppetlabs.com/browse/PUP-5952 to be fixed
-#lookup('classes', Array[String], 'unique').include
+# Please make sure "module_data" module is not used as it poisons lookup() processing.
+# See https://tickets.puppetlabs.com/browse/PUP-5952 for more details.
+lookup('classes', Array[String], 'unique').include
