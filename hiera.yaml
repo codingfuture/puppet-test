@@ -10,9 +10,9 @@ hierarchy:
     path: "%{trusted.domain}"
   - name: 'Location Pools'
     backend: yaml
-    path: "%{facts.cf_location}/%{facts.cf_location_pool}"
+    path: "%{cf_location}/%{cf_location_pool}"
   - name: "Locations"
     backend: yaml
-    path: "%{facts.cf_location}"
+    path: "%{cf_location}"
   - name: common
     backend: yaml
