@@ -174,7 +174,11 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'puppet_init', type: 'shell',
             inline: puppet_init
         node.vm.provision 'setup_puppetserver', type: 'shell',
-            path: 'setup_puppetserver.sh'
+            path: 'modules/cfpuppetserver/setup_puppetserver.sh',
+            args: ['file:///vagrant'],
+            env: {
+                'INSANE_PUPPET_AUTOSIGN': 'true',
+            }
         node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet'
     end
