@@ -134,10 +134,12 @@ cat >>/etc/puppetlabs/puppet/puppet.conf <<EOCONF
 storeconfigs = true
 storeconfigs_backend = puppetdb
 reports = store,puppetdb
+# TO BE OVERWRITTEN
 EOCONF
 cat >/etc/puppetlabs/puppet/puppetdb.conf <<EOCONF
 [main]
 server_urls = https://$certname:8081
+# TO BE OVERWRITTEN
 EOCONF
 cat >/etc/puppetlabs/puppet/routes.yaml <<EOCONF
 ---
@@ -145,6 +147,7 @@ master:
   facts:
     terminus: puppetdb
     cache: yaml
+# TO BE OVERWRITTEN
 EOCONF
 
 cat >/etc/puppetlabs/code/hiera.yaml <<EOCONF
@@ -163,6 +166,7 @@ cat >/etc/puppetlabs/code/hiera.yaml <<EOCONF
   #:datadir: /etc/puppetlabs/code/hieradata
   # Per-environment hiera.yaml is still buggy
   :datadir: "/etc/puppetlabs/code/environments/%{::environment}/data"
+# TO BE OVERWRITTEN  
 EOCONF
 chown -R puppet:puppet `puppet config print confdir`
 chown -R puppet:puppet /etc/puppetlabs/code
@@ -180,12 +184,29 @@ cat >/etc/puppetlabs/r10k/r10k.yaml <<EOCONF
   :conf:
     remote: '{PUT_REPO_URL_HERE}'
     basedir: '/etc/puppetlabs/code/environments'
+# TO BE OVERWRITTEN
 EOCONF
 
+cat >/etc/puppetlabs/deploy.sh <<EOCONF
+#!/bin/bash
+
+/opt/puppetlabs/puppet/bin/r10k deploy environment
+
+for penv in /etc/puppetlabs/code/environments/*; do
+    pushd $penv
+    /opt/puppetlabs/puppet/bin/librarian-puppet install
+    popd
+done
+
+chown -R puppet:puppet /etc/puppetlabs/code/environments/
+# TO BE OVERWRITTEN
+EOCONF
+chmod 750 /etc/puppetlabs/deploy.sh
+
 /opt/puppetlabs/puppet/bin/gem install r10k
-/opt/puppetlabs/puppet/bin/gem install deep_merge
-puppetserver gem install deep_merge
-#/opt/puppetlabs/puppet/bin/r10k deploy environment -p
+/opt/puppetlabs/puppet/bin/gem install activesupport
+/opt/puppetlabs/puppet/bin/gem install librarian-puppet
+
 service puppetdb restart
 service puppetserver restart
 #---

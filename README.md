@@ -6,7 +6,7 @@ Example configuration and Vagrant VM infrastructure for testing of:
 - [cfauth](https://github.com/codingfuture/puppet-cfauth)
 - [cfnetwork](https://github.com/codingfuture/puppet-cfnetwork)
 - [cffirehol](https://github.com/codingfuture/puppet-cffirehol)
-- [cfppppetserver](https://github.com/codingfuture/puppet-cfppppetserver)
+- [cfpuppetserver](https://github.com/codingfuture/puppet-cfpuppetserver)
 
 ## Vagrant
 
