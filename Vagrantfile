@@ -5,7 +5,11 @@ puppet_init = <<EOINIT
 bash <<EOT
 #!/bin/bash
 
-http_proxy=
+if nc -z 10.10.1.10 3142; then
+    http_proxy='http://10.10.1.10:3142'
+else
+    http_proxy=
+fi
 
 if test "\\\$(id -un)" != 'root'; then
     echo 'This script must run as root'
