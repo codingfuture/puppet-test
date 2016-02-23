@@ -163,8 +163,7 @@ Vagrant.configure(2) do |config|
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
-            hostname puppet.example.com; \
-            ip route change default via 10.10.1.254 dev eth1',
+            hostname puppet.example.com;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',

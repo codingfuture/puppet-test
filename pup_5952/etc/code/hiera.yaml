@@ -1,0 +1,8 @@
+:backends:
+  - yaml
+:logger: console
+:yaml:
+  :datadir: "%{settings::codedir}/hieradata"
+:hierarchy:
+  - global
+  - common
