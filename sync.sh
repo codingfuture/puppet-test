@@ -1,6 +1,7 @@
 #!/bin/bash
 
 vagrant rsync puppet
+vagrant rsync puppetback
 
 for h in maint router puppet db web; do
         echo "Provisioning $h"
