@@ -17,8 +17,14 @@ cfnetwork::ifaces:
         method: dhcp
         # notify cffirehol of vagrant address space
         extra_routes: '10.0.1.1/25'
+        
+cfnetwork::service_ports:
+    'any:puppetpsql:puppetback':
+        src: '10.10.1.12'
     
 cfpuppetserver::puppet_host: 'puppet.example.com'
 cfpuppetserver::puppetserver::autosign: true
+
+cfpuppetserver::puppetdb::postgresql_listen: '*'
 cfpuppetserver::puppetdb::postgresql_pass: 'SecretPuppetPass'
 cfpuppetserver::repo_url: 'file:///vagrant'
