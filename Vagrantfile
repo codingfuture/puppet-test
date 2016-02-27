@@ -156,7 +156,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'puppet' do |node|
         config.vm.provider "virtualbox" do |v|
-            v.memory = 1024
+            v.memory = 800
         end
         node.vm.network(
             "private_network",
@@ -179,6 +179,28 @@ Vagrant.configure(2) do |config|
             env: {
                 'INSANE_PUPPET_AUTOSIGN': 'true',
             }
+        node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
+            type: 'rsync', owner: 'puppet', group: 'puppet'
+    end
+    config.vm.define 'puppetback' do |node|
+        config.vm.provider "virtualbox" do |v|
+            v.memory = 800
+        end
+        node.vm.network(
+            "private_network",
+            ip: "10.10.1.12",
+            netmask: "24",
+            nic_type: "virtio",
+            virtualbox__intnet: "infradmz"
+        )
+        node.vm.provision 'add-default-route', type: 'shell',
+            inline: '\
+            hostname puppetback.example.com;\
+            ip route change default via 10.10.1.254 dev eth1',
+            run: 'always'
+        # global config runs before node's one => place here
+        node.vm.provision 'puppet_init', type: 'shell',
+            inline: puppet_init
         node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet'
     end
@@ -215,27 +237,5 @@ Vagrant.configure(2) do |config|
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
             inline: puppet_init
-    end
-    config.vm.define 'puppetback' do |node|
-        config.vm.provider "virtualbox" do |v|
-            v.memory = 512
-        end
-        node.vm.network(
-            "private_network",
-            ip: "10.10.1.12",
-            netmask: "24",
-            nic_type: "virtio",
-            virtualbox__intnet: "infradmz"
-        )
-        node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
-            hostname puppetback.example.com;\
-            ip route change default via 10.10.1.254 dev eth1',
-            run: 'always'
-        # global config runs before node's one => place here
-        node.vm.provision 'puppet_init', type: 'shell',
-            inline: puppet_init
-        node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
-            type: 'rsync', owner: 'puppet', group: 'puppet'
     end
 end

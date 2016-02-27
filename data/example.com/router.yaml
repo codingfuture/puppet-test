@@ -64,6 +64,6 @@ cfnetwork::router_ports:
         dst: 'maint.example.com'
     'any/infradmz:puppet':
         src: '10.10.0.0/16'
-        dst: 'puppet.example.com'
+        dst: ['puppet.example.com', 'puppetback.example.com']
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}
