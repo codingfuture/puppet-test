@@ -50,6 +50,8 @@ server = puppet.example.com
 environment = production
 EOF
 
+echo -n somelocation >/etc/cflocation
+
 apt-get update && \
     apt-get install \
         -f -y \
