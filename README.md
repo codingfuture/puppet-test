@@ -24,6 +24,7 @@ So, what happens:
 4. `maint` VM is provisioned from `puppet`
 5. `router` VM is provisioned from `puppet`
 6. Rest of VMs are provisioned from `puppet`
+7. Then `web` and `db` VMs are configured to use `puppetback` as Puppet Server
 
 Use bundles script for actions above:
 ```bash
