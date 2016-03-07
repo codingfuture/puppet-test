@@ -1,6 +1,7 @@
 ---
 classes:
   - cfsystem
+  - cftotalcontrol::auth
  
 cfauth::admin_user: vagrant
 # mkpasswd -m sha-512: 'vagrant'

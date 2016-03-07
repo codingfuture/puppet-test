@@ -1,4 +1,7 @@
 ---
+classes:
+    - cftotalcontrol
+
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
@@ -33,3 +36,14 @@ cfsystem::rc_local:
     - 'echo "rc.local test #1"'
     - 'echo "rc.local test #2"'
     
+cftotalcontrol::pool_proxy:
+    'somelocation/web': 'router.example.com'
+cftotalcontrol::parallel: 2
+cftotalcontrol::host_groups:
+    puppetserver: "Package['puppetserver']"
+    infra: "cf_location_pool = 'infra'"
+    custom:
+        - 'web.example.com'
+        - 'db.example.com'
+cftotalcontrol::control_user: 'tcuser'
+cftotalcontrol::control_home: '/mnt/secure_tchome'
