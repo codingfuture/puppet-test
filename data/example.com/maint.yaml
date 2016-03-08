@@ -38,6 +38,7 @@ cfsystem::rc_local:
     
 cftotalcontrol::pool_proxy:
     'somelocation/web': 'router.example.com'
+    'somelocation/db': 'router.example.com'
 cftotalcontrol::parallel: 2
 cftotalcontrol::host_groups:
     puppetserver: "Package['puppetserver']"
@@ -47,3 +48,4 @@ cftotalcontrol::host_groups:
         - 'db.example.com'
 cftotalcontrol::control_user: 'tcuser'
 cftotalcontrol::control_home: '/mnt/secure_tchome'
+cftotalcontrol::autogen_ssh_key: true
