@@ -5,7 +5,7 @@ cfsystem::hierapool::pool: 'web'
 
 cfnetwork::main:
     device: eth1
-    address: '10.10.3.11/24'
+    address: '10.10.3.10/24'
     gateway: '10.10.3.254'
 
 cfnetwork::ifaces:
