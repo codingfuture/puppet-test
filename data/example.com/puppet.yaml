@@ -1,6 +1,7 @@
 ---
 classes:
     - cfpuppetserver
+    - cftotalcontrol
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -28,3 +29,12 @@ cfpuppetserver::puppetserver::autosign: true
 cfpuppetserver::puppetdb::postgresql_listen: '*'
 cfpuppetserver::puppetdb::postgresql_pass: 'SecretPuppetPass'
 cfpuppetserver::repo_url: 'file:///vagrant'
+
+cftotalcontrol::pool_proxy:
+    'somelocation/web': 'router.example.com'
+    'somelocation/db': 'router.example.com'
+cftotalcontrol::parallel: 2
+cftotalcontrol::control_user: false
+cftotalcontrol::extra_users:
+    cftc_dba:
+        ssh_key_type: ed25519

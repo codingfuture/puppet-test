@@ -74,6 +74,7 @@ Vagrant.configure(2) do |config|
         v.linked_clone = true
         v.memory = 256
         v.cpus = 1
+        #v.gui = 1
     end
     
     if ENV['USE_UBUNTU'] == 'y'
@@ -186,7 +187,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'puppetback' do |node|
         config.vm.provider "virtualbox" do |v|
-            v.memory = 800
+            v.memory = 900
         end
         node.vm.network(
             "private_network",

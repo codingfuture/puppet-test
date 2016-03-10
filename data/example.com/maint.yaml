@@ -49,3 +49,6 @@ cftotalcontrol::host_groups:
 cftotalcontrol::control_user: 'tcuser'
 cftotalcontrol::control_home: '/mnt/secure_tchome'
 cftotalcontrol::autogen_ssh_key: true
+cftotalcontrol::extra_users:
+    cftc_dba:
+        ssh_key_type: ed25519
