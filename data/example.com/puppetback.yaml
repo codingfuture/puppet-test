@@ -1,6 +1,7 @@
 ---
 classes:
     - cfpuppetserver
+    - cftotalcontrol
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -25,3 +26,6 @@ cfpuppetserver::setup_postgresql: false
 cfpuppetserver::puppetdb::postgresql_host: 'puppet.example.com'
 cfpuppetserver::puppetdb::postgresql_pass: 'SecretPuppetPass'
 cfpuppetserver::puppetdb::postgresql_ssl: true
+
+cftotalcontrol::control_user: 'vagrant'
+cftotalcontrol::autogen_ssh_key: true
