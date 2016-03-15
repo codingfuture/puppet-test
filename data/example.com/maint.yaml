@@ -52,3 +52,7 @@ cftotalcontrol::autogen_ssh_key: true
 cftotalcontrol::extra_users:
     cftc_dba:
         ssh_key_type: ed25519
+cftotalcontrol::standard_commands:
+    helloworld: 'echo "Hello world!"'
+    gethostname: 'hostname --fqdn'
+    
