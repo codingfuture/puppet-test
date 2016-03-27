@@ -83,7 +83,7 @@ Vagrant.configure(2) do |config|
     end
     
     if use_ubuntu
-        config.vm.box = "ubuntu/trusty64"
+        config.vm.box = "ubuntu/wily64"
         # Ubuntu virtio gets initialized before intel driver because
         # official Ubuntu cloud images do not tie vagrant nat to eth0
         nic_type = '82540EM'
@@ -173,7 +173,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'puppet' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 800
+            v.memory = 1280
         end
         node.vm.network(
             "private_network",
@@ -202,7 +202,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'puppetback' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 900
+            v.memory = 1024
         end
         node.vm.network(
             "private_network",
