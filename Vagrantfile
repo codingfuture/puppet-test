@@ -70,6 +70,11 @@ EOINIT
 
 
 Vagrant.configure(2) do |config|
+    use_ubuntu = false
+    if ENV['USE_UBUNTU'] == 'y' or File.exists? 'USE_UBUNTU'
+        use_ubuntu = true
+    end
+
     config.vm.provider "virtualbox" do |v|
         v.linked_clone = true
         v.memory = 256
@@ -77,10 +82,14 @@ Vagrant.configure(2) do |config|
         #v.gui = 1
     end
     
-    if ENV['USE_UBUNTU'] == 'y'
-        config.vm.box = "ubuntu/wily64"
+    if use_ubuntu
+        config.vm.box = "ubuntu/trusty64"
+        # Ubuntu virtio gets initialized before intel driver because
+        # official Ubuntu cloud images do not tie vagrant nat to eth0
+        nic_type = '82540EM'
     else
         config.vm.box = "debian/jessie64"
+        nic_type = 'virtio'
     end
 
 
@@ -98,30 +107,34 @@ Vagrant.configure(2) do |config|
     config.vm.define 'router' do |node|
         node.vm.network(
             'public_network',
+            adapter: 2,
             ip: "192.168.1.30",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             bridge: ['wlan0', 'eth0']
         )
         node.vm.network(
             "private_network",
+            adapter: 3,
             ip: "10.10.1.254",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "infradmz"
         )
         node.vm.network(
             "private_network",
+            adapter: 4,
             ip: "10.10.2.254",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "dbdmz"
         )
         node.vm.network(
             "private_network",
+            adapter: 5,
             ip: "10.10.3.254",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "webdmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
@@ -143,9 +156,10 @@ Vagrant.configure(2) do |config|
     config.vm.define 'maint' do |node|
         node.vm.network(
             "private_network",
+            adapter: 2,
             ip: "10.10.1.10",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "infradmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
@@ -158,14 +172,15 @@ Vagrant.configure(2) do |config|
             inline: puppet_init
     end
     config.vm.define 'puppet' do |node|
-        config.vm.provider "virtualbox" do |v|
+        node.vm.provider "virtualbox" do |v|
             v.memory = 800
         end
         node.vm.network(
             "private_network",
+            adapter: 2,
             ip: "10.10.1.11",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "infradmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
@@ -186,14 +201,15 @@ Vagrant.configure(2) do |config|
             type: 'rsync', owner: 'puppet', group: 'puppet'
     end
     config.vm.define 'puppetback' do |node|
-        config.vm.provider "virtualbox" do |v|
+        node.vm.provider "virtualbox" do |v|
             v.memory = 900
         end
         node.vm.network(
             "private_network",
+            adapter: 2,
             ip: "10.10.1.12",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "infradmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
@@ -210,9 +226,10 @@ Vagrant.configure(2) do |config|
     config.vm.define 'db' do |node|
         node.vm.network(
             "private_network",
+            adapter: 2,
             ip: "10.10.2.10",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "dbdmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
@@ -227,9 +244,10 @@ Vagrant.configure(2) do |config|
     config.vm.define 'web' do |node|
         node.vm.network(
             "private_network",
+            adapter: 2,
             ip: "10.10.3.10",
             netmask: "24",
-            nic_type: "virtio",
+            nic_type: nic_type,
             virtualbox__intnet: "webdmz"
         )
         node.vm.provision 'add-default-route', type: 'shell',
