@@ -1,4 +1,8 @@
 ---
+
+classes:
+    - cfdb
+
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'db'
@@ -20,3 +24,14 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 
 cftotalcontrol::auth::control_scope:
     - cftc_dba
+    
+cfdb::instances:
+    mysrv1:
+        type: mysql
+        databases:
+            - db1_1
+            - db1_2
+    mysrv2:
+        type: mysql
+        databases:
+            - db2

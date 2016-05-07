@@ -224,6 +224,9 @@ Vagrant.configure(2) do |config|
             type: 'rsync', owner: 'puppet', group: 'puppet'
     end
     config.vm.define 'db' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 1024
+        end
         node.vm.network(
             "private_network",
             adapter: 2,
