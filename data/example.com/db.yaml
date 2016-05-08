@@ -34,4 +34,25 @@ cfdb::instances:
     mysrv2:
         type: mysql
         databases:
-            - db2
+            db2:
+                roles:
+                    readonly:
+                        custom_grant: 'GRANT SELECT ON $database.* TO $user;'
+                    sandbox:
+                        custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
+cfdb::access:
+    vagrant_mysrv2_db2:
+        cluster: mysrv2
+        role: db2
+        local_user: vagrant
+    vagrant_mysrv2_db2ro:
+        cluster: mysrv2
+        role: db2readonly
+        local_user: vagrant
+        config_prefix: 'DBRO_'
+    vagrant_mysrv2_db2sandbox:
+        cluster: mysrv2
+        role: db2sandbox
+        local_user: vagrant
+        config_prefix: 'DBSB_'
+        
