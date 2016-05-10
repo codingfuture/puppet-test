@@ -1,4 +1,8 @@
 ---
+
+classes:
+    - cfdb
+
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'web'
@@ -17,3 +21,21 @@ cfnetwork::ifaces:
     
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
+
+cfdb::access:
+    vagrant_mysrv2_db2:
+        cluster: mysrv2
+        role: db2
+        local_user: vagrant
+        max_connections: 53
+    vagrant_mysrv2_db2ro:
+        cluster: mysrv2
+        role: db2readonly
+        local_user: vagrant
+        config_prefix: 'DBRO_'
+        max_connections: 54
+    vagrant_mysrv2_db2sandbox:
+        cluster: mysrv2
+        role: db2sandbox
+        local_user: vagrant
+        config_prefix: 'DBSB_'
