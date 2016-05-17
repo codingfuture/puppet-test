@@ -262,4 +262,46 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'puppet_init', type: 'shell',
             inline: puppet_init
     end
+    config.vm.define 'dbclust1' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 512
+        end
+        node.vm.network(
+            "private_network",
+            adapter: 2,
+            ip: "10.10.2.20",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "dbdmz"
+        )
+        node.vm.provision 'add-default-route', type: 'shell',
+            inline: '\
+            hostname dbclust1.example.com; \
+            ip route change default via 10.10.2.254 dev eth1',
+            run: 'always'
+        # global config runs before node's one => place here
+        node.vm.provision 'puppet_init', type: 'shell',
+            inline: puppet_init
+    end
+    config.vm.define 'dbclust2' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 512
+        end
+        node.vm.network(
+            "private_network",
+            adapter: 2,
+            ip: "10.10.2.21",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "dbdmz"
+        )
+        node.vm.provision 'add-default-route', type: 'shell',
+            inline: '\
+            hostname dbclust2.example.com; \
+            ip route change default via 10.10.2.254 dev eth1',
+            run: 'always'
+        # global config runs before node's one => place here
+        node.vm.provision 'puppet_init', type: 'shell',
+            inline: puppet_init
+    end
 end
