@@ -33,7 +33,9 @@ cfnetwork::ifaces:
 # custom services
 cfnetwork::describe_services:
     testdb:
-        server: 'tcp/1234'
+        server:
+            - 'tcp/1025'
+            - 'tcp/3306'
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
