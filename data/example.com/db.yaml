@@ -61,3 +61,14 @@ cfdb::access:
         role: db2sandbox
         local_user: vagrant
         config_prefix: 'DBSB_'
+    vagrant_myclust1_db1:
+        cluster: myclust1
+        role: db1
+        local_user: vagrant
+        config_prefix: 'DBC1_'
+    vagrant_myclust1_db2:
+        cluster: myclust1
+        role: db2
+        local_user: vagrant
+        config_prefix: 'DBC2_'
+        

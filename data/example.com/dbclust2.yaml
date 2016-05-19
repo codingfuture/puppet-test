@@ -26,3 +26,15 @@ cftotalcontrol::auth::control_scope:
     - cftc_dba
     
 cfdb::iface: main
+
+cfdb::mysql::is_cluster: true
+
+cfdb::instances:
+    myclust1:
+        type: mysql
+        is_secondary: true
+        port: 3306
+    myclust2:
+        type: mysql
+        is_secondary: true
+        port: 3307
