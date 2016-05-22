@@ -40,7 +40,7 @@ cfdb::instances:
             db2:
                 roles:
                     readonly:
-                        custom_grant: 'GRANT SELECT ON $database.* TO $user;'
+                        readonly: true
                     sandbox:
                         custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
     myclust1:

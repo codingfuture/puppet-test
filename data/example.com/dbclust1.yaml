@@ -33,13 +33,20 @@ cfdb::instances:
     myclust1:
         type: mysql
         databases:
-            - db1
-            - db2
+            db1:
+                roles:
+                    ro:
+                        readonly: true
+            db2: {}
         port: 3306
+        # Not for production, but for vagrant bootup
+        is_bootstrap: true
     myclust2:
         type: mysql
         databases:
             - db1
             - db2
         port: 3307
+        # Not for production, but for vagrant bootup
+        is_bootstrap: true
        

@@ -264,7 +264,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'dbclust1' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 512
+            v.memory = 1024
         end
         node.vm.network(
             "private_network",
@@ -285,7 +285,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'dbclust2' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 512
+            v.memory = 1024
         end
         node.vm.network(
             "private_network",
