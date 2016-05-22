@@ -41,6 +41,5 @@ cfdb::instances:
         databases:
             - db1
             - db2
-        iface: vagrant
         port: 3307
-        
+       

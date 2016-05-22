@@ -43,6 +43,15 @@ cfdb::instances:
                         custom_grant: 'GRANT SELECT ON $database.* TO $user;'
                     sandbox:
                         custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
+    myclust1:
+        type: mysql
+        is_arbitrator: true
+        port: 4306
+    myclust2:
+        type: mysql
+        is_arbitrator: true
+        port: 4307
+                        
 
 cfdb::access:
     vagrant_mysrv2_db2:
