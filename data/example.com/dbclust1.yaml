@@ -49,4 +49,8 @@ cfdb::instances:
         port: 3307
         # Not for production, but for vagrant bootup
         is_bootstrap: true
+        settings_tune:
+            cfdb:
+                secure_cluster: true
+
        

@@ -38,3 +38,7 @@ cfdb::instances:
         type: mysql
         is_secondary: true
         port: 3307
+        settings_tune:
+            cfdb:
+                secure_cluster: true
+

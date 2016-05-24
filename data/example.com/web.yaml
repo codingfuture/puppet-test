@@ -69,3 +69,5 @@ cfdb::access:
         local_user: vagrant
         max_connections: 31
         config_prefix: 'DBC22_'
+        # not supported yet
+        #use_proxy: 'secure'

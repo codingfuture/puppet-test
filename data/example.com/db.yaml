@@ -51,6 +51,9 @@ cfdb::instances:
         type: mysql
         is_arbitrator: true
         port: 4307
+        settings_tune:
+            cfdb:
+                secure_cluster: true
                         
 
 cfdb::access:
