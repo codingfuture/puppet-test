@@ -54,6 +54,12 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
+    pgsrv1:
+        type: postgresql
+        iface: vagrant
+        databases:
+            pdb1: {}
+            pdb2: {}
                         
 
 cfdb::access:
@@ -83,4 +89,9 @@ cfdb::access:
         role: db2
         local_user: vagrant
         config_prefix: 'DBC2_'
+    vagrant_pgsrv1_pdb1:
+        cluster: pgsrv1
+        role: pdb1
+        local_user: vagrant
+        config_prefix: 'PDB1_'
         

@@ -71,3 +71,9 @@ cfdb::access:
         config_prefix: 'DBC22_'
         # not supported yet
         #use_proxy: 'secure'
+    vagrant_pgsrv1_pdb1:
+        cluster: pgsrv1
+        role: pdb1
+        local_user: vagrant
+        config_prefix: 'PDB1_'
+        max_connections: 17
