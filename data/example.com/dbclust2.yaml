@@ -41,4 +41,16 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
+    pgclust1:
+        type: postgresql
+        is_secondary: true
+        port: 5300
+    pgclust2:
+        type: postgresql
+        is_secondary: true
+        port: 5301
+        settings_tune:
+            cfdb:
+                secure_cluster: true
+
 

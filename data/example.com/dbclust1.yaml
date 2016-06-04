@@ -32,6 +32,7 @@ cfdb::mysql::is_cluster: true
 cfdb::instances:
     myclust1:
         type: mysql
+        is_cluster: true
         databases:
             db1:
                 roles:
@@ -43,6 +44,7 @@ cfdb::instances:
         is_bootstrap: true
     myclust2:
         type: mysql
+        is_cluster: true
         databases:
             - db1
             - db2
@@ -52,5 +54,23 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
-
-       
+    pgclust1:
+        type: postgresql
+        is_cluster: true
+        databases:
+            pdb1:
+                roles:
+                    ro:
+                        readonly: true
+            pdb2: {}
+        port: 5300
+    pgclust2:
+        type: postgresql
+        is_cluster: true
+        databases:
+            - pdb3
+            - pdb4
+        port: 5301
+        settings_tune:
+            cfdb:
+                secure_cluster: true
