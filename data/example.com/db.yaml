@@ -65,6 +65,7 @@ cfdb::instances:
         type: postgresql
         # there are repmgr issues
         #is_arbitrator: true
+        is_secondary: true
         port: 5300
         settings_tune:
             cfdb:
@@ -73,6 +74,7 @@ cfdb::instances:
         type: postgresql
         # there are repmgr issues
         #is_arbitrator: true
+        is_secondary: true
         port: 5301
         settings_tune:
             cfdb:
