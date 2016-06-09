@@ -16,8 +16,9 @@ for i in 1 2 3 4; do
                     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet resource host maint.example.com ip=10.10.1.10
                     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet resource host puppet.example.com ip=10.10.1.11
                     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet resource host puppetback.example.com ip=10.10.1.12
+                else
+                    vagrant ssh $h -c "echo 'nameserver 10.10.1.10' | sudo tee /etc/resolv.conf"
                 fi
-                vagrant ssh $h -c "echo 'nameserver 10.10.1.10' | sudo tee /etc/resolv.conf"
             fi
             
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace

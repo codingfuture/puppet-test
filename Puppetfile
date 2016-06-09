@@ -1,6 +1,6 @@
 forge 'https://forgeapi.puppetlabs.com'
 
-PUPPETFILE_LOAD = 'Puppetfile.local'
+PUPPETFILE_LOAD = File.expand_path( '../Puppetfile.local', __FILE__ )
 
 if File.exists? PUPPETFILE_LOAD
     eval(File.read(PUPPETFILE_LOAD)) 
