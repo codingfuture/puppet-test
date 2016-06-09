@@ -146,6 +146,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname router.example.com; \
+            ifconfig eth1 up; \
             ip addr add 192.168.1.30/24 dev eth1; \
             ifconfig eth2 up; \
             ip addr add 10.10.1.254/24 dev eth2; \
