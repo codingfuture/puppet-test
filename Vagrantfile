@@ -180,6 +180,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname maint.example.com; \
+            ifconfig eth1 up; \
             ip addr add 10.10.1.10/24 dev eth1; \
             ip route change default via 10.10.1.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -204,6 +205,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname puppet.example.com; \
+            ifconfig eth1 up; \
             ip addr add 10.10.1.11/24 dev eth1; \
             ip route change default via 10.10.1.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -236,6 +238,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname puppetback.example.com;\
+            ifconfig eth1 up; \
             ip addr add 10.10.1.12/24 dev eth1; \
             ip route change default via 10.10.1.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -262,6 +265,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname db.example.com; \
+            ifconfig eth1 up; \
             ip addr add 10.10.2.10/24 dev eth1; \
             ip route change default via 10.10.2.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -283,6 +287,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname web.example.com;\
+            ifconfig eth1 up; \
             ip addr add 10.10.3.10/24 dev eth1; \
             ip route change default via 10.10.3.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -307,6 +312,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname dbclust1.example.com; \
+            ifconfig eth1 up; \
             ip addr add 10.10.2.20/24 dev eth1; \
             ip route change default via 10.10.2.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
@@ -331,6 +337,7 @@ Vagrant.configure(2) do |config|
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname dbclust2.example.com; \
+            ifconfig eth1 up; \
             ip addr add 10.10.2.21/24 dev eth1; \
             ip route change default via 10.10.2.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
