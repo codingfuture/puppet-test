@@ -83,7 +83,9 @@ Vagrant.configure(2) do |config|
     end
     
     if use_ubuntu
-        config.vm.box = "ubuntu/wily64"
+        # not working box
+        #config.vm.box = "ubuntu/xenial64"
+        config.vm.box = "geerlingguy/ubuntu1604"
         # Ubuntu virtio gets initialized before intel driver because
         # official Ubuntu cloud images do not tie vagrant nat to eth0
         nic_type = '82540EM'
@@ -111,7 +113,8 @@ Vagrant.configure(2) do |config|
             ip: "192.168.1.30",
             netmask: "24",
             nic_type: nic_type,
-            bridge: ['wlan0', 'eth0']
+            bridge: ['wlan0', 'eth0'],
+            auto_config: false
         )
         node.vm.network(
             "private_network",
@@ -119,7 +122,8 @@ Vagrant.configure(2) do |config|
             ip: "10.10.1.254",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "infradmz"
+            virtualbox__intnet: "infradmz",
+            auto_config: false
         )
         node.vm.network(
             "private_network",
@@ -127,7 +131,8 @@ Vagrant.configure(2) do |config|
             ip: "10.10.2.254",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "dbdmz"
+            virtualbox__intnet: "dbdmz",
+            auto_config: false
         )
         node.vm.network(
             "private_network",
@@ -135,13 +140,22 @@ Vagrant.configure(2) do |config|
             ip: "10.10.3.254",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "webdmz"
+            virtualbox__intnet: "webdmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname router.example.com; \
+            ip addr add 192.168.1.30/24 dev eth1; \
+            ifconfig eth2 up; \
+            ip addr add 10.10.1.254/24 dev eth2; \
+            ifconfig eth3 up; \
+            ip addr add 10.10.2.254/24 dev eth3; \
+            ifconfig eth4 up; \
+            ip addr add 10.10.3.254/24 dev eth4; \
             ip route change default via 192.168.1.1 dev eth1; \
-            sysctl -w net.ipv4.ip_forward=1 \
+            sysctl -w net.ipv4.ip_forward=1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4; \
             ',
             run: 'always'
         node.vm.provision 'add-default-nat', type: 'shell',
@@ -160,12 +174,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.1.10",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "infradmz"
+            virtualbox__intnet: "infradmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname maint.example.com; \
-            ip route change default via 10.10.1.254 dev eth1',
+            ip addr add 10.10.1.10/24 dev eth1; \
+            ip route change default via 10.10.1.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -181,12 +198,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.1.11",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "infradmz"
+            virtualbox__intnet: "infradmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname puppet.example.com; \
-            ip route change default via 10.10.1.254 dev eth1',
+            ip addr add 10.10.1.11/24 dev eth1; \
+            ip route change default via 10.10.1.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -210,12 +230,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.1.12",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "infradmz"
+            virtualbox__intnet: "infradmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname puppetback.example.com;\
-            ip route change default via 10.10.1.254 dev eth1',
+            ip addr add 10.10.1.12/24 dev eth1; \
+            ip route change default via 10.10.1.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -233,12 +256,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.2.10",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "dbdmz"
+            virtualbox__intnet: "dbdmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname db.example.com; \
-            ip route change default via 10.10.2.254 dev eth1',
+            ip addr add 10.10.2.10/24 dev eth1; \
+            ip route change default via 10.10.2.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -251,12 +277,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.3.10",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "webdmz"
+            virtualbox__intnet: "webdmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname web.example.com;\
-            ip route change default via 10.10.3.254 dev eth1',
+            ip addr add 10.10.3.10/24 dev eth1; \
+            ip route change default via 10.10.3.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -272,12 +301,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.2.20",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "dbdmz"
+            virtualbox__intnet: "dbdmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname dbclust1.example.com; \
-            ip route change default via 10.10.2.254 dev eth1',
+            ip addr add 10.10.2.20/24 dev eth1; \
+            ip route change default via 10.10.2.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -293,12 +325,15 @@ Vagrant.configure(2) do |config|
             ip: "10.10.2.21",
             netmask: "24",
             nic_type: nic_type,
-            virtualbox__intnet: "dbdmz"
+            virtualbox__intnet: "dbdmz",
+            auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: '\
             hostname dbclust2.example.com; \
-            ip route change default via 10.10.2.254 dev eth1',
+            ip addr add 10.10.2.21/24 dev eth1; \
+            ip route change default via 10.10.2.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
