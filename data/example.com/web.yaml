@@ -70,10 +70,42 @@ cfdb::access:
         max_connections: 31
         config_prefix: 'DBC22_'
         # not supported yet
-        #use_proxy: 'secure'
+        use_proxy: 'secure'
     vagrant_pgsrv1_pdb1:
         cluster: pgsrv1
         role: pdb1
         local_user: vagrant
         config_prefix: 'PDB1_'
         max_connections: 17
+    vagrant_pgclust1_db1:
+        cluster: pgclust1
+        role: pdb1
+        local_user: vagrant
+        max_connections: 20
+        config_prefix: 'PDBC11_'
+    vagrant_pgclust1_db1ro:
+        cluster: pgclust1
+        role: pdb1ro
+        local_user: vagrant
+        max_connections: 10
+        config_prefix: 'PDBC11RO_'
+    vagrant_pgclust1_db2:
+        cluster: pgclust1
+        role: pdb2
+        local_user: vagrant
+        max_connections: 21
+        config_prefix: 'PDBC12_'
+    vagrant_pgclust2_db1:
+        cluster: pgclust2
+        role: pdb3
+        local_user: vagrant
+        max_connections: 30
+        config_prefix: 'PDBC23_'
+    vagrant_pgclust2_db2:
+        cluster: pgclust2
+        role: pdb4
+        local_user: vagrant
+        max_connections: 31
+        config_prefix: 'PDBC24_'
+        # not supported yet
+        use_proxy: 'secure'

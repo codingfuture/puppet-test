@@ -37,6 +37,8 @@ cfnetwork::describe_services:
             - 'tcp/1025'
             - 'tcp/3306'
             - 'tcp/3307'
+            - 'tcp/5300'
+            - 'tcp/5301'
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
