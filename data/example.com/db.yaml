@@ -56,7 +56,7 @@ cfdb::instances:
                 secure_cluster: true
     pgsrv1:
         type: postgresql
-        iface: vagrant
+        port: 1026
         databases:
             pdb1: {}
             pdb2: {}

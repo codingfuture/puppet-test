@@ -35,6 +35,7 @@ cfnetwork::describe_services:
     testdb:
         server:
             - 'tcp/1025'
+            - 'tcp/1026'
             - 'tcp/3306'
             - 'tcp/3307'
             - 'tcp/5300'
