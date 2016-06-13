@@ -109,3 +109,20 @@ cfdb::access:
         config_prefix: 'PDBC24_'
         # not supported yet
         use_proxy: 'secure'
+    root_mysrv2_db2:
+        cluster: mysrv2
+        role: db2
+        local_user: root
+        max_connections: 11
+    root_mysrv2_db2ro:
+        cluster: mysrv2
+        role: db2readonly
+        local_user: root
+        config_prefix: 'DBRO_'
+        max_connections: 12
+    root_pgclust2_db2:
+        cluster: pgclust2
+        role: pdb4
+        local_user: root
+        max_connections: 31
+        config_prefix: 'PDBC24_'
