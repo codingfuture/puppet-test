@@ -20,12 +20,11 @@ cfnetwork::ifaces:
         extra_routes: '10.0.1.1/25'
     
 cfpuppetserver::puppet_host: 'puppet.example.com'
+cfpuppetserver::puppetserver::autosign: true
+cfpuppetserver::is_cluster: true
+cfpuppetserver::is_secondary: true
 cfpuppetserver::repo_url: 'file:///vagrant'
-
-cfpuppetserver::setup_postgresql: false
-cfpuppetserver::puppetdb::postgresql_host: 'puppet.example.com'
-cfpuppetserver::puppetdb::postgresql_pass: 'SecretPuppetPass'
-cfpuppetserver::puppetdb::postgresql_ssl: true
+cfpuppetserver::postgresql::node_id: 2
 
 cftotalcontrol::control_user: 'vagrant'
 cftotalcontrol::autogen_ssh_key: true

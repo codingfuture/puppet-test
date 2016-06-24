@@ -2,9 +2,9 @@
 
 test ! -d modules && librarian-puppet install
 
-skip_dns=${skip_dns:-0}
+vagrant up router maint puppet
 
-vagrant up
+skip_dns=${skip_dns:-0}
 
 if test "$skip_dns" != 1; then
     vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host maint.example.com ip=10.10.1.10
@@ -12,7 +12,7 @@ if test "$skip_dns" != 1; then
     vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host puppetback.example.com ip=10.10.1.12
 fi
 
-for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
+for h in maint puppet; do
         echo "Provisioning $h"
         
         if test "$skip_dns" != 1; then
@@ -36,10 +36,4 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
         if test $h = 'puppetback';  then
             vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         fi
-done
-
-for h in dbclust1 dbclust2 db web; do
-        echo "Provisioning $h"
-        
-        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
