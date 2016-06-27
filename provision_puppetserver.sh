@@ -32,8 +32,12 @@ for h in maint puppet; do
         fi
         
         vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         
         if test $h = 'puppetback';  then
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
             vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         fi
 done

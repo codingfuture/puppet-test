@@ -32,14 +32,24 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
         fi
         
         vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         
         if test $h = 'puppetback';  then
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
             vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         fi
 done
 
-for h in dbclust1 dbclust2 db web; do
+for i in $(seq 1 2); do
+    for h in dbclust1 dbclust2 db web; do
         echo "Provisioning $h"
-        
         vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+    done
 done
+
+for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
+    echo "Provisioning $h"
+    vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+end
