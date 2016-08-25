@@ -7,9 +7,9 @@ cfnetwork::is_router: true
 
 cfnetwork::main:
     device: eth1
-    address: '192.168.1.30/24'
-    extra_addresses: '192.168.1.40/24'
-    gateway: '192.168.1.1'
+    address: '192.168.88.30/24'
+    extra_addresses: '192.168.88.40/24'
+    gateway: '192.168.88.1'
     # even though it has private IP, treat as public interface
     # with all consequences of its definition in cfnetwork
     force_public: true

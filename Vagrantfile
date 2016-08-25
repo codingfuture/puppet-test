@@ -105,12 +105,14 @@ Vagrant.configure(2) do |config|
     config.ssh.forward_x11 = false
     config.ssh.forward_agent = false
     config.ssh.pty = false
+    
+    network_prefix = '192.168.88'
 
     config.vm.define 'router' do |node|
         node.vm.network(
             'public_network',
             adapter: 2,
-            ip: "192.168.1.30",
+            ip: "#{network_prefix}.30",
             netmask: "24",
             nic_type: nic_type,
             bridge: ['wlan0', 'eth0'],
@@ -144,20 +146,20 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
             hostname router.example.com; \
             ifconfig eth1 up; \
-            ip addr add 192.168.1.30/24 dev eth1; \
+            ip addr add #{network_prefix}.30/24 dev eth1; \
             ifconfig eth2 up; \
             ip addr add 10.10.1.254/24 dev eth2; \
             ifconfig eth3 up; \
             ip addr add 10.10.2.254/24 dev eth3; \
             ifconfig eth4 up; \
             ip addr add 10.10.3.254/24 dev eth4; \
-            ip route change default via 192.168.1.1 dev eth1; \
+            ip route change default via #{network_prefix}.1 dev eth1; \
             sysctl -w net.ipv4.ip_forward=1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4; \
-            ',
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4; \
+            ",
             run: 'always'
         node.vm.provision 'add-default-nat', type: 'shell',
             inline: '\
