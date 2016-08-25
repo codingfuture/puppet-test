@@ -28,7 +28,9 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
         if test $h = 'puppet'; then
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet apply \
                 --catalog /opt/puppetlabs/puppet/cache/client_data/catalog/puppet.example.com.json
+            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
         fi
         
         vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
@@ -36,9 +38,11 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
         
         if test $h = 'puppetback';  then
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
             vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
         fi
 done
 
@@ -52,4 +56,21 @@ done
 for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-end
+done
+
+vagrant ssh dbclust1 -- sudo /bin/systemctl restart \
+    cfmysql-myclust1.service cfmysql-myclust2.service \
+    cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service
+vagrant ssh dbclust2 -- sudo /bin/systemctl restart \
+    cfmysql-myclust1.service cfmysql-myclust2.service \
+    cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service
+vagrant ssh db -- sudo /bin/systemctl restart \
+    cfmysql-myclust1-arb.service cfmysql-myclust2-arb.service \
+    cfmysql-mysrv1.service cfmysql-mysrv2.service \
+    cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service \
+    cfpostgresql-pgsrv1.service
+    
+for h in dbclust1 dbclust2 db web; do
+    echo "Provisioning $h"
+    vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+done
