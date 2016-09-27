@@ -47,13 +47,13 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
 done
 
 for i in $(seq 1 2); do
-    for h in dbclust1 dbclust2 db web; do
+    for h in dbclust1 dbclust2 db web web2; do
         echo "Provisioning $h"
         vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
     done
 done
 
-for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
+for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
@@ -70,7 +70,7 @@ vagrant ssh db -- sudo /bin/systemctl restart \
     cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service \
     cfpostgresql-pgsrv1.service
     
-for h in dbclust1 dbclust2 db web; do
+for h in dbclust1 dbclust2 db web web2; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done

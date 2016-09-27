@@ -1,2 +1,10 @@
 ---
-{}
+cfweb::global::sites:
+    website:
+        server_name: website.example.com
+    testsite:
+        server_name: testsite.example.com
+    
+    
+cfweb::global::certs:
+    

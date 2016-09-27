@@ -2,6 +2,7 @@
 
 classes:
     - cfdb
+    - cfweb
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -18,9 +19,24 @@ cfnetwork::ifaces:
         method: dhcp
         # notify cffirehol of vagrant address space
         extra_routes: '10.0.1.1/25'
+    main2:
+        device: eth1
+        address: '10.10.3.20/24'
+    main3:
+        device: eth1
+        address: '10.10.3.30/24'
+        extra_addresses:
+            - 'fdea:ab0e:25f0:206a::1/64'
+            - 'fdea:ab0e:25f0:206a::2/64'
+        
     
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
+
+cfweb::cluster: testweb
+cfweb::standalone:
+    - website
+    - testsite
 
 cfdb::access:
     vagrant_mysrv2_db2:

@@ -80,6 +80,12 @@ Vagrant.configure(2) do |config|
         v.memory = 256
         v.cpus = 1
         #v.gui = 1
+        
+        v.customize [
+            "storagectl", :id,
+            "--name", "SATA Controller",
+            "--hostiocache", "on"
+        ]
     end
     
     if use_ubuntu
@@ -278,6 +284,9 @@ Vagrant.configure(2) do |config|
             inline: puppet_init
     end
     config.vm.define 'web' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 512
+        end
         node.vm.network(
             "private_network",
             adapter: 2,
@@ -343,6 +352,31 @@ Vagrant.configure(2) do |config|
             ifconfig eth1 up; \
             ip addr add 10.10.2.21/24 dev eth1; \
             ip route change default via 10.10.2.254 dev eth1; \
+            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            run: 'always'
+        # global config runs before node's one => place here
+        node.vm.provision 'puppet_init', type: 'shell',
+            inline: puppet_init
+    end
+    config.vm.define 'web2' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 512
+        end
+        node.vm.network(
+            "private_network",
+            adapter: 2,
+            ip: "10.10.3.11",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "webdmz",
+            auto_config: false
+        )
+        node.vm.provision 'add-default-route', type: 'shell',
+            inline: '\
+            hostname web2.example.com;\
+            ifconfig eth1 up; \
+            ip addr add 10.10.3.11/24 dev eth1; \
+            ip route change default via 10.10.3.254 dev eth1; \
             echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
             run: 'always'
         # global config runs before node's one => place here
