@@ -2,6 +2,12 @@
 cfweb::global::sites:
     website:
         server_name: website.example.com
+        alt_names:
+            - webalt.example.com
+            - wwwalt.example.com
+        apps:
+            static: {}
+            php: {}
     testsite:
         server_name: testsite.example.com
     
