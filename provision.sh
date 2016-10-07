@@ -12,7 +12,7 @@ if test "$skip_dns" != 1; then
     vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host puppetback.example.com ip=10.10.1.12
 fi
 
-for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
+for h in maint router puppet puppetback; do
         echo "Provisioning $h"
         
         if test "$skip_dns" != 1; then
@@ -33,24 +33,39 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web; do
             vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
         fi
         
+        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
         
         if test $h = 'puppetback';  then
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
             vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+            vagrant ssh puppet -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
+            vagrant ssh $h -- sudo /bin/systemctl stop cfpostgresql-cfpuppet.service
+            vagrant ssh $h -- sudo rm -r /db/postgresql_cfpuppet/conf/unclean_state
             vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh $h -- sudo /bin/systemctl restart cfpostgresql-cfpuppet.service
         fi
 done
 
-for i in $(seq 1 2); do
-    for h in dbclust1 dbclust2 db web web2; do
-        echo "Provisioning $h"
-        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-    done
+for h in web web2; do
+    vagrant ssh $h -c "sudo sh -c 'echo -n web >/etc/cflocationpool'"
+done
+
+for h in dbclust1 dbclust2 db web web2; do
+    if test "$skip_dns" != 1; then
+        if test $h = 'maint';  then
+            vagrant ssh $h -c "echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf"
+        else
+            vagrant ssh $h -c "echo 'nameserver 10.10.1.10' | sudo tee /etc/resolv.conf"
+        fi
+    fi
+
+    echo "Provisioning $h"
+    # Initial
+    vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+    vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+    # Do facts
+    vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
 
 for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
@@ -59,18 +74,24 @@ for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
 done
 
 vagrant ssh dbclust1 -- sudo /bin/systemctl restart \
-    cfmysql-myclust1.service cfmysql-myclust2.service \
     cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service
 vagrant ssh dbclust2 -- sudo /bin/systemctl restart \
-    cfmysql-myclust1.service cfmysql-myclust2.service \
     cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service
 vagrant ssh db -- sudo /bin/systemctl restart \
-    cfmysql-myclust1-arb.service cfmysql-myclust2-arb.service \
     cfmysql-mysrv1.service cfmysql-mysrv2.service \
     cfpostgresql-pgclust1.service cfpostgresql-pgclust2.service \
     cfpostgresql-pgsrv1.service
     
-for h in dbclust1 dbclust2 db web web2; do
+vagrant ssh dbclust1 -- sudo rm -f \
+    /db/mysql_myclust1/conf/restart_required \
+    /db/mysql_myclust2/conf/restart_required
+vagrant ssh dbclust2 -- sudo rm -f \
+    /db/mysql_myclust1/conf/restart_required \
+    /db/mysql_myclust2/conf/restart_required
+
+    
+# Final check
+for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
