@@ -37,6 +37,7 @@ cfweb::cluster: testweb
 cfweb::standalone:
     - website
     - testsite
+    - nodejssite
 
 cfdb::access:
     vagrant_mysrv2_db2:

@@ -7,7 +7,24 @@ cfweb::global::sites:
             - wwwalt.example.com
         apps:
             static: {}
-            php: {}
+            php:
+                dbaccess:
+                    local:
+                        cluster: mysrv2
+                        role: db2readonly
+                        config_prefix: DBRO_
+                php_ini:
+                    memory_limit: 8M
+        dbaccess:
+            global:
+                cluster: mysrv2
+                role: db2
+
+    nodejssite:
+        server_name: nodejs.example.com
+        apps:
+            static: {}
+            nodejs: {}
     testsite:
         server_name: testsite.example.com
     

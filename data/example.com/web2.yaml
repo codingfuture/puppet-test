@@ -33,6 +33,7 @@ cfweb::cluster: testweb
 cfweb::is_secondary: true
 cfweb::standalone:
     - website
+    - nodejssite
 
 cfweb::nginx::mainline: true
     

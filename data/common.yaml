@@ -41,3 +41,6 @@ cfsystem::repo_proxy:
     host: maint.example.com
     port: 3142
 
+cfdb::haproxy::settings_tune:
+    cfdb:
+        inter: 10s

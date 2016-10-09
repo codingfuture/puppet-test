@@ -1,6 +1,5 @@
 #!/bin/bash
 
-vagrant rsync puppet
 vagrant rsync puppetback
 
 for h in dbclust1 dbclust2 db; do

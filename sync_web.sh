@@ -1,6 +1,5 @@
 #!/bin/bash
 
-vagrant rsync puppet
 vagrant rsync puppetback
 
 for h in web web2; do
