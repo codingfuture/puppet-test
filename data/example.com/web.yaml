@@ -38,6 +38,7 @@ cfweb::standalone:
     - website
     - testsite
     - nodejssite
+    - rubysite
 
 cfdb::access:
     vagrant_mysrv2_db2:

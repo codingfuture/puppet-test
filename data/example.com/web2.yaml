@@ -34,6 +34,7 @@ cfweb::is_secondary: true
 cfweb::standalone:
     - website
     - nodejssite
+    - rubysite
 
 cfweb::nginx::mainline: true
     

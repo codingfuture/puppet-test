@@ -25,6 +25,11 @@ cfweb::global::sites:
         apps:
             static: {}
             nodejs: {}
+    rubysite:
+        server_name: ruby.example.com
+        apps:
+            static: {}
+            ruby: {}
     testsite:
         server_name: testsite.example.com
     
