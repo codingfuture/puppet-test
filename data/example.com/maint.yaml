@@ -20,6 +20,11 @@ cfnetwork::ifaces:
 
 cfnetwork::dns: '$serve'
 
+cfnetwork::ipsets:
+    test_ips:
+        addr:
+            - '8.9.10.11'
+
 cfsystem::add_repo_cacher: true
 cfsystem::add_ntp_server: true
 

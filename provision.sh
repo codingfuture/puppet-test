@@ -47,11 +47,11 @@ for h in maint router puppet puppetback; do
         fi
 done
 
-for h in web web2; do
+for h in web web2 web3; do
     vagrant ssh $h -c "sudo sh -c 'echo -n web >/etc/cflocationpool'"
 done
 
-for h in dbclust1 dbclust2 db web web2; do
+for h in dbclust1 dbclust2 db web web2 web3; do
     if test "$skip_dns" != 1; then
         if test $h = 'maint';  then
             vagrant ssh $h -c "echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf"
@@ -68,7 +68,7 @@ for h in dbclust1 dbclust2 db web web2; do
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
 
-for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
+for h in maint router puppet puppetback dbclust1 dbclust2 db web web2 web3; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done
@@ -91,7 +91,7 @@ vagrant ssh dbclust2 -- sudo rm -f \
 
     
 # Final check
-for h in maint router puppet puppetback dbclust1 dbclust2 db web web2; do
+for h in maint router puppet puppetback dbclust1 dbclust2 db web web2 web3; do
     echo "Provisioning $h"
     vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
 done

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vagrant rsync puppetback
+vagrant rsync puppet puppetback
 
 for h in dbclust1 dbclust2 db; do
         echo "Provisioning $h"

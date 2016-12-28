@@ -10,7 +10,7 @@ cfsystem::hierapool::pool: 'web'
 
 cfnetwork::main:
     device: eth1
-    address: '10.10.3.11/24'
+    address: '10.10.3.12/24'
     gateway: '10.10.3.254'
 
 cfnetwork::ifaces:
@@ -21,10 +21,10 @@ cfnetwork::ifaces:
         extra_routes: '10.0.1.1/25'
     main2:
         device: eth1
-        address: '10.10.3.21/24'
+        address: '10.10.3.22/24'
     main3:
         device: eth1
-        address: '10.10.3.31/24'
+        address: '10.10.3.32/24'
     
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
