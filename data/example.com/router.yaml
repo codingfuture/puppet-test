@@ -4,6 +4,7 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::is_router: true
+#cffirehol::synproxy_public: false
 
 cfnetwork::main:
     device: eth1
@@ -42,11 +43,17 @@ cfnetwork::describe_services:
             - 'tcp/5300'
             - 'tcp/5301'
             - 'tcp/5351'
+            
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
         dst: '192.168.1.40'
         to_dst: '10.10.2.10'
+    # test edge case
+    'main/infradmz:testv4:ipv4only':
+        src: 'ipset:test_ipv4'
+        to_dst: 'maint.example.com'
+        to_port: 22
 # Internal routing
 # NOTE: some rules depend on DNS resolvable names, which
 #       appear on 'maint' only after those hosts are deployed
@@ -75,3 +82,4 @@ cfnetwork::router_ports:
         dst: ['puppet.example.com', 'puppetback.example.com']
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}
+    

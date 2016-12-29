@@ -33,6 +33,9 @@ cfnetwork::describe_services:
         server:
             - 'tcp/80'
             - 'tcp/443'
+    testv4:
+        server:
+            - 'tcp/12345'
 
 cfnetwork::client_ports:
     'vagrant:dhcp': {}
@@ -43,6 +46,14 @@ cfnetwork::ipsets:
             - '1.2.3.4'
             - '5.6.7.0/24'
             - 'fdde:bd2b:c350:f984::1/128'
+    test_ipv4_dyn:
+        addr:
+            - '2.3.4.5'
+            - '192.168.0.0/16'
+        dynamic: true
+    test_ipv4:
+        addr:
+            - 'ipset:test_ipv4_dyn'
             
 cffirehol::enable: true
 
