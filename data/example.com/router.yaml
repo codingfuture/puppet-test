@@ -83,3 +83,9 @@ cfnetwork::router_ports:
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}
     
+    
+cffirehol::fwknop::enable: true
+cffirehol::knockers:
+    dynadmin:
+        key_b64: 3R0NbugPNrZLekPmVUHeGfU1PzHYkjOnhypcnu66oZ0=
+        hmac_key_b64: pqgMp3TvKZn4EWX8QtXPi5tSPliMuiuLiWqyg+EW/JemJWmOaGGqQnm5oRAQAFbNaMAics/eu6NteoA/M5ecFA==
