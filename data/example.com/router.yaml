@@ -8,8 +8,9 @@ cfnetwork::is_router: true
 
 cfnetwork::main:
     device: eth1
-    address: '192.168.88.30/24'
-    extra_addresses: '192.168.88.40/24'
+    address:
+        - '192.168.88.30/24'
+        - '192.168.88.40/24'
     gateway: '192.168.88.1'
     # even though it has private IP, treat as public interface
     # with all consequences of its definition in cfnetwork
@@ -20,16 +21,26 @@ cfnetwork::ifaces:
         device: eth0
         method: dhcp
         # notify cffirehol of vagrant address space
-        extra_routes: '10.0.1.1/25'
+        routes: '10.0.1.1/25'
+        ipv6: false
     infradmz:
         device: eth2
-        address: '10.10.1.254/24'
+        address:
+            - '10.10.1.254/24'
+            - 'fd1f:c43f:e6e0:85c9::1:fffe/112'
+        ipv6: true
     dbdmz:
         device: eth3
         address: '10.10.2.254/24'
+        ipv6: true
+        extra_addresses:
+            - 'fd1f:c43f:e6e0:85c9::2:fffe/112'
     webdmz:
         device: eth4
         address: '10.10.3.254/24'
+        ipv6: true
+        extra_addresses:
+            - 'fd1f:c43f:e6e0:85c9::3:fffe/112'
 
 # custom services
 cfnetwork::describe_services:

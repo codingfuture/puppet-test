@@ -11,6 +11,8 @@ cfnetwork::main:
     device: eth1
     address: '10.10.1.12/24'
     gateway: '10.10.1.254'
+    extra_addresses:
+        - 'fd1f:c43f:e6e0:85c9::1:12/112'
 
 cfnetwork::ifaces:
     vagrant:
@@ -18,6 +20,7 @@ cfnetwork::ifaces:
         method: dhcp
         # notify cffirehol of vagrant address space
         extra_routes: '10.0.1.1/25'
+        ipv6: false
     
 cfpuppetserver::puppet_host: 'puppet.example.com'
 cfpuppetserver::puppetserver::autosign: true

@@ -8,8 +8,12 @@ cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
     device: eth1
-    address: '10.10.1.10/24'
-    gateway: '10.10.1.254'
+    address:
+        - '10.10.1.10/24'
+        - 'fd1f:c43f:e6e0:85c9::1:10/112'
+    gateway:
+        - '10.10.1.254'
+        - 'fd1f:c43f:e6e0:85c9::1:fffe'
 
 cfnetwork::ifaces:
     vagrant:

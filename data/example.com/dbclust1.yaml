@@ -18,6 +18,7 @@ cfnetwork::ifaces:
         method: dhcp
         # notify cffirehol of vagrant address space
         extra_routes: '10.0.1.1/25'
+        ipv6: false
 
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
