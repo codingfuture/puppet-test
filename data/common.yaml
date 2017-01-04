@@ -37,9 +37,6 @@ cfnetwork::describe_services:
         server:
             - 'tcp/12345'
 
-cfnetwork::client_ports:
-    'vagrant:dhcp': {}
-
 cfnetwork::ipsets:
     test_ips:
         addr:

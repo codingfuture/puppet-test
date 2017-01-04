@@ -15,6 +15,7 @@ cfnetwork::main:
     # even though it has private IP, treat as public interface
     # with all consequences of its definition in cfnetwork
     force_public: true
+    ipv6: true
     
 cfnetwork::ifaces:
     vagrant:
