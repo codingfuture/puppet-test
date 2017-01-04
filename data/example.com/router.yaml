@@ -5,6 +5,9 @@ cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::is_router: true
 #cffirehol::synproxy_public: false
+cffirehol::dynamic_blacklist: true
+cffirehol::dynblacklist::addon_ipsets:
+    test_ipset: '# empty config'
 
 cfnetwork::main:
     device: eth1
@@ -55,7 +58,10 @@ cfnetwork::describe_services:
             - 'tcp/5300'
             - 'tcp/5301'
             - 'tcp/5351'
-            
+
+cfnetwork::service_ports:
+    'infradmz:cfssh': {}
+        
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
