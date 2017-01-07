@@ -4,4 +4,4 @@
 Puppetfile.lock
 modules
 Puppetfile.local
-USE_UBUNTU
+USE_OS

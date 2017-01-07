@@ -10,7 +10,7 @@ cffirehol::dynblacklist::addon_ipsets:
     test_ipset: '# empty config'
 
 cfnetwork::main:
-    device: eth1
+    device: "%{ifacename.1}"
     address:
         - '192.168.88.30/24'
         - '192.168.88.40/24'
@@ -22,25 +22,25 @@ cfnetwork::main:
     
 cfnetwork::ifaces:
     vagrant:
-        device: eth0
+        device: "%{ifacename.0}"
         method: dhcp
         # notify cffirehol of vagrant address space
         routes: '10.0.1.1/25'
         ipv6: false
     infradmz:
-        device: eth2
+        device: "%{ifacename.2}"
         address:
             - '10.10.1.254/24'
             - 'fd1f:c43f:e6e0:85c9::1:fffe/112'
         ipv6: true
     dbdmz:
-        device: eth3
+        device: "%{ifacename.3}"
         address: '10.10.2.254/24'
         ipv6: true
         extra_addresses:
             - 'fd1f:c43f:e6e0:85c9::2:fffe/112'
     webdmz:
-        device: eth4
+        device: "%{ifacename.4}"
         address: '10.10.3.254/24'
         ipv6: true
         extra_addresses:

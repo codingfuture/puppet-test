@@ -9,20 +9,20 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'web'
 
 cfnetwork::main:
-    device: eth1
+    device: "%{ifacename.1}"
     address: '10.10.3.10/24'
     gateway: '10.10.3.254'
 
 cfnetwork::ifaces:
     vagrant:
-        device: eth0
+        device: "%{ifacename.0}"
         method: dhcp
         ipv6: false
     main2:
-        device: eth1
+        device: "%{ifacename.1}"
         address: '10.10.3.20/24'
     main3:
-        device: eth1
+        device: "%{ifacename.1}"
         address: '10.10.3.30/24'
         extra_addresses:
             - 'fdea:ab0e:25f0:206a::1/64'

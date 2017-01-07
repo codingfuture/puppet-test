@@ -8,13 +8,13 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'db'
 
 cfnetwork::main:
-    device: eth1
+    device: "%{ifacename.1}"
     address: '10.10.2.10/24'
     gateway: '10.10.2.254'
     
 cfnetwork::ifaces:
     vagrant:
-        device: eth0
+        device: "%{ifacename.0}"
         method: dhcp
         ipv6: false
 

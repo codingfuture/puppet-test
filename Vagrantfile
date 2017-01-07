@@ -5,6 +5,9 @@ puppet_init = <<EOINIT
 bash <<EOT
 #!/bin/bash
 
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
 if nc -z 10.10.1.10 3142; then
     http_proxy='http://10.10.1.10:3142'
 else
@@ -36,9 +39,24 @@ if test -z "\\\$codename"; then
     exit 1
 fi
 
-export DEBIAN_FRONTEND=noninteractive
+puppetlabs_deb="puppetlabs-release-pc1-\\\${codename}.deb"
+echo "Retrieving \\\$puppetlabs_deb"
 
-wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-\\\${codename}.deb
+if ! wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-\\\${codename}.deb; then
+    case "\\\$(lsb_release -is)" in
+        Debian) codename='jessie';;
+        Ubuntu) codename='xenial';;
+    esac
+    
+    puppetlabs_deb="puppetlabs-release-pc1-\\\${codename}.deb"
+    echo "Re-retrieving \\\$puppetlabs_deb"
+
+    wget -q https://apt.puppetlabs.com/puppetlabs-release-pc1-\\\${codename}.deb || (
+        echo "Failed to retrieve puppetlabs release for \\\${codename}";
+        exit 1
+    )
+fi
+
 dpkg -i puppetlabs-release-pc1-\\\${codename}.deb
 
 mkdir -p /etc/puppetlabs/puppet
@@ -51,6 +69,12 @@ environment = production
 EOF
 
 echo -n somelocation >/etc/cflocation
+
+cat >/etc/apt/preferences.d/puppetlabs.pref <<EOF
+Package: *
+Pin: origin apt.puppetlabs.com
+Pin-Priority: 1001
+EOF
 
 apt-get update && \
     apt-get install \
@@ -70,10 +94,37 @@ EOINIT
 
 
 Vagrant.configure(2) do |config|
-    use_ubuntu = false
-    if ENV['USE_UBUNTU'] == 'y' or File.exists? 'USE_UBUNTU'
-        use_ubuntu = true
+    use_os = 'jessie'
+    
+    if ENV['USE_OS']
+        use_os = ENV['USE_OS']
+    elsif File.exists? 'USE_OS'
+        use_os = File.read('USE_OS').strip
     end
+    
+    nic_type = 'virtio'
+    disk_controller = 'SATA Controller'
+    eth0='enp0s3'
+    eth1='enp0s8'
+    eth2='enp0s9'
+    eth3='enp0s10'
+    eth4='enp0s16'
+        
+    if use_os == 'xenial'
+        config.vm.box = 'ubuntu/xenial64'
+    elsif use_os == 'jessie'
+        config.vm.box = 'debian/jessie64'
+        eth0='eth0'
+        eth1='eth1'
+        eth2='eth2'
+        eth3='eth3'
+        eth4='eth4'
+    elsif use_os == 'stretch'
+        config.vm.box = 'fujimakishouten/debian-stretch64'
+    else
+        fail("Unknown OS image #{use_os}")
+    end
+
 
     config.vm.provider "virtualbox" do |v|
         v.linked_clone = true
@@ -83,21 +134,9 @@ Vagrant.configure(2) do |config|
         
         v.customize [
             "storagectl", :id,
-            "--name", "SATA Controller",
+            "--name", disk_controller,
             "--hostiocache", "on"
         ]
-    end
-    
-    if use_ubuntu
-        # not working box
-        #config.vm.box = "ubuntu/xenial64"
-        config.vm.box = "geerlingguy/ubuntu1604"
-        # Ubuntu virtio gets initialized before intel driver because
-        # official Ubuntu cloud images do not tie vagrant nat to eth0
-        nic_type = '82540EM'
-    else
-        config.vm.box = "debian/jessie64"
-        nic_type = 'virtio'
     end
 
 
@@ -153,29 +192,29 @@ Vagrant.configure(2) do |config|
         )
         node.vm.provision 'add-default-route', type: 'shell',
             inline: "\
+            echo '#{network_prefix}.30 router.example.com router' >> /etc/hosts; \
             hostname router.example.com; \
-            ifconfig eth1 up; \
-            ip addr add #{network_prefix}.30/24 dev eth1; \
-            ifconfig eth2 up; \
-            ip addr add 10.10.1.254/24 dev eth2; \
-            ifconfig eth3 up; \
-            ip addr add 10.10.2.254/24 dev eth3; \
-            ifconfig eth4 up; \
-            ip addr add 10.10.3.254/24 dev eth4; \
-            ip route change default via #{network_prefix}.1 dev eth1; \
+            ip link set dev #{eth1} up; \
+            ip addr add #{network_prefix}.30/24 dev #{eth1}; \
+            ip link set dev #{eth2} up; \
+            ip addr add 10.10.1.254/24 dev #{eth2}; \
+            ip link set dev #{eth3} up; \
+            ip addr add 10.10.2.254/24 dev #{eth3}; \
+            ip link set dev #{eth4} up; \
+            ip addr add 10.10.3.254/24 dev #{eth4}; \
+            ip route change default via #{network_prefix}.1 dev #{eth1}; \
             sysctl -w net.ipv4.ip_forward=1; \
-            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4; \
-            ",
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         node.vm.provision 'add-default-nat', type: 'shell',
-            inline: '\
-            iptables -t raw -A PREROUTING -i eth1 -d 10/8 -j DROP; \
-            iptables -t nat -A POSTROUTING -o eth1 -s 10/8 -j MASQUERADE; \
-            iptables -t nat -A POSTROUTING -o eth1 -s 10/8 -j MASQUERADE'
+            inline: "\
+            iptables -t raw -A PREROUTING -i #{eth1} -d 10/8 -j DROP; \
+            iptables -t nat -A POSTROUTING -o #{eth1} -s 10/8 -j MASQUERADE"
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
             inline: puppet_init
     end
+    
     config.vm.define 'maint' do |node|
         node.vm.network(
             "private_network",
@@ -187,12 +226,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.1.10 maint.example.com maint' >> /etc/hosts; \
             hostname maint.example.com; \
-            ifconfig eth1 up; \
-            ip addr add 10.10.1.10/24 dev eth1; \
-            ip route change default via 10.10.1.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.1.10/24 dev #{eth1}; \
+            ip route change default via 10.10.1.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -212,12 +252,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.1.11 puppet.example.com puppet' >> /etc/hosts; \
             hostname puppet.example.com; \
-            ifconfig eth1 up; \
-            ip addr add 10.10.1.11/24 dev eth1; \
-            ip route change default via 10.10.1.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.1.11/24 dev #{eth1}; \
+            ip route change default via 10.10.1.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -245,12 +286,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.1.12 puppetback.example.com puppetback' >> /etc/hosts; \
             hostname puppetback.example.com;\
-            ifconfig eth1 up; \
-            ip addr add 10.10.1.12/24 dev eth1; \
-            ip route change default via 10.10.1.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.1.12/24 dev #{eth1}; \
+            ip route change default via 10.10.1.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -272,12 +314,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.2.10 db.example.com db' >> /etc/hosts; \
             hostname db.example.com; \
-            ifconfig eth1 up; \
-            ip addr add 10.10.2.10/24 dev eth1; \
-            ip route change default via 10.10.2.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.2.10/24 dev #{eth1}; \
+            ip route change default via 10.10.2.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -297,12 +340,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.3.10 web.example.com web' >> /etc/hosts; \
             hostname web.example.com;\
-            ifconfig eth1 up; \
-            ip addr add 10.10.3.10/24 dev eth1; \
-            ip route change default via 10.10.3.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.3.10/24 dev #{eth1}; \
+            ip route change default via 10.10.3.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -322,12 +366,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.2.20 dbclust1.example.com dbclust1' >> /etc/hosts; \
             hostname dbclust1.example.com; \
-            ifconfig eth1 up; \
-            ip addr add 10.10.2.20/24 dev eth1; \
-            ip route change default via 10.10.2.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.2.20/24 dev #{eth1}; \
+            ip route change default via 10.10.2.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -347,12 +392,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.2.21 dbclust2.example.com dbclust2' >> /etc/hosts; \
             hostname dbclust2.example.com; \
-            ifconfig eth1 up; \
-            ip addr add 10.10.2.21/24 dev eth1; \
-            ip route change default via 10.10.2.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.2.21/24 dev #{eth1}; \
+            ip route change default via 10.10.2.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -372,12 +418,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.3.11 web2.example.com web2' >> /etc/hosts; \
             hostname web2.example.com;\
-            ifconfig eth1 up; \
-            ip addr add 10.10.3.11/24 dev eth1; \
-            ip route change default via 10.10.3.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.3.11/24 dev #{eth1}; \
+            ip route change default via 10.10.3.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',
@@ -398,12 +445,13 @@ Vagrant.configure(2) do |config|
             auto_config: false
         )
         node.vm.provision 'add-default-route', type: 'shell',
-            inline: '\
+            inline: "\
+            echo '10.10.3.12 web3.example.com web3' >> /etc/hosts; \
             hostname web3.example.com;\
-            ifconfig eth1 up; \
-            ip addr add 10.10.3.12/24 dev eth1; \
-            ip route change default via 10.10.3.254 dev eth1; \
-            echo \'Acquire::ForceIPv4 "true";\' | tee /etc/apt/apt.conf.d/99force-ipv4;',
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.3.12/24 dev #{eth1}; \
+            ip route change default via 10.10.3.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;",
             run: 'always'
         # global config runs before node's one => place here
         node.vm.provision 'puppet_init', type: 'shell',

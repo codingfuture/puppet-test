@@ -8,7 +8,7 @@ cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
 
 cfnetwork::main:
-    device: eth1
+    device: "%{ifacename.1}"
     address: '10.10.1.12/24'
     gateway: '10.10.1.254'
     extra_addresses:
@@ -16,7 +16,7 @@ cfnetwork::main:
 
 cfnetwork::ifaces:
     vagrant:
-        device: eth0
+        device: "%{ifacename.0}"
         method: dhcp
         ipv6: false
     
