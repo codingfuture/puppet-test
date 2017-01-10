@@ -24,8 +24,7 @@ cfnetwork::ifaces:
     vagrant:
         device: "%{ifacename.0}"
         method: dhcp
-        # notify cffirehol of vagrant address space
-        routes: '10.0.1.1/25'
+        address: '10.0.2.0/24'
         ipv6: false
     infradmz:
         device: "%{ifacename.2}"

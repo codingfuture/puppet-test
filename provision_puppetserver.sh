@@ -1,43 +1,49 @@
 #!/bin/bash
 
-test ! -d modules && librarian-puppet install
+cd $(dirname $0)
 
-vagrant up router maint puppet
+source provision_common.sh
 
-skip_dns=${skip_dns:-0}
+echo "Getting VMs up"
+DISABLE_PUPPET_SYNC=true vagrant up router maint puppet puppetback
 
-if test "$skip_dns" != 1; then
-    vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host maint.example.com ip=10.10.1.10
-    vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host puppet.example.com ip=10.10.1.11
-    vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet resource host puppetback.example.com ip=10.10.1.12
-fi
+echo "Puppet Server bootstrap"
+vagrant ssh puppet -- sudo rm /etc/puppetlabs/code/ -rf
+cat modules/cfpuppetserver/setup_puppetserver.sh | \
+    vagrant ssh puppet -c 'cat >/tmp/setup_puppetserver.sh'
+vagrant ssh puppet -- sudo \
+        INSANE_PUPPET_AUTOSIGN=true dash \
+        /tmp/setup_puppetserver.sh file:///vagrant puppet.example.com
+vagrant reload puppet --provision-with=setup-network # with rsync enabled
+vagrant rsync puppet
+vagrant ssh puppet -- sudo $PUPPET resource host maint.example.com ip=10.10.1.10
 
-for h in maint puppet; do
-        echo "Provisioning $h"
-        
-        if test "$skip_dns" != 1; then
-            if test $h = 'maint';  then
-                vagrant ssh $h -c "echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf"
-            else
-                vagrant ssh $h -c "echo 'nameserver 10.10.1.10' | sudo tee /etc/resolv.conf"
-            fi
-        fi
-        
-        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-        
-        if test $h = 'puppet'; then
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet apply \
-                --catalog /opt/puppetlabs/puppet/cache/client_data/catalog/puppet.example.com.json
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-        fi
-        
-        vagrant ssh maint -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-        
-        if test $h = 'puppetback';  then
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh puppet -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-            vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
-        fi
+while ! puppet_deploy puppet; do
+    vagrant ssh puppet -- sudo $PUPPET apply --catalog /opt/puppetlabs/puppet/cache/client_data/catalog/puppet.example.com.json
 done
+
+echo "Prepare maint"
+puppet_init maint INIT_ONESHOT=1
+
+vagrant ssh maint -- sudo $PUPPET resource host puppet.example.com ip=10.10.1.11
+while ! puppet_deploy maint; do :; done
+reload_vm maint
+
+echo "Provision puppetback"
+puppet_init puppetback INIT_ONESHOT=1
+vagrant ssh puppet -- sudo $PUPPET resource host puppetback.example.com ip=10.10.1.12
+while ! puppet_deploy puppet || ! puppet_deploy puppetback; do :; done
+vagrant ssh puppet -- sudo /bin/systemctl restart cfpuppetserver.service
+vagrant reload puppetback
+while ! puppet_deploy puppetback; do :; done
+update_maint
+
+echo "Provision router"
+puppet_init router
+puppet_deploy router
+update_maint
+reload_vm router
+
+echo "Reloading puppet"
+vagrant reload puppet
+while ! puppet_deploy puppet; do :; done

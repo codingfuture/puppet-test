@@ -19,6 +19,7 @@ cfnetwork::ifaces:
     vagrant:
         device: "%{ifacename.0}"
         method: dhcp
+        address: '10.0.2.0/24'
 
 cfnetwork::dns: '$serve'
 

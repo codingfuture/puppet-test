@@ -7,6 +7,9 @@ classes:
 cfsystem::hierapool::location: 'somelocation'
 cfsystem::hierapool::pool: 'infra'
 
+cfnetwork::dns: '$local'
+cfsystem::repo_proxy: ~
+
 cfnetwork::main:
     device: "%{ifacename.1}"
     address: '10.10.1.11/24'
@@ -18,6 +21,7 @@ cfnetwork::ifaces:
     vagrant:
         device: "%{ifacename.0}"
         method: dhcp
+        address: '10.0.2.0/24'
         ipv6: false
     
 cfpuppetserver::puppet_host: 'puppet.example.com'
