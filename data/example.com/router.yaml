@@ -81,7 +81,9 @@ cfnetwork::router_ports:
     'infradmz/main:ntp':
         src: 'maint.example.com'
     'infradmz/main:dns':
-        src: 'maint.example.com'
+        src:
+            - 'maint.example.com'
+            - 'puppet.example.com'
     # Allow puppet host to download modules
     'infradmz/main:cfhttp:puppet': {}
     # Allow DMZ servers to access infrastructure services
