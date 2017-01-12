@@ -161,14 +161,16 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "infradmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.11/24 dev #{eth1}; \
             ip route change default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
-        node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
+        )
+        node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet', disabled: disable_puppet_sync
+        )
     end
     config.vm.define 'puppetback' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -183,14 +185,16 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "infradmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.12/24 dev #{eth1}; \
             ip route change default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
-        node.vm.synced_folder ".", "/etc/puppetlabs/code/environments/production/",
+        )
+        node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet', disabled: disable_puppet_sync
+        )
     end
     #----
     # DB cluster
@@ -208,12 +212,13 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "dbdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.20/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
     config.vm.define 'dbclust2' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -228,12 +233,13 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "dbdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.21/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
     config.vm.define 'db' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -248,12 +254,13 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "dbdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.10/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
     #----
     # Web
@@ -271,12 +278,13 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "webdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.3.10/24 dev #{eth1}; \
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
     config.vm.define 'web2' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -291,12 +299,13 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "webdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.3.11/24 dev #{eth1}; \
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
     config.vm.define 'web3' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -312,11 +321,12 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "webdmz",
             auto_config: false
         )
-        node.vm.provision 'setup-network', type: 'shell',
+        node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.3.12/24 dev #{eth1}; \
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
     end
 end
