@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
     
     nic_type = 'virtio'
     disk_controller = 'SATA Controller'
+    storagectl_opts = []
     eth0='enp0s3'
     eth1='enp0s8'
     eth2='enp0s9'
@@ -19,8 +20,22 @@ Vagrant.configure(2) do |config|
     eth4='enp0s16'
 
     if ['wily', 'xenial', 'jakkety', 'zesty'].include? use_os
-        disk_controller = 'SCSI'
-        config.vm.box = "ubuntu/#{use_os}64"
+        if false
+            disk_controller = 'SCSI'
+            storagectl_opts = [
+                '--controller', 'BusLogic',
+            ]
+            config.vm.box = "ubuntu/#{use_os}64"
+        else
+            config.vm.box = case use_os
+                when 'wily' then 'bento/ubuntu-15.10'
+                when 'xenial' then 'bento/ubuntu-16.04'
+                when 'jakkety' then 'bento/ubuntu-16.10'
+                when 'zesty' then 'bento/ubuntu-17.04'
+                else
+                    fail("Unknown OS image #{use_os}")
+                end
+        end
     elsif use_os == 'jessie'
         config.vm.box = 'debian/jessie64'
         eth0='eth0'
@@ -43,11 +58,13 @@ Vagrant.configure(2) do |config|
             v.gui = 1
         end
         
-        v.customize [
-            "storagectl", :id,
-            "--name", disk_controller,
-            "--hostiocache", "on"
-        ]
+        if disk_controller
+            v.customize [
+                "storagectl", :id,
+                "--name", disk_controller,
+                "--hostiocache", "on"
+            ] + storagectl_opts
+        end
     end
 
 
