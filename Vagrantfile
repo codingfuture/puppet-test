@@ -19,6 +19,7 @@ Vagrant.configure(2) do |config|
     eth4='enp0s16'
 
     if ['wily', 'xenial', 'jakkety', 'zesty'].include? use_os
+        disk_controller = 'SCSI'
         config.vm.box = "ubuntu/#{use_os}64"
     elsif use_os == 'jessie'
         config.vm.box = 'debian/jessie64'
