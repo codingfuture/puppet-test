@@ -1,0 +1,12 @@
+[submodule "citool"]
+	path = external/citool
+	url = ../../futoin/citool
+[submodule "test-web-php"]
+	path = external/test-web-php
+	url = ../test-web-php
+[submodule "test-web-nodejs"]
+	path = external/test-web-nodejs
+	url = ../test-web-nodejs
+[submodule "test-web-ruby"]
+	path = external/test-web-ruby
+	url = ../test-web-ruby

@@ -10,6 +10,7 @@ elsif !ENV['PUPPETFILE_USE_GIT']
     mod 'codingfuture/cffirehol'
     mod 'codingfuture/cfnetwork'
     mod 'codingfuture/cfpuppetserver'
+    #mod 'codingfuture/cfstorage'
     mod 'codingfuture/cfsystem'
     mod 'codingfuture/cftotalcontrol'
     #mod 'codingfuture/cfweb'
@@ -29,6 +30,9 @@ else
     mod 'codingfuture/cfpuppetserver',
         :git => "https://github.com/codingfuture/puppet-cfpuppetserver",
         :ref => 'master'
+    #mod 'codingfuture/cfstorage',
+        #:git => "https://github.com/codingfuture/puppet-cfstorage",
+        #:ref => 'master'
     mod 'codingfuture/cfsystem',
         :git => "https://github.com/codingfuture/puppet-cfsystem",
         :ref => 'master'

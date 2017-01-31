@@ -303,6 +303,9 @@ Vagrant.configure(2) do |config|
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        node.vm.synced_folder("./external", "/external/",
+            type: 'rsync', owner: 'root', group: 'root'
+        )
     end
     config.vm.define 'web2' do |node|
         node.vm.provider "virtualbox" do |v|

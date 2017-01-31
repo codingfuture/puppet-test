@@ -2,7 +2,7 @@
 
 classes:
     - cfdb
-#    - cfweb
+    - cfweb
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -39,6 +39,19 @@ cfweb::standalone:
     - testsite
     - nodejssite
     - rubysite
+cfweb::global::sites:
+    website:
+        deploy:
+            type: git
+            url: '/export/test-web-php'
+    nodejssite:
+        deploy:
+            type: git
+            url: '/export/test-web-nodejs'
+    rubysite:
+        deploy:
+            type: git
+            url: '/export/test-web-ruby'
 
 cfdb::access:
     vagrant_mysrv2_db2:
