@@ -22,7 +22,7 @@ function update_pp_file() {
     local ftmp=${f}.tmp
     
     if egrep -q "Copyright [0-9]{4}(-[0-9]{4})? \(c\) $author" $f; then
-        awk -i inplace "
+        awk "
         /Copyright $year \(c\) $author/ { print; next }
         /Copyright ([0-9]{4})-$year \(c\) $author/ { print; next }
         /Copyright ([0-9]{4})(-[0-9]{4})? \(c\) $author/ {
@@ -30,7 +30,13 @@ function update_pp_file() {
             next
         }
         {print}
-        " $f
+        " $f > $ftmp
+
+        if diff -q $f $ftmp; then
+            rm -f $ftmp
+        else
+            mv -f $ftmp $f
+        fi
         return
     fi
     
