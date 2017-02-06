@@ -230,6 +230,15 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "dbdmz",
             auto_config: false
         )
+        node.vm.network(
+            "private_network",
+            adapter: 3,
+            ip: "10.11.0.20",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "dbcomms",
+            auto_config: false
+        )
         node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
@@ -251,6 +260,15 @@ Vagrant.configure(2) do |config|
             virtualbox__intnet: "dbdmz",
             auto_config: false
         )
+        node.vm.network(
+            "private_network",
+            adapter: 3,
+            ip: "10.11.0.21",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "dbcomms",
+            auto_config: false
+        )
         node.vm.provision('setup-network', type: 'shell',
             inline: "\
             ip link set dev #{eth1} up; \
@@ -270,6 +288,15 @@ Vagrant.configure(2) do |config|
             netmask: "24",
             nic_type: nic_type,
             virtualbox__intnet: "dbdmz",
+            auto_config: false
+        )
+        node.vm.network(
+            "private_network",
+            adapter: 3,
+            ip: "10.11.0.10",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "dbcomms",
             auto_config: false
         )
         node.vm.provision('setup-network', type: 'shell',

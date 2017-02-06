@@ -18,6 +18,10 @@ cfnetwork::ifaces:
         method: dhcp
         address: '10.0.2.0/24'
         ipv6: false
+    dbcomms:
+        device: "%{ifacename.2}"
+        address: '10.11.0.10/27'
+        ipv6: false
 
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
@@ -26,6 +30,7 @@ cftotalcontrol::auth::control_scope:
     - cftc_dba
     
 cfdb::iface: main
+
 cfdb::instances:
     mysrv1:
         type: mysql
@@ -50,6 +55,7 @@ cfdb::instances:
         type: mysql
         is_arbitrator: true
         port: 3306
+        cluster_face: dbcomms
     myclust2:
         type: mysql
         is_arbitrator: true
@@ -68,6 +74,7 @@ cfdb::instances:
         type: postgresql
         is_arbitrator: true
         port: 5300
+        cluster_face: dbcomms
         settings_tune:
             cfdb:
                 node_id: 3
