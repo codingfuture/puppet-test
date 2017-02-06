@@ -20,6 +20,10 @@ cfnetwork::ifaces:
         device: "%{ifacename.0}"
         method: dhcp
         address: '10.0.2.0/24'
+        
+cfnetwork::hosts:
+    'custom.example.org':
+        ip: '10.2.3.4'
 
 cfnetwork::dns: '$serve'
 
