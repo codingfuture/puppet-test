@@ -1,8 +1,13 @@
 #!/bin/bash
 
-vagrant rsync puppetback
+cd $(dirname $0)
+
+source provision_common.sh
+set +e
+
+vagrant_rsync puppetback
 
 for h in web web2 web3; do
         echo "Provisioning $h"
-        vagrant ssh $h -- sudo /opt/puppetlabs/bin/puppet agent --test --trace
+        puppet_deploy $h
 done
