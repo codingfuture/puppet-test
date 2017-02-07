@@ -1,9 +1,9 @@
 #!/bin/bash
 
 cd $(dirname $0)
-set +e
 
 source provision_common.sh
+set +e
 
 vagrant_rsync puppet
 
