@@ -23,7 +23,7 @@ cfnetwork::ifaces:
         address: '10.11.0.21/27'
         ipv6: false
 
-cfsystem::puppet_host: 'puppetback.example.com'
+cfsystem::puppet_host: 'puppet.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
 
 cftotalcontrol::auth::control_scope:

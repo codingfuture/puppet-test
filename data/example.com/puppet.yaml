@@ -23,6 +23,14 @@ cfnetwork::ifaces:
         method: dhcp
         address: '10.0.2.0/24'
         ipv6: false
+        
+cfnetwork::hosts:
+    'maint.example.com':
+        ip: '10.10.1.10'
+        host_aliases: maint
+    'puppetback.example.com':
+        ip: '10.10.1.12'
+        host_aliases: puppetback
     
 cfpuppetserver::puppet_host: 'puppet.example.com'
 cfpuppetserver::puppetserver::autosign: true

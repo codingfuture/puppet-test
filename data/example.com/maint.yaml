@@ -24,6 +24,10 @@ cfnetwork::ifaces:
 cfnetwork::hosts:
     'custom.example.org':
         ip: '10.2.3.4'
+    'puppet.example.com':
+        ip: '10.10.1.11'
+        host_aliases: 'puppet'
+        
 
 cfnetwork::dns: '$serve'
 

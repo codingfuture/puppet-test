@@ -14,25 +14,13 @@ for h in $DB_HOSTS; do
 done
 
 echo "Provisioning DB VMs"
-for i in $(seq 1 3); do
+for i in $(seq 1 2); do
     for h in $DB_HOSTS; do
-        puppet_deploy $h || puppet_deploy $h || true
+        puppet_deploy $h || test $i = 1
     done
-    
-    update_maint
 done
 
-echo "Completing setup of DB VMs"
-for i in $(seq 1 30); do
-    hc=$(echo $DB_HOSTS | wc -w)
-    for h in $DB_HOSTS; do
-        if puppet_deploy $h; then
-            hc=$(($hc - 1))
-        fi
-    done
-    
-    [ $hc -eq 0 ] && break
-done
+update_maint
 
 echo "Testing CFDB restart pending"
 for h in $DB_HOSTS; do

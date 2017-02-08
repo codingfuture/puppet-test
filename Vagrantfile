@@ -244,6 +244,8 @@ Vagrant.configure(2) do |config|
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.20/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip link set dev #{eth2} up; \
+            ip addr add 10.11.0.20/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
     end
@@ -264,7 +266,7 @@ Vagrant.configure(2) do |config|
             "private_network",
             adapter: 3,
             ip: "10.11.0.21",
-            netmask: "24",
+            netmask: "27",
             nic_type: nic_type,
             virtualbox__intnet: "dbcomms",
             auto_config: false
@@ -274,6 +276,8 @@ Vagrant.configure(2) do |config|
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.21/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip link set dev #{eth2} up; \
+            ip addr add 10.11.0.21/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
     end
@@ -294,7 +298,7 @@ Vagrant.configure(2) do |config|
             "private_network",
             adapter: 3,
             ip: "10.11.0.10",
-            netmask: "24",
+            netmask: "27",
             nic_type: nic_type,
             virtualbox__intnet: "dbcomms",
             auto_config: false
@@ -304,6 +308,8 @@ Vagrant.configure(2) do |config|
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.10/24 dev #{eth1}; \
             ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip link set dev #{eth2} up; \
+            ip addr add 10.11.0.10/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
     end
