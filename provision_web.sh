@@ -4,8 +4,9 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-DB_HOSTS="dbclust1 dbclust2 db"
-WEB_HOSTS="web web2 web3"
+vagrant destroy -f $WEB_HOSTS
+puppet_purge $WEB_HOSTS
+
 
 echo "Bootstrapping Web VMs"
 for h in $WEB_HOSTS; do

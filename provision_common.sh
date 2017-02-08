@@ -4,6 +4,10 @@ set -ex
 test ! -d modules && librarian-puppet install
 
 PUPPET=/opt/puppetlabs/bin/puppet
+PUPPET_DOMAIN=example.com
+PUPPET_HOSTS="puppet puppetback"
+DB_HOSTS="dbclust1 dbclust2 db"
+WEB_HOSTS="web web1 web2"
 
 function puppet_deploy() {
     local vm=$1
@@ -24,6 +28,14 @@ function set_nameserver() {
     fi
 }
 
+function puppet_purge() {
+    for vm in $@; do
+        vagrant ssh puppet -- sudo $PUPPET node deactivate ${vm}.${PUPPET_DOMAIN}
+        vagrant ssh puppet -- sudo $PUPPET node clean ${vm}.${PUPPET_DOMAIN}
+    done
+}
+
+
 function puppet_init() {
     local vm=$1
     shift 1
@@ -32,12 +44,12 @@ function puppet_init() {
     local http_proxy=
     
     if test "$vm" != maint; then
-        http_proxy=http://maint.example.com:3142
+        http_proxy=http://maint.${PUPPET_DOMAIN}:3142
     fi
     
     set -e
-    vagrant ssh puppet -- sudo $PUPPET ca destroy ${vm}.example.com
-    vagrant ssh puppet -c "sudo /opt/codingfuture/bin/cf_gen_puppet_client_init ${vm}.example.com 'somelocation' '' '$http_proxy' >/tmp/${vm}.init"
+    puppet_purge $vm
+    vagrant ssh puppet -c "sudo /opt/codingfuture/bin/cf_gen_puppet_client_init ${vm}.${PUPPET_DOMAIN} 'somelocation' '' '$http_proxy' >/tmp/${vm}.init"
     # vagrant scp puppet:/tmp/${vm}.init $vm:/tmp/${vm}.init
     vagrant ssh puppet -- cat /tmp/${vm}.init | vagrant ssh $vm -- "cat >/tmp/${vm}.init"
     set_nameserver $vm

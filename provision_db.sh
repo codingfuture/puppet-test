@@ -4,7 +4,8 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-DB_HOSTS="dbclust1 dbclust2 db"
+vagrant destroy -f $DB_HOSTS
+puppet_purge $DB_HOSTS
 
 echo "Bootstrapping DB VMs"
 for h in $DB_HOSTS; do
