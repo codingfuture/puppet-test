@@ -26,7 +26,7 @@ cfnetwork::ifaces:
         device: "%{ifacename.1}"
         address: '10.10.3.31/24'
     
-cfsystem::puppet_host: 'puppetback.example.com'
+cfsystem::puppet_host: 'puppet.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
 
 cfweb::cluster: testweb

@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-vagrant destroy -f $DB_HOSTS
+vagrant destroy $DESTROY_OPTS $DB_HOSTS
 puppet_purge $DB_HOSTS
 
 echo "Bootstrapping DB VMs"

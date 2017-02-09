@@ -7,7 +7,12 @@ PUPPET=/opt/puppetlabs/bin/puppet
 PUPPET_DOMAIN=example.com
 PUPPET_HOSTS="puppet puppetback"
 DB_HOSTS="dbclust1 dbclust2 db"
-WEB_HOSTS="web web1 web2"
+WEB_HOSTS="web web2 web3"
+
+DESTROY_OPTS=
+if test "$1" = force; then
+    DESTROY_OPTS=-f
+fi
 
 function puppet_deploy() {
     local vm=$1
@@ -30,8 +35,10 @@ function set_nameserver() {
 
 function puppet_purge() {
     for vm in $@; do
-        vagrant ssh puppet -- sudo $PUPPET node deactivate ${vm}.${PUPPET_DOMAIN}
-        vagrant ssh puppet -- sudo $PUPPET node clean ${vm}.${PUPPET_DOMAIN}
+        for p in $PUPPET_HOSTS; do
+            vagrant ssh $p -- sudo $PUPPET node deactivate ${vm}.${PUPPET_DOMAIN} || true
+            vagrant ssh $p -- sudo $PUPPET node clean ${vm}.${PUPPET_DOMAIN} || true
+        done
     done
 }
 

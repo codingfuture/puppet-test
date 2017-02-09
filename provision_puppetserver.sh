@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-vagrant destroy -f
+vagrant destroy $DESTROY_OPTS
 
 echo "Getting VMs up"
 DISABLE_PUPPET_SYNC=true vagrant up router maint puppet puppetback
