@@ -6,6 +6,7 @@ source provision_common.sh
 set +e
 
 vagrant_rsync puppet
+vagrant_rsync puppetback
 
 for h in puppet puppetback; do
         echo "Provisioning $h"
