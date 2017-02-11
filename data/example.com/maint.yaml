@@ -57,8 +57,8 @@ cftotalcontrol::pool_proxy:
     'somelocation/db': 'router.example.com'
 cftotalcontrol::parallel: 2
 cftotalcontrol::host_groups:
-    puppetserver: "Package['puppetserver']"
-    infra: "cf_location_pool = 'infra'"
+    puppetserver: "resources[certname]{ type='Package' and title='puppetserver' }"
+    infra: "facts[certname]{ name='cf_location_pool' and value='infra' }"
     custom:
         - 'web.example.com'
         - 'db.example.com'
