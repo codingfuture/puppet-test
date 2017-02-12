@@ -8,6 +8,9 @@ function check_module() {
     puppet parser validate $m
     puppet-lint -f $m
     metadata-json-lint $m/metadata.json
+    test -d $m/lib && \
+        find $m/lib -name '*.rb' | \
+        while read f; do ruby -c $f >/dev/null; done
 }
 
 if test -z "$1"; then

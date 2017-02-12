@@ -53,7 +53,7 @@ EOT
 
 update_license_file $mpath/LICENSE
 
-for f in $(find $mpath/manifests -type f -name '*.pp'); do
+for f in $(find $mpath -type f -name '*.pp'); do
     update_pp_file $f
 done
 
