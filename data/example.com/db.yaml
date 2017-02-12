@@ -115,6 +115,21 @@ cfdb::access:
         role: db2
         local_user: vagrant
         config_prefix: 'DBC2_'
+    vagrant_pgclust1_pdb1:
+        cluster: pgclust1
+        role: pdb1
+        local_user: vagrant
+        config_prefix: 'PDBC1_'
+    vagrant_pgclust1_pdb1ro:
+        cluster: pgclust1
+        role: pdb1ro
+        local_user: vagrant
+        config_prefix: 'PDBC1RO_'
+    vagrant_pgclust2_pdb3:
+        cluster: pgclust2
+        role: pdb3
+        local_user: vagrant
+        config_prefix: 'PDBC2_'
     vagrant_pgsrv1_pdb1:
         cluster: pgsrv1
         role: pdb1
