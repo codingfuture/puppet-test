@@ -35,7 +35,10 @@ reload_vm maint
 
 echo "Provision puppetback"
 puppet_init puppetback INIT_ONESHOT=1
-while ! puppet_deploy puppet || ! puppet_deploy puppetback; do :; done
+while ! puppet_deploy puppet || ! puppet_deploy puppetback; do
+    vagrant ssh puppet -- sudo /opt/codingfuture/bin/cfdb_restart_pending
+    vagrant ssh puppetback -- sudo /opt/codingfuture/bin/cfdb_restart_pending
+done
 vagrant ssh puppet -- sudo /bin/systemctl restart cfpuppetserver.service
 vagrant reload puppetback
 while ! puppet_deploy puppetback; do :; done
