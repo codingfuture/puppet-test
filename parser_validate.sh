@@ -1,22 +1,15 @@
 #!/bin/bash
 
-eval "$(cid tool env gem | sed 's/^/export /g')"
-export GEM_SPEC_CACHE=$GEM_HOME/specs
-
-for t in puppet puppet-lint metadata-json-lint; do
-    if ! which $t >/dev/null; then
-        cid tool exec gem -- install $t
-    fi
-done
+cid prepare
 
 function check_module() {
     local m=$1
     echo $m
     echo =============================
     ./update_copyright.sh $m
-    puppet parser validate $m
-    puppet-lint -f $m
-    metadata-json-lint $m/metadata.json
+    cid tool exec bundler -- exec puppet parser validate $m
+    cid tool exec bundler -- exec puppet-lint -f $m
+    cid tool exec bundler -- exec metadata-json-lint $m/metadata.json
     test -d $m/lib && \
         find $m/lib -name '*.rb' | \
         while read f; do ruby -c $f >/dev/null; done
