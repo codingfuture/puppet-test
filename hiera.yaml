@@ -1,18 +1,21 @@
 ---
-version: 4
-datadir: data
+version: 5
+defaults:
+  datadir: data
+  data_hash: yaml_data  # Use the built-in YAML backend.
+
 hierarchy:
   - name: "Domain Nodes"
-    backend: yaml
-    path: "%{trusted.domain}/%{trusted.hostname}"
+    path: "%{trusted.domain}/%{trusted.hostname}.yaml"
+
   - name: "Domains"
-    backend: yaml
-    path: "%{trusted.domain}"
+    path: "%{trusted.domain}.yaml"
+
   - name: 'Location Pools'
-    backend: yaml
-    path: "%{cf_location}/%{cf_location_pool}"
+    path: "%{cf_location}/%{cf_location_pool}.yaml"
+
   - name: "Locations"
-    backend: yaml
-    path: "%{cf_location}"
-  - name: common
-    backend: yaml
+    path: "%{cf_location}.yaml"
+
+  - name: Common
+    path: "common.yaml"
