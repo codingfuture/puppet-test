@@ -59,7 +59,7 @@ cfsystem::repo_proxy:
     host: maint.example.com
     port: 3142
 
-cfsystem::debian::apt_url: 'http://ftp.ee.debian.org/debian'
+cfsystem::debian::apt_url: 'http://cdn-fastly.deb.debian.org/debian'
     
 cfdb::haproxy::settings_tune:
     cfdb:

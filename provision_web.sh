@@ -19,7 +19,7 @@ update_maint
 echo "Provisioning Web VMs"
 for i in $(seq 1 2); do
     for h in $WEB_HOSTS; do
-        puppet_deploy $h || test $1 = 1
+        puppet_deploy $h || test $i = 1
     done
 done
 
