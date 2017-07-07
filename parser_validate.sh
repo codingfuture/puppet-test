@@ -1,5 +1,14 @@
 #!/bin/bash
 
+eval "$(cid tool env gem | sed 's/^/export /g')"
+export GEM_SPEC_CACHE=$GEM_HOME/specs
+
+for t in puppet puppet-lint metadata-json-lint; do
+    if ! which $t >/dev/null; then
+        cid tool exec gem -- install $t
+    fi
+done
+
 function check_module() {
     local m=$1
     echo $m
