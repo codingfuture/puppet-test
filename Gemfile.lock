@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
@@ -59,6 +60,7 @@ DEPENDENCIES
   metadata-json-lint
   puppet
   puppet-lint
+  semantic_puppet
 
 BUNDLED WITH
    1.15.1
