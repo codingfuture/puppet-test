@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
         eth3='eth3'
         eth4='eth4'
     elsif use_os == 'stretch'
-        config.vm.box = 'fujimakishouten/debian-stretch64'
+        config.vm.box = 'debian/stretch64'
     else
         fail("Unknown OS image #{use_os}")
     end
