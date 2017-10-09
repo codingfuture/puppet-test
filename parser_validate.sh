@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cid prepare
+cid prepare >/dev/null
 
 function check_module() {
     local m=$1

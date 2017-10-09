@@ -101,6 +101,8 @@ cfnetwork::router_ports:
         dst: ['puppet.example.com', 'puppetback.example.com']
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}
+    # Allow deployment deps
+    'webdmz/main:cfhttp:puppet': {}
     
     
 cffirehol::fwknop::enable: true

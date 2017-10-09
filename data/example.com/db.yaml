@@ -48,6 +48,7 @@ cfdb::instances:
                         readonly: true
                     sandbox:
                         custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
+            redmine: {}
         settings_tune:
             cfdb:
                 init_db_from: '/var/lib/mysql'
