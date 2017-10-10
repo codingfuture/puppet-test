@@ -35,4 +35,6 @@ cfweb::global::sites:
     
     
 cfweb::global::certs:
+cfweb::global::ruby: true
+cfweb::global::php: true
     
