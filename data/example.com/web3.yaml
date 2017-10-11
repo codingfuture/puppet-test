@@ -2,7 +2,7 @@
 
 classes:
     - cfdb
-    #- cfweb
+    - cfweb
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -31,10 +31,7 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 
 cfweb::cluster: testweb
 cfweb::is_secondary: true
-cfweb::standalone:
-    - website
-    - nodejssite
-    - rubysite
+cfweb::standalone: []
 
 cfweb::nginx::mainline: true
     

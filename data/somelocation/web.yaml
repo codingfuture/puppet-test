@@ -1,40 +1,8 @@
 ---
-cfweb::global::sites:
-    website:
-        server_name: website.example.com
-        alt_names:
-            - webalt.example.com
-            - wwwalt.example.com
-        apps:
-            static: {}
-            php:
-                dbaccess:
-                    local:
-                        cluster: mysrv2
-                        role: db2readonly
-                        config_prefix: DBRO_
-                php_ini:
-                    memory_limit: 8M
-        dbaccess:
-            global:
-                cluster: mysrv2
-                role: db2
-
-    nodejssite:
-        server_name: nodejs.example.com
-        apps:
-            static: {}
-            nodejs: {}
-    rubysite:
-        server_name: ruby.example.com
-        apps:
-            static: {}
-            ruby: {}
-    testsite:
-        server_name: testsite.example.com
+cfweb::global::sites: {}
     
     
-cfweb::global::certs:
+cfweb::global::certs: {}
 cfweb::global::ruby: true
 cfweb::global::php: true
     

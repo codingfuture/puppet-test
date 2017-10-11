@@ -79,7 +79,7 @@ Vagrant.configure(2) do |config|
     config.ssh.forward_agent = false
     config.ssh.pty = false
     
-    network_prefix = '192.168.88'
+    network_prefix = '172.31.99'
     
     config.vm.synced_folder ".", "/vagrant", disabled: true
     
@@ -90,12 +90,12 @@ Vagrant.configure(2) do |config|
     #----
     config.vm.define 'router' do |node|
         node.vm.network(
-            'public_network',
+            "private_network",
             adapter: 2,
             ip: "#{network_prefix}.30",
             netmask: "24",
             nic_type: nic_type,
-            bridge: ['wlan0', 'eth0'],
+            name: 'vboxnet0',
             auto_config: false
         )
         node.vm.network(
@@ -142,6 +142,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             iptables -t raw -A PREROUTING -i #{eth1} -d 10/8 -j DROP; \
             iptables -t nat -A POSTROUTING -o #{eth1} -s 10/8 -j MASQUERADE"
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17022
     end
     #----
     # Infra
@@ -162,6 +164,8 @@ Vagrant.configure(2) do |config|
             ip addr add 10.10.1.10/24 dev #{eth1}; \
             ip route change default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17023
     end
     #----
     # Pupppet cluster
@@ -189,6 +193,8 @@ Vagrant.configure(2) do |config|
         node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet', disabled: disable_puppet_sync
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17024
     end
     config.vm.define 'puppetback' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -213,6 +219,8 @@ Vagrant.configure(2) do |config|
         node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
             type: 'rsync', owner: 'puppet', group: 'puppet', disabled: disable_puppet_sync
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17025
     end
     #----
     # DB cluster
@@ -248,6 +256,8 @@ Vagrant.configure(2) do |config|
             ip addr add 10.11.0.20/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17026
     end
     config.vm.define 'dbclust2' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -280,6 +290,8 @@ Vagrant.configure(2) do |config|
             ip addr add 10.11.0.21/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17027
     end
     config.vm.define 'db' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -312,6 +324,8 @@ Vagrant.configure(2) do |config|
             ip addr add 10.11.0.10/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17028
     end
     #----
     # Web
@@ -339,6 +353,8 @@ Vagrant.configure(2) do |config|
         node.vm.synced_folder("./external", "/external/",
             type: 'rsync', owner: 'root', group: 'root'
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17029
     end
     config.vm.define 'web2' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -360,6 +376,8 @@ Vagrant.configure(2) do |config|
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17030
     end
     config.vm.define 'web3' do |node|
         node.vm.provider "virtualbox" do |v|
@@ -382,5 +400,7 @@ Vagrant.configure(2) do |config|
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17031
     end
 end

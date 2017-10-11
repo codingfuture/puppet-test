@@ -12,9 +12,9 @@ cffirehol::dynblacklist::addon_ipsets:
 cfnetwork::main:
     device: "%{ifacename.1}"
     address:
-        - '192.168.88.30/24'
-        - '192.168.88.40/24'
-    gateway: '192.168.88.1'
+        - '172.31.99.30/24'
+        - '172.31.99.40/24'
+    gateway: '172.31.99.1'
     # even though it has private IP, treat as public interface
     # with all consequences of its definition in cfnetwork
     force_public: true

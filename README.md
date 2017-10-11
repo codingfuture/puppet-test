@@ -7,6 +7,9 @@ Example configuration and Vagrant VM infrastructure for testing of:
 - [cfnetwork](https://github.com/codingfuture/puppet-cfnetwork)
 - [cffirehol](https://github.com/codingfuture/puppet-cffirehol)
 - [cfpuppetserver](https://github.com/codingfuture/puppet-cfpuppetserver)
+- [cftotalcontrol](https://github.com/codingfuture/puppet-cftotalcontrol)
+- [cfdb](https://github.com/codingfuture/puppet-cfdb)
+- [cfweb](https://github.com/codingfuture/puppet-cfweb)
 
 ## Vagrant
 
@@ -26,7 +29,7 @@ So, what happens:
 6. Rest of VMs are provisioned from `puppet`
 7. Then `web` and `db` VMs are configured to use `puppetback` as Puppet Server
 
-Use bundles script for actions above:
+Use bundled script for actions above:
 ```bash
 ./provision.sh
 ```
