@@ -381,7 +381,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'web3' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 2048
+            v.memory = 512
             v.cpus = 2
         end
         node.vm.network(

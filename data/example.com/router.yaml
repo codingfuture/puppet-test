@@ -64,8 +64,8 @@ cfnetwork::service_ports:
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
-        dst: '192.168.1.40'
-        to_dst: '10.10.2.10'
+        dst: '172.31.99.30'
+        to_dst: '10.10.3.10'
     # test edge case
     'main/infradmz:testv4:ipv4only':
         src: 'ipset:test_ipv4'
@@ -103,6 +103,8 @@ cfnetwork::router_ports:
     'webdmz/dbdmz:testdb': {}
     # Allow deployment deps
     'webdmz/main:cfhttp:puppet': {}
+    # Allow incoming HTTP/HTTPS
+    'main/webdmz:cfhttp:nginx': {}
     
     
 cffirehol::fwknop::enable: true

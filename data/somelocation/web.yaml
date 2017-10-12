@@ -1,5 +1,82 @@
 ---
-cfweb::global::sites: {}
+cfweb::global::sites:
+cfweb::global::sites:
+    redmine:
+        server_name: redmine.example.com
+        dbaccess:
+            app:
+                cluster: mysrv2
+                role: redmine
+        apps:
+            futoin:
+                memory_max: 256
+        deploy:
+            type: vcstag
+            url: 'svn:http://svn.redmine.org/redmine'
+            match: '3.4.*'
+            custom_script: |
+                #!/bin/bash
+                source .env || exit 1
+                umask 027
+                
+                case $DB_APP_TYPE in
+                    mysql)
+                        adapter=mysql2
+                        ;;
+                    *)
+                        adapter=$DB_APP_TYPE
+                        ;;
+                esac
+
+                cat >.database.yml.tmp <<EOF
+                production:
+                    adapter: $adapter
+                    database: $DB_APP_DB
+                    host: $DB_APP_HOST
+                    port: $DB_APP_PORT
+                    username: $DB_APP_USER
+                    password: $DB_APP_PASS
+                    encoding: utf8
+                    socket: $DB_APP_SOCKET
+                    connect_timeout: 3
+                EOF
+                mv -f .database.yml.tmp .database.yml
+                
+                cat >.secrets.yml.tmp <<EOF
+                production:
+                    secret_key_base: c396f2679830903cb5403000b40d1a1a4e1c1f2775b03c2243f580a66be2a2022c08c00d9cd7a4c7529ac44d6aaf1ca40eeb1bd7a44aff90973d4aa36fe77fdd
+                    secret_token: c396f2679830903cb5403000b40d1a1a4e1c1f2775b03c2243f580a66be2a2022c08c00d9cd7a4c7529ac44d6aaf1ca40eeb1bd7a44aff90973d4aa36fe77fdd
+                EOF
+                mv -f .secrets.yml.tmp .secrets.yml
+                
+            deploy_set:
+                - 'env rubyVer 2.3'
+                - 'action prepare app-config database-config app-install'
+                - >
+                    action app-config
+                    'cp config/configuration.yml.example config/configuration.yml'
+                    'rm -f config/initializers/secret_token.rb'
+                    'ln -s ../../.secrets.yml config/secrets.yml'
+                    'rm -rf tmp && ln -s ../.tmp tmp'
+                - >
+                    action database-config
+                    'ln -s ../../.database.yml config/database.yml'
+                - >
+                    action app-install
+                    '@cid build-dep ruby mysql-client imagemagick tzdata libxml2'
+                    '@cid tool exec bundler -- install --without "development test rmagick"'
+                - >
+                    action migrate
+                    '@cid tool exec bundler -- exec rake db:migrate RAILS_ENV=production'
+                    '@cid tool exec bundler -- exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=en'
+        
+                - 'persistent files log public/plugin_assets'
+                - 'entrypoint web nginx public socketType=unix'
+                - 'entrypoint app puma config.ru internal=1'
+                - 'webcfg webroot public'
+                - 'webcfg main app'
+                - 'webmount / ''{"static":true}'''
+
     
     
 cfweb::global::certs: {}
