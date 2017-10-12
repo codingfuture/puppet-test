@@ -36,6 +36,9 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 cfweb::cluster: testweb
 cfweb::standalone:
     - redmine
+    # TODO: mongodb support in cfdb
+    #- nodedemo
+    - phpdemo
 
 cfdb::access:
     vagrant_mysrv2_db2:

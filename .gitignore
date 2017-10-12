@@ -1,6 +1,8 @@
 \.vagrant
 \.librarian
 \.tmp
+\.bundle
+vendor
 Puppetfile.lock
 modules
 Puppetfile.local
