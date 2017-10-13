@@ -38,7 +38,7 @@ cfweb::standalone:
     - redmine
     # TODO: mongodb support in cfdb
     #- nodedemo
-    - phpdemo
+    #- phpdemo
 
 cfdb::access:
     vagrant_mysrv2_db2:

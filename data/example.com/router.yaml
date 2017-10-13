@@ -66,6 +66,9 @@ cfnetwork::dnat_ports:
     'main/webdmz:cfhttp':
         dst: '172.31.99.30'
         to_dst: '10.10.3.10'
+    'main/webdmz:cfhttp':
+        dst: '172.31.99.40'
+        to_dst: '10.10.3.11'
     # test edge case
     'main/infradmz:testv4:ipv4only':
         src: 'ipset:test_ipv4'

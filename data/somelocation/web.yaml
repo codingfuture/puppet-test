@@ -36,18 +36,19 @@ cfweb::global::sites:
         server_name: phpdemo.example.com
         apps:
             futoin:
-                memory_max: 64
+                memory_max: 128
         deploy:
             type: vcstag
             url: 'git:https://github.com/symfony/symfony-demo.git'
             deploy_set:
-                - 'tools composer php=7.1'
+                - 'tools composer php=7.1 yarn'
                 - 'env phpExtRequire "curl sqlite3 xml xmlrpc"'
                 - 'entrypoint web nginx public socketType=unix'
-                - 'entrypoint app phpfpm public/index.php internal=1'
+                - 'entrypoint app phpfpm public/index.php connMemory=16M internal=1'
                 - 'webcfg webroot public'
                 - 'webcfg main app'
                 - 'webmount / ''{"static":true}'''
+                - 'persistent var'
             
     redmine:
         server_name: redmine.example.com

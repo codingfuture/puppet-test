@@ -31,7 +31,8 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 
 cfweb::cluster: testweb
 cfweb::is_secondary: true
-cfweb::standalone: []
+cfweb::standalone:
+    - phpdemo
 
 cfweb::nginx::mainline: true
     
