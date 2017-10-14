@@ -63,10 +63,10 @@ cfnetwork::service_ports:
         
 # DNAT from public IP to DMZ servers
 cfnetwork::dnat_ports:
-    'main/webdmz:cfhttp':
+    'main/webdmz:cfhttp:web':
         dst: '172.31.99.30'
         to_dst: '10.10.3.10'
-    'main/webdmz:cfhttp':
+    'main/webdmz:cfhttp:web2':
         dst: '172.31.99.40'
         to_dst: '10.10.3.11'
     # test edge case

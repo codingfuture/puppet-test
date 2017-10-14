@@ -33,6 +33,7 @@ cfweb::cluster: testweb
 cfweb::is_secondary: true
 cfweb::standalone:
     - phpdemo
+    - pythondemo
 
 cfweb::nginx::mainline: true
     

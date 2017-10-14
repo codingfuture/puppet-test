@@ -36,7 +36,7 @@ cfweb::global::sites:
         server_name: phpdemo.example.com
         apps:
             futoin:
-                memory_max: 128
+                memory_max: 64
         deploy:
             type: vcstag
             url: 'git:https://github.com/symfony/symfony-demo.git'
@@ -49,6 +49,23 @@ cfweb::global::sites:
                 - 'webcfg main app'
                 - 'webmount / ''{"static":true}'''
                 - 'persistent var'
+                
+    pythondemo:
+        server_name: pythondemo.example.com
+        apps:
+            futoin:
+                memory_max: 128
+        deploy:
+            type: vcsref
+            match: master
+            url: git:https://github.com/gothinkster/django-realworld-example-app.git
+            deploy_set:
+                - 'entrypoint app uwsgi conduit/wsgi.py socketType=unix'
+                - 'webcfg main app'
+                - >
+                    action prepare
+                    'sed -i -e "s/ALLOWED_HOSTS\s*=\s*\[\]/ALLOWED_HOSTS=\[\"pythondemo.example.com\"\]/" conduit/settings.py'
+                    '@default'
             
     redmine:
         server_name: redmine.example.com
