@@ -8,7 +8,7 @@ set +e
 vagrant_rsync puppet
 vagrant_rsync puppetback
 
-for h in web web2 web3; do
+for h in $WEB_HOSTS; do
         echo "Provisioning $h"
         puppet_deploy $h
 done

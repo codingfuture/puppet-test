@@ -8,7 +8,7 @@ set +e
 vagrant_rsync puppet
 vagrant_rsync puppetback
 
-for h in dbclust1 dbclust2 db; do
+for h in $DB_HOSTS; do
         echo "Provisioning $h"
         puppet_deploy $h
 done

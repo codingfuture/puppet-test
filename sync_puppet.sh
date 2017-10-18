@@ -8,7 +8,7 @@ set +e
 vagrant_rsync puppet
 vagrant_rsync puppetback
 
-for h in puppet puppetback; do
+for h in $PUPPET_HOSTS; do
         echo "Provisioning $h"
         puppet_deploy $h
 done

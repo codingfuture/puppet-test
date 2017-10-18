@@ -7,7 +7,7 @@ PUPPET=/opt/puppetlabs/bin/puppet
 PUPPET_DOMAIN=example.com
 PUPPET_HOSTS="puppet puppetback"
 DB_HOSTS="dbclust1 dbclust2 db"
-WEB_HOSTS="web web2 web3"
+WEB_HOSTS="web web2"
 
 DESTROY_OPTS=
 if test "$1" = force; then
