@@ -17,7 +17,7 @@ cfweb::global::sites:
                     '@default'
                 - 'entrypoint web nginx public socketType=unix'
                 - 'entrypoint app node server.js internal=1'
-                - 'webcfg webroot public'
+                - 'webcfg root public'
                 - 'webcfg main app'
                 - 'webmount / ''{"static":true}'''
         dotenv:
@@ -46,7 +46,7 @@ cfweb::global::sites:
                 - 'env phpExtRequire "curl sqlite3 xml xmlrpc"'
                 - 'entrypoint web nginx public socketType=unix'
                 - 'entrypoint app phpfpm public/index.php connMemory=16M internal=1'
-                - 'webcfg webroot public'
+                - 'webcfg root public'
                 - 'webcfg main app'
                 - 'webmount / ''{"static":true}'''
                 - 'persistent var'
