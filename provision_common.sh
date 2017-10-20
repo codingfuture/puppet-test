@@ -8,6 +8,7 @@ PUPPET_DOMAIN=example.com
 PUPPET_HOSTS="puppet puppetback"
 DB_HOSTS="dbclust1 dbclust2 db"
 WEB_HOSTS="web web2"
+ALL_HOSTS="maint router $PUPPET_HOSTS $DB_HOSTS $WEB_HOSTS"
 
 DESTROY_OPTS=
 if test "$1" = force; then
