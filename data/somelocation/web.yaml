@@ -77,6 +77,11 @@ cfweb::global::sites:
             cluster: mysrv2
             role: redmine
         memory_max: 256
+        imap:
+            host: localhost
+            port: 143
+            user: user
+            password: pass
 
     
     
