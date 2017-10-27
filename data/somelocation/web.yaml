@@ -34,6 +34,8 @@ cfweb::global::sites:
 
     phpdemo:
         server_name: phpdemo.example.com
+        auto_cert:
+            x509_ou: 'Some Unit'
         apps:
             futoin:
                 memory_max: 64
