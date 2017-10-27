@@ -53,6 +53,9 @@ cfweb::global::sites:
                 
     pythondemo:
         server_name: pythondemo.example.com
+        shared_cert:
+            - test_cert2
+            - acme_cert
         apps:
             futoin:
                 memory_max: 128
@@ -73,19 +76,40 @@ cfweb::global::sites:
     redmine:
         type: 'cfwebapp::redmine'
         server_name: redmine.example.com
+        shared_cert: test_cert
         app_dbaccess:
             cluster: mysrv2
             role: redmine
         memory_max: 256
-        imap:
-            host: localhost
-            port: 143
-            user: user
-            password: pass
+        #imap:
+        #    host: localhost
+        #    port: 143
+        #    user: user
+        #    password: pass
 
     
-    
-cfweb::global::certs: {}
+
+cfweb::global::keys:
+    test_key: {}
+
+cfweb::global::certs:
+    test_cert:
+        key_name: test_key
+    test_cert2: {}
+    acme_cert:
+        cert_source: acme
+        alt_names:
+            - test2.example.com
+            - test3.example.com
+        x509_cn: 'test.example.com'
+
 cfweb::global::ruby: true
 cfweb::global::php: true
+
+cfweb::pki::x509_c: 'US'
+cfweb::pki::x509_st: 'Denial'
+cfweb::pki::x509_l: 'Springfield'
+cfweb::pki::x509_o: 'SomeOrg'
+cfweb::pki::x509_ou: 'SomeUnit'
+cfweb::pki::x509_email: 'admin@example.com'
     
