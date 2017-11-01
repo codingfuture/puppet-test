@@ -1,4 +1,9 @@
 ---
+
+cfweb::deployuser_auth_keys:
+    user@somehost:
+        key: '1234'
+
 cfweb::global::sites:
     nodedemo:
         server_name: nodedemo.example.com
