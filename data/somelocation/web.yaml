@@ -79,6 +79,9 @@ cfweb::global::sites:
                     action prepare
                     'sed -i -e "s/ALLOWED_HOSTS\s*=\s*\[\]/ALLOWED_HOSTS=\[\"pythondemo.example.com\"\]/"  -e "s,db.sqlite3,../../persistent/db.sqlite3," conduit/settings.py'
                     '@default'
+            auto_deploy:
+                hour: 6
+                minute: 0
             
     redmine:
         type: 'cfwebapp::redmine'
