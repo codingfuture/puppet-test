@@ -13,29 +13,14 @@ cfweb::global::sites:
         deploy:
             type: vcsref
             tool: git
-            url: 'https://github.com/madhums/node-express-mongoose-demo.git'
+            url: 'https://github.com/heroku/node-js-sample.git'
             match: 'master'
             deploy_set:
-                - >
-                    action prepare
-                    'ln -s ../.env ./.env'
-                    '@default'
                 - 'entrypoint web nginx public socketType=unix'
-                - 'entrypoint app node server.js internal=1'
+                - 'entrypoint app node index.js internal=1'
                 - 'webcfg root public'
                 - 'webcfg main app'
                 - 'webmount / ''{"static":true}'''
-        dotenv:
-            FACEBOOK_CLIENTID: test
-            FACEBOOK_SECRET: secret
-            TWITTER_CLIENTID: test
-            TWITTER_SECRET: secret
-            GITHUB_CLIENTID: test
-            GITHUB_SECRET: secret
-            LINKEDIN_CLIENTID: test
-            LINKEDIN_SECRET: secret
-            GOOGLE_CLIENTID: test
-            GOOGLE_SECRET: secret
 
     phpdemo:
         server_name: phpdemo.example.com
