@@ -348,9 +348,6 @@ Vagrant.configure(2) do |config|
             ip route change default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
-        node.vm.synced_folder("./external", "/external/",
-            type: 'rsync', owner: 'root', group: 'root'
-        )
         
         node.vm.network :forwarded_port, guest: 22, host: 17029
     end
