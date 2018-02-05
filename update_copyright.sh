@@ -4,6 +4,12 @@ mpath=$1
 
 if test -z "$mpath"; then
     echo "Usage: $(basename $0) module path)"
+    exit -1
+fi
+
+if ! which gawk > /dev/null; then
+    echo "Please install GAWK"
+    exit -1
 fi
 
 author="Andrey Galkin"
@@ -22,7 +28,7 @@ function update_pp_file() {
     local ftmp=${f}.tmp
     
     if egrep -q "Copyright [0-9]{4}(-[0-9]{4})? \(c\) $author" $f; then
-        awk "
+        gawk "
         /Copyright $year \(c\) $author/ { print; next }
         /Copyright ([0-9]{4})-$year \(c\) $author/ { print; next }
         /Copyright ([0-9]{4})(-[0-9]{4})? \(c\) $author/ {
