@@ -2,7 +2,7 @@
 Vagrant.require_version ">= 1.9.1"
 
 Vagrant.configure(2) do |config|
-    use_os = 'jessie'
+    use_os = 'stretch'
     
     if ENV['USE_OS']
         use_os = ENV['USE_OS']
@@ -36,15 +36,13 @@ Vagrant.configure(2) do |config|
                     fail("Unknown OS image #{use_os}")
                 end
         end
-    elsif use_os == 'jessie'
-        config.vm.box = 'debian/jessie64'
+    elsif [ 'jessie', 'stretch' ].include? use_os
+        config.vm.box = "debian/#{use_os}64"
         eth0='eth0'
         eth1='eth1'
         eth2='eth2'
         eth3='eth3'
         eth4='eth4'
-    elsif use_os == 'stretch'
-        config.vm.box = 'debian/stretch64'
     else
         fail("Unknown OS image #{use_os}")
     end

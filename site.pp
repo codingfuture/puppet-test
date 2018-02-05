@@ -4,7 +4,7 @@
 #hiera_include('classes')
 
 # Special hack for Vagrant testing
-if $::facts['lsbdistcodename'] == 'jessie' {
+if $::facts['lsbdistcodename'] in [ 'jessie', 'stretch' ] {
     $ifacename = [
         'eth0',
         'eth1',
