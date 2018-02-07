@@ -27,6 +27,7 @@ cfpuppetserver::is_cluster: true
 cfpuppetserver::is_secondary: true
 cfpuppetserver::repo_url: 'file:///vagrant'
 cfpuppetserver::postgresql::node_id: 2
+cfpuppetserver::postgresql::version: '10'
 
 cftotalcontrol::control_user: 'vagrant'
 cftotalcontrol::autogen_ssh_key: true
