@@ -37,6 +37,7 @@ cfpuppetserver::puppetserver::autosign: true
 cfpuppetserver::is_cluster: true
 cfpuppetserver::repo_url: 'file:///vagrant'
 cfpuppetserver::postgresql::node_id: 1
+cfpuppetserver::postgresql::version: '10'
 cfpuppetserver::deployuser_auth_keys:
     user@somehost:
         key: '1234'
