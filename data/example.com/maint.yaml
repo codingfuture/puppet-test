@@ -1,6 +1,7 @@
 ---
 classes:
     - cftotalcontrol
+    - cfauth::sftp
 
 # Just for reference, this settings must be set during host init
 cfsystem::hierapool::location: 'somelocation'
@@ -71,4 +72,14 @@ cftotalcontrol::extra_users:
 cftotalcontrol::standard_commands:
     helloworld: 'echo "Hello world!"'
     gethostname: 'hostname --fqdn'
-    
+
+cfauth::sftp::users:
+    user1:
+        block_limit: 1G
+        inode_limit: 10k
+    user2:
+        auth_keys:
+            somehost:
+                key: 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiruOsKA2xTeITRnmLlWph1xNdyoX7cufWU48737E8KQSltRZEeyyLKKPR0L+XTwrvpIhwymikP+7K77KMF8yEg9f98FaYtxGdEvPqGVO7Dezdg3eQmQzYce0/wlgLXn0GJa2TcrG7lvSnHkCjbOV5lRWP5vY92skYQHhuwtMgtQ=='
+        user_hosts:
+            - 10.0.0.0/8
