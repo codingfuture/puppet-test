@@ -76,3 +76,7 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
+    esearch:
+        type: elasticsearch
+        is_cluster: true
+        port: 2900
