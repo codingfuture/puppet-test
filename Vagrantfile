@@ -254,6 +254,16 @@ Vagrant.configure(2) do |config|
             ip addr add 10.11.0.20/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
+
+        node.vm.provision('guest-additions', type: 'shell',
+            inline: "apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+        node.vm.provision('setup-esearch', type: 'shell',
+            inline: "useradd -U elasticsearch_esearch" )
+        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
+            type: 'virtualbox',
+            owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
+            create: true
+        )
         
         node.vm.network :forwarded_port, guest: 22, host: 17026
     end
@@ -287,6 +297,16 @@ Vagrant.configure(2) do |config|
             ip link set dev #{eth2} up; \
             ip addr add 10.11.0.21/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
+
+        node.vm.provision('guest-additions', type: 'shell',
+            inline: "apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+        node.vm.provision('setup-esearch', type: 'shell',
+            inline: "useradd -U elasticsearch_esearch" )
+        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
+            type: 'virtualbox',
+            owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
+            create: true
         )
         
         node.vm.network :forwarded_port, guest: 22, host: 17027

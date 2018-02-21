@@ -7,3 +7,4 @@ Puppetfile.lock
 modules
 Puppetfile.local
 USE_OS
+backup_share/elasticsearch_esearch/*
