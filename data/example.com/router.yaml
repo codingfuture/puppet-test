@@ -57,6 +57,8 @@ cfnetwork::describe_services:
             - 'tcp/5300'
             - 'tcp/5301'
             - 'tcp/5351'
+            - 'tcp/2900'
+            - 'tcp/2950'
 
 cfnetwork::service_ports:
     'infradmz:cfssh': {}

@@ -142,3 +142,16 @@ cfdb::access:
         local_user: root
         max_connections: 31
         config_prefix: 'PDBC24_'
+    vagrant_esearch:
+        cluster: esearch
+        local_user: vagrant
+        max_connections: 500
+        config_prefix: 'ESRCH_'
+        use_unix_socket: false
+    root_esearch_secure:
+        cluster: esearch
+        local_user: root
+        max_connections: 100
+        config_prefix: 'ESRCHS_'
+        use_proxy: secure
+        use_unix_socket: false
