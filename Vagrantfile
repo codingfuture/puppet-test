@@ -394,4 +394,27 @@ Vagrant.configure(2) do |config|
         
         node.vm.network :forwarded_port, guest: 22, host: 17030
     end
+    config.vm.define 'logmon' do |node|
+        node.vm.provider "virtualbox" do |v|
+            v.memory = 1024
+        end
+        node.vm.network(
+            "private_network",
+            adapter: 2,
+            ip: "10.10.1.21",
+            netmask: "24",
+            nic_type: nic_type,
+            virtualbox__intnet: "infradmz",
+            auto_config: false
+        )
+        node.vm.provision('setup-network', type: 'shell',
+            inline: "\
+            ip link set dev #{eth1} up; \
+            ip addr add 10.10.1.21/24 dev #{eth1}; \
+            ip route change default via 10.10.1.254 dev #{eth1}; \
+            echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
+        )
+        
+        node.vm.network :forwarded_port, guest: 22, host: 17031
+    end
 end

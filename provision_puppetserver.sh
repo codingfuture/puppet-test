@@ -50,6 +50,12 @@ puppet_deploy router
 update_maint
 reload_vm router
 
+echo "Provision logmon"
+puppet_init logmon
+puppet_deploy logmon
+update_maint
+reload_vm logmon
+
 echo "Reloading puppet"
 vagrant reload puppet
 vagrant ssh puppet -- sudo /opt/codingfuture/bin/cf_wait_socket 8081

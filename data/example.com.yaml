@@ -1,2 +1,2 @@
 ---
-{}
+cflogsink::target: logmon.example.com

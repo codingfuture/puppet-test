@@ -1,0 +1,28 @@
+---
+classes:
+    - cfdb
+
+# Just for reference, this settings must be set during host init
+cfsystem::hierapool::location: 'somelocation'
+cfsystem::hierapool::pool: 'infra'
+
+cfnetwork::main:
+    device: "%{ifacename.1}"
+    address:
+        - '10.10.1.21/24'
+        - 'fd1f:c43f:e6e0:85c9::1:21/112'
+    gateway:
+        - '10.10.1.254'
+        - 'fd1f:c43f:e6e0:85c9::1:fffe'
+
+cfnetwork::ifaces:
+    vagrant:
+        device: "%{ifacename.0}"
+        method: dhcp
+        address: '10.0.2.0/24'
+
+cfdb::instances:
+    logsink:
+        type: elasticsearch
+
+cflogsink::server: true

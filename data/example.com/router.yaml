@@ -59,6 +59,10 @@ cfnetwork::describe_services:
             - 'tcp/5351'
             - 'tcp/2900'
             - 'tcp/2950'
+    logsink:
+        server:
+            - 'tcp/2514'
+            - 'tcp/3514'
 
 cfnetwork::service_ports:
     'infradmz:cfssh': {}
@@ -104,6 +108,9 @@ cfnetwork::router_ports:
     'any/infradmz:puppet':
         src: '10.10.0.0/16'
         dst: ['puppet.example.com', 'puppetback.example.com']
+    'any/infradmz:logsink':
+        src: '10.10.0.0/16'
+        dst: 'logmon.example.com'
     # Allow web to access DB servers
     'webdmz/dbdmz:testdb': {}
     # Allow deployment deps

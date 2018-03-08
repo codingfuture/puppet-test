@@ -2,6 +2,7 @@
 classes:
   - cfsystem
   - cftotalcontrol::auth
+  - cflogsink
  
 cfauth::admin_user: vagrant
 # mkpasswd -m sha-512: 'vagrant'
@@ -64,3 +65,4 @@ cfsystem::repo_proxy:
 cfdb::haproxy::settings_tune:
     cfdb:
         inter: 10s
+
