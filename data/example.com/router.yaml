@@ -95,6 +95,7 @@ cfnetwork::router_ports:
             - 'puppet.example.com'
     # Allow puppet host to download modules
     'infradmz/main:cfhttp:puppet': {}
+    'dbdmz/main:cfhttp:elastic': {}
     # Allow DMZ servers to access infrastructure services
     'any/infradmz:ntp':
         src: '10.10.0.0/16'
