@@ -350,7 +350,7 @@ Vagrant.configure(2) do |config|
     #----
     config.vm.define 'web' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 1536
+            v.memory = 1600
         end
         node.vm.network(
             "private_network",

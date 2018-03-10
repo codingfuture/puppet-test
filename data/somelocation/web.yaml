@@ -52,7 +52,8 @@ cfweb::global::sites:
             - acme_cert
         apps:
             futoin:
-                memory_max: 128
+                memory_min: 128
+                memory_max: 192
         deploy:
             type: vcsref
             match: master
@@ -77,7 +78,7 @@ cfweb::global::sites:
         app_dbaccess:
             cluster: mysrv2
             role: redmine
-        memory_max: 256
+        memory_max: 420
         #imap:
         #    host: localhost
         #    port: 143

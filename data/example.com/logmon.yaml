@@ -24,5 +24,20 @@ cfnetwork::ifaces:
 cfdb::instances:
     logsink:
         type: elasticsearch
+        scheduled_actions:
+            cleanup_access:
+                type: cleanup_old
+                prefix: access
+                unit_count: 2
+            cleanup_fw:
+                type: cleanup_old
+                prefix: fw
+                unit_count: 1
+                cron:
+                    hour: 1
+            cleanup_log:
+                type: cleanup_old
+                prefix: log
+                unit_count: 2
 
 cflogsink::server: true
