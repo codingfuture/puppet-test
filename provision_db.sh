@@ -4,13 +4,16 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-vagrant destroy $DESTROY_OPTS $DB_HOSTS
+vagrant destroy $DESTROY_OPTS $DB_HOSTS || true
 puppet_purge $DB_HOSTS
 update_maint
 
 echo "Bootstrapping DB VMs"
-for h in $DB_HOSTS; do
-    vagrant up $h
+for h in db;do #$DB_HOSTS; do
+    DISABLE_PUPPET_SYNC=true vagrant up $h
+    vagrant halt $h
+    sleep 5
+    vagrant up $h --provision-with=setup-network
     puppet_init $h INIT_ONESHOT=1
 done
 

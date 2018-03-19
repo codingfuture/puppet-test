@@ -1,6 +1,8 @@
 
 set -ex
 
+PS1="(provision) $PS1"
+
 test ! -d modules && librarian-puppet install
 
 PUPPET=/opt/puppetlabs/bin/puppet
@@ -18,6 +20,12 @@ fi
 function puppet_deploy() {
     local vm=$1
     vagrant ssh $vm -- sudo $PUPPET agent --test --trace
+    local res=$?
+    [ $res -eq 0 ]
+    #local last_res_var="last_puppet_res_${vm}"
+    #local last_res=${!last_res_var}
+    #declare last_puppet_res_${vm}=$res
+    #[ $res -eq 0 ] || [ $res -eq 2 ]
 }
 
 function update_maint() {

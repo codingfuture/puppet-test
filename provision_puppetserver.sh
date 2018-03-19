@@ -4,10 +4,10 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-vagrant destroy $DESTROY_OPTS
+vagrant destroy $DESTROY_OPTS || true
 
 echo "Getting VMs up"
-DISABLE_PUPPET_SYNC=true vagrant up router maint puppet puppetback
+DISABLE_PUPPET_SYNC=true vagrant up router maint puppet puppetback logmon
 
 echo "Puppet Server bootstrap"
 vagrant ssh puppet -- sudo rm /etc/puppetlabs/code/ -rf
@@ -29,8 +29,11 @@ done
 echo "Prepare maint"
 puppet_init maint INIT_ONESHOT=1
 
+vagrant ssh maint -- sudo sed -i /etc/fstab -e 's/errors=remount-ro/errors=remount-ro,usrjquota=aquota.user,jqfmt=vfsv1/'
+vagrant ssh maint -- sudo quotacheck -vucm / || true
+
 vagrant ssh maint -- sudo $PUPPET resource host puppet.example.com ip=10.10.1.11
-while ! puppet_deploy maint; do :; done
+while ! puppet_deploy maint; do sleep 1; done
 reload_vm maint
 
 echo "Provision puppetback"
@@ -41,14 +44,8 @@ while ! puppet_deploy puppet || ! puppet_deploy puppetback; do
 done
 vagrant ssh puppet -- sudo /bin/systemctl restart cfpuppetserver.service
 vagrant reload puppetback
-while ! puppet_deploy puppetback; do :; done
+while ! puppet_deploy puppetback; do sleep 1; done
 update_maint
-
-echo "Provision router"
-puppet_init router
-puppet_deploy router
-update_maint
-reload_vm router
 
 echo "Provision logmon"
 puppet_init logmon
@@ -56,8 +53,19 @@ puppet_deploy logmon
 update_maint
 reload_vm logmon
 
+# Add centralized log now
+puppet_deploy maint
+puppet_deploy puppet
+puppet_deploy puppetback
+
+echo "Provision router"
+puppet_init router
+puppet_deploy router
+update_maint
+reload_vm router
+
 echo "Reloading puppet"
 vagrant reload puppet
 vagrant ssh puppet -- sudo /opt/codingfuture/bin/cf_wait_socket 8081
 vagrant ssh puppet -- sudo /opt/codingfuture/bin/cf_wait_socket 8140
-while ! puppet_deploy puppet; do :; done
+while ! puppet_deploy puppet; do sleep 1; done

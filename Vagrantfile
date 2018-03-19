@@ -256,13 +256,20 @@ Vagrant.configure(2) do |config|
         )
 
         node.vm.provision('guest-additions', type: 'shell',
-            inline: "apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+            inline: "\
+            sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';\
+            apt-get update;\
+            apt-get install lsb-release;\
+            echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;\
+            apt-get update;\
+            apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
         node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
             type: 'virtualbox',
             owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
-            create: true
+            create: true,
+            disabled: disable_puppet_sync
         )
         
         node.vm.network :forwarded_port, guest: 22, host: 17026
@@ -300,13 +307,20 @@ Vagrant.configure(2) do |config|
         )
 
         node.vm.provision('guest-additions', type: 'shell',
-            inline: "apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+            inline: "\
+            sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';\
+            apt-get update;\
+            apt-get install lsb-release;\
+            echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;\
+            apt-get update;\
+            apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
         node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
             type: 'virtualbox',
             owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
-            create: true
+            create: true,
+            disabled: disable_puppet_sync
         )
         
         node.vm.network :forwarded_port, guest: 22, host: 17027

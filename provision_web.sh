@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 source provision_common.sh
 
-vagrant destroy $DESTROY_OPTS $WEB_HOSTS
+vagrant destroy $DESTROY_OPTS $WEB_HOSTS || true
 puppet_purge $WEB_HOSTS
 update_maint
 
