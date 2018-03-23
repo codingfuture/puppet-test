@@ -116,6 +116,9 @@ cfnetwork::router_ports:
     'webdmz/dbdmz:testdb': {}
     # Allow deployment deps
     'webdmz/main:cfhttp:puppet': {}
+    # Allow deployment deps
+    'webdmz/infradmz:testdb:logsink':
+        dst: 'logmon.example.com'
     # Allow incoming HTTP/HTTPS
     'main/webdmz:cfhttp:nginx': {}
     

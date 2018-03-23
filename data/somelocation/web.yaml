@@ -85,7 +85,13 @@ cfweb::global::sites:
         #    user: user
         #    password: pass
 
-    
+    kibana:
+        type: 'cfwebapp::kibana'
+        server_name: kibana.example.com
+        shared_cert: test_cert
+        app_dbaccess:
+            cluster: logsink
+        memory_max: 128
 
 cfweb::global::keys:
     test_key: {}

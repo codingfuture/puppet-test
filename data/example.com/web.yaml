@@ -35,6 +35,7 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 
 cfweb::cluster: testweb
 cfweb::standalone:
+    - kibana
     - nodedemo
     - phpdemo
     - pythondemo
