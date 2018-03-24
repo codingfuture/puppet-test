@@ -84,7 +84,10 @@ cfweb::global::sites:
         #    port: 143
         #    user: user
         #    password: pass
-
+        site_params:
+            require_x509:
+                clientpki: puppet_source
+                verify: optional
     kibana:
         type: 'cfwebapp::kibana'
         server_name: kibana.example.com
@@ -92,6 +95,8 @@ cfweb::global::sites:
         app_dbaccess:
             cluster: logsink
         memory_max: 128
+        site_params:
+            require_x509: pki_direct
 
 cfweb::global::keys:
     test_key: {}
@@ -124,7 +129,7 @@ cfweb::global::hosts:
 
 cfweb::global::deploy_keys:
     scopeA:
-        private: >
+        private: |
             -----BEGIN OPENSSH PRIVATE KEY-----
             b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
             QyNTUxOQAAACBaRgQr+H44ErW5NnjyKAdcUhV/wDweMQloX2JmYrvsPQAAAKhONpFhTjaR
@@ -138,6 +143,46 @@ cfweb::global::deploy_keys:
 
 cfweb::global::ruby: true
 cfweb::global::php: true
+
+cfweb::global::clientpki:
+    puppet_source:
+        ca_source: /etc/puppetlabs/puppet/ssl/certs/ca.pem
+        crl_source: /etc/puppetlabs/puppet/ssl/crl.pem
+        depth: 2
+    pki_direct:
+        ca: |
+            -----BEGIN CERTIFICATE-----
+            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
+            2LWZ5Bnzci2SHUO+NYYld686
+            -----END CERTIFICATE-----
 
 cfweb::pki::x509_c: 'US'
 cfweb::pki::x509_st: 'Denial'
