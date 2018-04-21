@@ -410,7 +410,7 @@ Vagrant.configure(2) do |config|
     end
     config.vm.define 'logmon' do |node|
         node.vm.provider "virtualbox" do |v|
-            v.memory = 1024
+            v.memory = 1300
         end
         node.vm.network(
             "private_network",
