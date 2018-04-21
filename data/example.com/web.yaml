@@ -156,3 +156,5 @@ cfdb::access:
         config_prefix: 'ESRCHS_'
         use_proxy: secure
         use_unix_socket: false
+
+cfmetrics::netdata::binary_install: false

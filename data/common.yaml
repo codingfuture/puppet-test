@@ -3,6 +3,7 @@ classes:
   - cfsystem
   - cftotalcontrol::auth
   - cflogsink
+  - cfmetrics
  
 cfauth::admin_user: vagrant
 # mkpasswd -m sha-512: 'vagrant'
@@ -66,3 +67,4 @@ cfdb::haproxy::settings_tune:
     cfdb:
         inter: 10s
 
+cfmetrics::netdata::target: logmon.example.com

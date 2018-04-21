@@ -63,6 +63,7 @@ cfnetwork::describe_services:
         server:
             - 'tcp/2514'
             - 'tcp/3514'
+            - 'tcp/19999'
 
 cfnetwork::service_ports:
     'infradmz:cfssh': {}

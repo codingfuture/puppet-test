@@ -41,3 +41,6 @@ cfdb::instances:
                 unit_count: 2
 
 cflogsink::server: true
+cfmetrics::netdata::server: true
+cfmetrics::netdata::iface: any
+cfmetrics::netdata::port: 19999
