@@ -39,8 +39,16 @@ cfdb::instances:
                 type: cleanup_old
                 prefix: log
                 unit_count: 2
+            cleanup_metrics:
+                type: cleanup_old
+                prefix: metrics
+                unit_count: 2
 
 cflogsink::server: true
 cfmetrics::netdata::server: true
 cfmetrics::netdata::iface: any
 cfmetrics::netdata::port: 19999
+cfmetrics::netdata::logstash:
+    dbaccess:
+        cluster: logsink
+        
