@@ -68,3 +68,4 @@ cfdb::haproxy::settings_tune:
         inter: 10s
 
 cfmetrics::netdata::target: logmon.example.com
+cfmetrics::netdata::registry_url: https://netdata.example.com

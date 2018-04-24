@@ -52,3 +52,4 @@ cfmetrics::netdata::logstash:
     dbaccess:
         cluster: logsink
         
+cfmetrics::netdata::registry: true

@@ -97,6 +97,15 @@ cfweb::global::sites:
         memory_max: 128
         site_params:
             require_x509: pki_direct
+    netdata:
+        server_name: netdata.example.com
+        shared_cert: test_cert
+        apps:
+            proxy:
+                upstream:
+                    host: logmon.example.com
+                    port: 19999
+                    max_conns: 8
 
 cfweb::global::keys:
     test_key: {}

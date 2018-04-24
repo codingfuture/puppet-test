@@ -40,6 +40,7 @@ cfweb::standalone:
     - phpdemo
     - pythondemo
     - redmine
+    - netdata
 
 cfdb::access:
     vagrant_mysrv2_db2:
