@@ -106,6 +106,15 @@ cfweb::global::sites:
                     host: logmon.example.com
                     port: 19999
                     max_conns: 8
+    alerta:
+        type: 'cfwebapp::alerta'
+        server_name: alerta.example.com
+        shared_cert: test_cert
+        api_secret: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
+        memory_max: 196
+        app_dbaccess:
+            cluster: pgsrv1
+            role: alerta
 
 cfweb::global::keys:
     test_key: {}

@@ -70,6 +70,7 @@ cfdb::instances:
         databases:
             pdb1: {}
             pdb2: {}
+            alerta: {}
 
     pgclust1:
         type: postgresql
