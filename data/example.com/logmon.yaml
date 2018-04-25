@@ -53,3 +53,6 @@ cfmetrics::netdata::logstash:
         cluster: logsink
         
 cfmetrics::netdata::registry: true
+cfmetrics::netdata::alerta:
+    url: https://alerta.example.com/api
+    key: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
