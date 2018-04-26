@@ -33,8 +33,6 @@ cfweb::cluster: testweb
 cfweb::is_secondary: true
 cfweb::standalone:
     - phpdemo
-    - kibana
-    - alerta
     
 cfweb::nginx::stress_hosts:
     - '10.0.0.0/8'

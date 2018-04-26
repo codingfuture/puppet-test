@@ -111,10 +111,15 @@ cfweb::global::sites:
         server_name: alerta.example.com
         shared_cert: test_cert
         api_secret: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
-        memory_max: 196
+        memory_max: 192
         app_dbaccess:
             cluster: pgsrv1
             role: alerta
+    alertaweb:
+        type: 'cfwebapp::alertaweb'
+        server_name: alertaweb.example.com
+        shared_cert: test_cert
+        api_endpoint: 'https://alerta.example.com'
 
 cfweb::global::keys:
     test_key: {}

@@ -37,6 +37,7 @@ cfweb::cluster: testweb
 cfweb::standalone:
     - kibana
     - alerta
+    - alertaweb
     #- nodedemo
     - phpdemo
     #- pythondemo
