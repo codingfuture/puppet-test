@@ -30,6 +30,8 @@ cfweb::global::sites:
         apps:
             futoin:
                 memory_max: 64
+                fw_ports:
+                    submission: {}
         deploy:
             type: vcstag
             tool: git
@@ -110,16 +112,29 @@ cfweb::global::sites:
         type: 'cfwebapp::alerta'
         server_name: alerta.example.com
         shared_cert: test_cert
-        api_secret: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
+        secret_key: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
         memory_max: 192
         app_dbaccess:
             cluster: pgsrv1
             role: alerta
-    alertaweb:
-        type: 'cfwebapp::alertaweb'
-        server_name: alertaweb.example.com
-        shared_cert: test_cert
-        api_endpoint: 'https://alerta.example.com'
+    proxy_test:
+        server_name: proxytest.example.com
+        apps:
+            multiproxy:
+                paths:
+                    '/':
+                        upstream:
+                            - host: example.com
+                    '/puppet':
+                        upstream:
+                            - host: puppet.example.com
+                              port: 8080
+                        keepalive: 64
+                    '/puppetback':
+                        upstream:
+                            - host: puppetback.example.com
+                        uppath: '/'
+
 
 cfweb::global::keys:
     test_key: {}

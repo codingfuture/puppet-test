@@ -37,12 +37,12 @@ cfweb::cluster: testweb
 cfweb::standalone:
     - kibana
     - alerta
-    - alertaweb
     #- nodedemo
     - phpdemo
     #- pythondemo
     - redmine
     - netdata
+    - proxy_test
 
 cfdb::access:
     vagrant_mysrv2_db2:
