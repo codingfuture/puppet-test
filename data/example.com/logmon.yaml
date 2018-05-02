@@ -24,6 +24,7 @@ cfnetwork::ifaces:
 cfdb::instances:
     logsink:
         type: elasticsearch
+        backup: false
         scheduled_actions:
             cleanup_access:
                 type: cleanup_old
@@ -42,7 +43,7 @@ cfdb::instances:
             cleanup_metrics:
                 type: cleanup_old
                 prefix: metrics
-                unit_count: 2
+                unit_count: 1
 
 cflogsink::server: true
 cfmetrics::netdata::server: true
