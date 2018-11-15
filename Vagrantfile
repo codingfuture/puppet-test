@@ -172,7 +172,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.10/24 dev #{eth1}; \
-            ip route change default via 10.10.1.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         
         node.vm.network :forwarded_port, guest: 22, host: 17023
@@ -197,7 +198,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.11/24 dev #{eth1}; \
-            ip route change default via 10.10.1.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
         node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
@@ -223,7 +225,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.12/24 dev #{eth1}; \
-            ip route change default via 10.10.1.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
         node.vm.synced_folder(".", "/etc/puppetlabs/code/environments/production/",
@@ -261,7 +264,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.20/24 dev #{eth1}; \
-            ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.2.254 dev #{eth1}; \
             ip link set dev #{eth2} up; \
             ip addr add 10.11.0.20/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
@@ -312,7 +316,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.21/24 dev #{eth1}; \
-            ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.2.254 dev #{eth1}; \
             ip link set dev #{eth2} up; \
             ip addr add 10.11.0.21/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
@@ -363,7 +368,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.2.10/24 dev #{eth1}; \
-            ip route change default via 10.10.2.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.2.254 dev #{eth1}; \
             ip link set dev #{eth2} up; \
             ip addr add 10.11.0.10/27 dev #{eth2}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
@@ -391,7 +397,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.3.10/24 dev #{eth1}; \
-            ip route change default via 10.10.3.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
         
@@ -414,7 +421,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.3.11/24 dev #{eth1}; \
-            ip route change default via 10.10.3.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.3.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
         
@@ -437,7 +445,8 @@ Vagrant.configure(2) do |config|
             inline: "\
             ip link set dev #{eth1} up; \
             ip addr add 10.10.1.21/24 dev #{eth1}; \
-            ip route change default via 10.10.1.254 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via 10.10.1.254 dev #{eth1}; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         )
         
