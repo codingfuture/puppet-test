@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
     eth3='enp0s10'
     eth4='enp0s16'
 
-    if ['wily', 'xenial', 'jakkety', 'zesty'].include? use_os
+    if ['wily', 'xenial', 'bionic'].include? use_os
         if false
             disk_controller = 'SCSI'
             storagectl_opts = [
@@ -28,10 +28,8 @@ Vagrant.configure(2) do |config|
             config.vm.box = "ubuntu/#{use_os}64"
         else
             config.vm.box = case use_os
-                when 'wily' then 'bento/ubuntu-15.10'
                 when 'xenial' then 'bento/ubuntu-16.04'
-                when 'jakkety' then 'bento/ubuntu-16.10'
-                when 'zesty' then 'bento/ubuntu-17.04'
+                when 'bionic' then 'bento/ubuntu-18.04'
                 else
                     fail("Unknown OS image #{use_os}")
                 end
