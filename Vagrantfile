@@ -18,6 +18,7 @@ Vagrant.configure(2) do |config|
     eth2='enp0s9'
     eth3='enp0s10'
     eth4='enp0s16'
+    use_old_ethnames = false
 
     if ['wily', 'xenial', 'bionic'].include? use_os
         if false
@@ -33,18 +34,25 @@ Vagrant.configure(2) do |config|
                 else
                     fail("Unknown OS image #{use_os}")
                 end
+                
+            if config.vm.box == 'bento/ubuntu-18.04'
+                use_old_ethnames = true
+            end
         end
     elsif [ 'jessie', 'stretch' ].include? use_os
         config.vm.box = "debian/#{use_os}64"
+        use_old_ethnames = true
+    else
+        fail("Unknown OS image #{use_os}")
+    end
+
+    if use_old_ethnames
         eth0='eth0'
         eth1='eth1'
         eth2='eth2'
         eth3='eth3'
         eth4='eth4'
-    else
-        fail("Unknown OS image #{use_os}")
     end
-
 
     config.vm.provider "virtualbox" do |v|
         v.linked_clone = true
@@ -61,6 +69,11 @@ Vagrant.configure(2) do |config|
                 "--hostiocache", "on"
             ] + storagectl_opts
         end
+        
+        v.customize [
+            "modifyvm", :id,
+            "--nictype1", nic_type,
+        ] + storagectl_opts
     end
 
 
@@ -131,7 +144,8 @@ Vagrant.configure(2) do |config|
             ip addr add 10.10.2.254/24 dev #{eth3}; \
             ip link set dev #{eth4} up; \
             ip addr add 10.10.3.254/24 dev #{eth4}; \
-            ip route change default via #{network_prefix}.1 dev #{eth1}; \
+            ip route del default; \
+            ip route add default via #{network_prefix}.1 dev #{eth1}; \
             sysctl -w net.ipv4.ip_forward=1; \
             echo 'Acquire::ForceIPv4 \"true\";' | tee /etc/apt/apt.conf.d/99force-ipv4;"
         node.vm.provision 'add-default-nat', type: 'shell',
