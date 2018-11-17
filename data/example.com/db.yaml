@@ -32,26 +32,6 @@ cftotalcontrol::auth::control_scope:
 cfdb::iface: main
 
 cfdb::instances:
-    mysrv1:
-        type: mysql
-        databases:
-            - db1_1
-            - db1_2
-        iface: vagrant
-        port: 4306
-    mysrv2:
-        type: mysql
-        databases:
-            db2:
-                roles:
-                    readonly:
-                        readonly: true
-                    sandbox:
-                        custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
-            redmine: {}
-        settings_tune:
-            cfdb:
-                init_db_from: '/var/lib/mysql'
     myclust1:
         type: mysql
         is_arbitrator: true
@@ -64,14 +44,6 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
-    pgsrv1:
-        type: postgresql
-        port: 1026
-        databases:
-            pdb1: {}
-            pdb2: {}
-            alerta: {}
-
     pgclust1:
         type: postgresql
         is_arbitrator: true
@@ -88,6 +60,35 @@ cfdb::instances:
             cfdb:
                 secure_cluster: true
                 node_id: 3
+    mysrv1:
+        type: mysql
+        databases:
+            - db1_1
+            - db1_2
+        iface: vagrant
+        port: 4306
+    pgsrv1:
+        type: postgresql
+        port: 1026
+        databases:
+            pdb1: {}
+            pdb2: {}
+            alerta: {}
+
+
+    mysrv2:
+        type: mysql
+        databases:
+            db2:
+                roles:
+                    readonly:
+                        readonly: true
+                    sandbox:
+                        custom_grant: 'GRANT SELECT ON $database.* TO $user; GRANT SELECT ON mysql.* TO $user;'
+            redmine: {}
+        settings_tune:
+            cfdb:
+                init_db_from: '/var/lib/mysql'
                         
 
 cfdb::access:

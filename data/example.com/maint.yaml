@@ -39,6 +39,7 @@ cfnetwork::ipsets:
 
 cfsystem::add_repo_cacher: true
 cfsystem::add_ntp_server: true
+cfsystem::add_handy_tools: true
 
 cfsystem::ntp_servers:
     - 0.debian.pool.ntp.org

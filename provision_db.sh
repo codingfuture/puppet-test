@@ -5,12 +5,13 @@ cd $(dirname $0)
 source provision_common.sh
 
 vagrant destroy $DESTROY_OPTS $DB_HOSTS || true
-puppet_purge $DB_HOSTS
+puppet_purge db
 update_maint
 
+DISABLE_PUPPET_SYNC=true vagrant up $DB_HOSTS
+
 echo "Bootstrapping DB VMs"
-for h in db;do #$DB_HOSTS; do
-    DISABLE_PUPPET_SYNC=true vagrant up $h
+for h in $DB_HOSTS; do
     vagrant halt $h
     sleep 5
     vagrant up $h --provision-with=setup-network

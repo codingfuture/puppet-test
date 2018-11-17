@@ -56,7 +56,7 @@ Vagrant.configure(2) do |config|
 
     config.vm.provider "virtualbox" do |v|
         v.linked_clone = true
-        v.memory = 256
+        v.memory = 288
         v.cpus = 1
         if ENV['VAGRANT_GUI']
             v.gui = 1
@@ -273,12 +273,23 @@ Vagrant.configure(2) do |config|
 
         node.vm.provision('guest-additions', type: 'shell',
             inline: "\
-            sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';\
-            apt-get update;\
-            apt-get install lsb-release;\
-            echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;\
-            apt-get update;\
-            apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+            case \"$(lsb_release -is)\" in
+            Debian)
+                sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';
+                apt-get update;
+                apt-get install lsb-release;
+                echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;
+                apt-get update;
+                apt-get install -y linux-headers-amd64 virtualbox-guest-dkms
+                ;;
+            Ubuntu)
+                apt-get update;
+                apt-get install lsb-release;
+                apt-get install -y linux-headers-generic virtualbox-guest-dkms
+                ;;
+            esac;
+            "
+        )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
         node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
@@ -325,12 +336,23 @@ Vagrant.configure(2) do |config|
 
         node.vm.provision('guest-additions', type: 'shell',
             inline: "\
-            sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';\
-            apt-get update;\
-            apt-get install lsb-release;\
-            echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;\
-            apt-get update;\
-            apt-get install -y linux-headers-amd64 virtualbox-guest-dkms" )
+            case \"$(lsb_release -is)\" in
+            Debian)
+                sed -i /etc/apt/sources.list -e 's/main/main contrib non-free/g';
+                apt-get update;
+                apt-get install lsb-release;
+                echo \"deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free\" >> /etc/apt/sources.list;
+                apt-get update;
+                apt-get install -y linux-headers-amd64 virtualbox-guest-dkms
+                ;;
+            Ubuntu)
+                apt-get update;
+                apt-get install lsb-release;
+                apt-get install -y linux-headers-generic virtualbox-guest-dkms
+                ;;
+            esac;
+            "
+        )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
         node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",

@@ -54,13 +54,15 @@ cfnetwork::ipsets:
         addr:
             - 'ipset:test_ipv4_dyn'
             
-cffirehol::enable: true
+#cffirehol::enable: true
 
 # APT proxy
 cfsystem::repo_proxy:
     host: maint.example.com
     port: 3142
 
+cfsystem::add_handy_tools: false
+    
 #cfsystem::debian::apt_url: 'http://cdn-fastly.deb.debian.org/debian'
     
 cfdb::haproxy::settings_tune:
