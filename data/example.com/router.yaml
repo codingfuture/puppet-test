@@ -127,12 +127,15 @@ cfnetwork::router_ports:
 cffirehol::fwknop::enable: true
 cffirehol::knockers:
     otheradmin:
+        timeout: 1200
         ipset:
             - test_ipv4_dyn
             - cfauth_admin
         key_b64: 3R0NbugPNrZLekPmVUHeGfU1PzHYkjOnhypcnu66oZ0=
         hmac_key_b64: pqgMp3TvKZn4EWX8QtXPi5tSPliMuiuLiWqyg+EW/JemJWmOaGGqQnm5oRAQAFbNaMAics/eu6NteoA/M5ecFA==
     dynadmin:
+        timeout: 600
+        ipset: []
         key_b64: 3R0NbugPNrZLekPmVUHeGfU1PzHYkjOnhypcnu66oZ0=
         hmac_key_b64: pqgMp3TvKZn4EWX8QtXPi5tSPliMuiuLiWqyg+EW/JemJWmOaGGqQnm5oRAQAFbNaMAics/eu6NteoA/M5ecFA==
 

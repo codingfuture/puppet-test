@@ -86,3 +86,13 @@ cfauth::sftp::users:
             - 10.0.0.0/8
 
 cflogsink::tls: true
+
+cffirehol::knock_remote:
+    somehost:
+        user: dynadmin
+        host: router.example.com
+        port: 62201
+        test_port: 22
+        key_b64: 3R0NbugPNrZLekPmVUHeGfU1PzHYkjOnhypcnu66oZ0=
+        hmac_key_b64: pqgMp3TvKZn4EWX8QtXPi5tSPliMuiuLiWqyg+EW/JemJWmOaGGqQnm5oRAQAFbNaMAics/eu6NteoA/M5ecFA==
+
