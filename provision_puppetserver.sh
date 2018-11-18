@@ -30,6 +30,7 @@ echo "Prepare maint"
 puppet_init maint INIT_ONESHOT=1
 
 vagrant ssh maint -- sudo sed -i /etc/fstab -e 's/errors=remount-ro/errors=remount-ro,usrjquota=aquota.user,jqfmt=vfsv1/'
+vagrant ssh maint -- sudo mount -o remount / || true
 vagrant ssh maint -- sudo quotacheck -vucm / || true
 
 vagrant ssh maint -- sudo $PUPPET resource host puppet.example.com ip=10.10.1.11
