@@ -1,0 +1,7 @@
+{
+  "vcs": "git",
+  "name": "puppet-test",
+  "actions" : {
+    "update-deps" : "@cid tool exec bundler -- exec -- librarian-puppet update"
+  }
+}
