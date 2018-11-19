@@ -28,6 +28,9 @@ cfauth::admin_hosts:
     - 'fdde:bd2b:c350:f984::/64'
     - 'ipset:test_ips'
 
+cfpuppetserver::client_hosts:
+    - '10.0.0.0/8'
+
 # Setup your own
 #cfsystem::admin_email: admin@example.com
 cfnetwork::describe_services:
@@ -53,8 +56,11 @@ cfnetwork::ipsets:
     test_ipv4:
         addr:
             - 'ipset:test_ipv4_dyn'
+    'cfpuppet_clients:custom':
+        addr:
+            - 'ipset:test_ipv4_dyn'
             
-#cffirehol::enable: true
+cffirehol::enable: true
 
 # APT proxy
 cfsystem::repo_proxy:
