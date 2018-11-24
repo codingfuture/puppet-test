@@ -96,3 +96,7 @@ cffirehol::knock_remote:
         key_b64: 3R0NbugPNrZLekPmVUHeGfU1PzHYkjOnhypcnu66oZ0=
         hmac_key_b64: pqgMp3TvKZn4EWX8QtXPi5tSPliMuiuLiWqyg+EW/JemJWmOaGGqQnm5oRAQAFbNaMAics/eu6NteoA/M5ecFA==
 
+cfauth::freeipa:
+    server: puppet.example.com
+    domain: example.com
+    groups: some_users
