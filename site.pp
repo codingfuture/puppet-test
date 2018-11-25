@@ -25,3 +25,18 @@ if $::facts['lsbdistcodename'] in [ 'jessie', 'stretch', 'bionic' ] {
 # Please make sure "module_data" module is not used as it poisons lookup() processing.
 # See https://tickets.puppetlabs.com/browse/PUP-5952 for more details.
 lookup('classes', Array[String], 'unique').include
+
+node 'maint.example.com' {
+    cfsystem_service { 'test_service':
+        ensure        => present,
+        command       => '/bin/sleep 180',
+        user          => root,
+        root_dir      => '/root',
+        memory_weight => 1,
+        cpu_weight    => 1,
+        io_weight     => 1,
+        allow_restart => false,
+    }
+}
+
+node default {}
