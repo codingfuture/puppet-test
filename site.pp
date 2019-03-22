@@ -27,7 +27,7 @@ if $::facts['lsbdistcodename'] in [ 'jessie', 'stretch', 'bionic' ] {
 lookup('classes', Array[String], 'unique').include
 
 node 'maint.example.com' {
-    cfsystem_service { 'test_service':
+    cfsystem_service { 'cfsvc-test_service':
         ensure        => present,
         command       => '/bin/sleep 180',
         user          => root,

@@ -34,10 +34,6 @@ cfpuppetserver::client_hosts:
 # Setup your own
 #cfsystem::admin_email: admin@example.com
 cfnetwork::describe_services:
-    cfhttp:
-        server:
-            - 'tcp/80'
-            - 'tcp/443'
     testv4:
         server:
             - 'tcp/12345'
