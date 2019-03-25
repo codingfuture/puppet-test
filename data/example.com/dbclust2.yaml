@@ -62,3 +62,14 @@ cfdb::instances:
         type: elasticsearch
         is_cluster: true
         port: 2900
+    mngclust1:
+        type: mongodb
+        is_secondary: true
+        port: 27000
+    mngclust2:
+        type: mongodb
+        is_secondary: true
+        port: 27001
+        settings_tune:
+            cfdb:
+                secure_cluster: true

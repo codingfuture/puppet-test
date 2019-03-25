@@ -89,6 +89,17 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 init_db_from: '/var/lib/mysql'
+    mngclust1:
+        type: mongodb
+        is_arbitrator: true
+        port: 27000
+    mngclust2:
+        type: mongodb
+        is_arbitrator: true
+        port: 27001
+        settings_tune:
+            cfdb:
+                secure_cluster: true
                         
 
 cfdb::access:
@@ -138,4 +149,13 @@ cfdb::access:
         role: pdb1
         local_user: vagrant
         config_prefix: 'PDB1_'
-        
+    vagrant_mng1_modb1:
+        cluster: mngclust1
+        role: modb1
+        local_user: vagrant
+        config_prefix: 'MODB1_'
+    vagrant_mng2_modb3:
+        cluster: mngclust2
+        role: modb3
+        local_user: vagrant
+        config_prefix: 'MODB3_'
