@@ -159,5 +159,21 @@ cfdb::access:
         config_prefix: 'ESRCHS_'
         use_proxy: secure
         use_unix_socket: false
+    vagrant_mng1_modb1:
+        cluster: mngclust1
+        role: modb1
+        local_user: vagrant
+        config_prefix: 'MODB1_'
+    vagrant_mng2_modb3:
+        cluster: mngclust2
+        role: modb3
+        local_user: vagrant
+        config_prefix: 'MODB3_'
+    vagrant_rds1:
+        cluster: rdsclust1
+        role: rdsclust1
+        local_user: vagrant
+        config_prefix: 'RDS_'
+
 
 cfmetrics::netdata::binary_install: false

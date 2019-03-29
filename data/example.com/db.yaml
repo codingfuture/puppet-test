@@ -100,7 +100,11 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
-                        
+    rdsclust1:
+        type: redis
+        is_arbitrator: true
+        port: 6300
+
 
 cfdb::access:
     vagrant_mysrv2_db2:
@@ -159,3 +163,8 @@ cfdb::access:
         role: modb3
         local_user: vagrant
         config_prefix: 'MODB3_'
+    vagrant_rds1:
+        cluster: rdsclust1
+        role: rdsclust1
+        local_user: vagrant
+        config_prefix: 'RDS_'

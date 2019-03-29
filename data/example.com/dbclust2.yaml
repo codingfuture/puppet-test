@@ -73,3 +73,8 @@ cfdb::instances:
         settings_tune:
             cfdb:
                 secure_cluster: true
+    rdsclust1:
+        type: redis
+        is_secondary: true
+        port: 6300
+
