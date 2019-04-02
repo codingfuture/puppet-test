@@ -35,12 +35,14 @@ function update_maint() {
 
 function set_nameserver() {
     local vm=$1
+    local ns='10.10.1.10'
     
     if test $vm = 'maint';  then
-        vagrant ssh $vm -c "echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf"
-    else
-        vagrant ssh $vm -c "echo 'nameserver 10.10.1.10' | sudo tee /etc/resolv.conf"
+        ns='8.8.8.8'
     fi
+
+    vagrant ssh $vm -c "echo 'nameserver $ns' | sudo tee /etc/resolv.conf"
+    vagrant ssh $vm -c "echo -e '[Resolve]\nDNS=$ns' | sudo tee /etc/systemd/resolved.conf"
 }
 
 function puppet_purge() {

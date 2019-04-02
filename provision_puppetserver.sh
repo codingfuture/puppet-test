@@ -29,6 +29,7 @@ done
 echo "Prepare maint"
 puppet_init maint INIT_ONESHOT=1
 
+vagrant ssh maint -- sudo apt-get install -y quota
 vagrant ssh maint -- sudo sed -i /etc/fstab -e 's/errors=remount-ro/errors=remount-ro,usrjquota=aquota.user,jqfmt=vfsv1/'
 vagrant ssh maint -- sudo mount -o remount / || true
 vagrant ssh maint -- sudo quotacheck -vucm / || true
@@ -55,9 +56,9 @@ update_maint
 reload_vm logmon
 
 # Add centralized log now
-puppet_deploy maint
-puppet_deploy puppet
-puppet_deploy puppetback
+puppet_deploy maint || true
+puppet_deploy puppet || true
+puppet_deploy puppetback || true
 
 echo "Provision router"
 puppet_init router
