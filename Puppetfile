@@ -6,6 +6,7 @@ if File.exists? PUPPETFILE_LOAD
     eval(File.read(PUPPETFILE_LOAD)) 
 elsif !ENV['PUPPETFILE_USE_GIT']
     mod 'codingfuture/cfauth'
+    mod 'codingfuture/cfbackup'
     mod 'codingfuture/cfdb'
     mod 'codingfuture/cffirehol'
     mod 'codingfuture/cflogsink'
@@ -20,6 +21,9 @@ elsif !ENV['PUPPETFILE_USE_GIT']
 else
     mod 'codingfuture/cfauth',
         :git => "https://github.com/codingfuture/puppet-cfauth",
+        :ref => 'master'
+    mod 'codingfuture/cfbackup',
+        :git => "https://github.com/codingfuture/puppet-cfbackup",
         :ref => 'master'
     mod 'codingfuture/cfdb',
         :git => "https://github.com/codingfuture/puppet-cfdb",

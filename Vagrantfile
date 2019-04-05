@@ -292,7 +292,7 @@ Vagrant.configure(2) do |config|
         )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
-        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
+        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/cfdb/elasticsearch_esearch",
             type: 'virtualbox',
             owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
             create: true,
@@ -355,7 +355,7 @@ Vagrant.configure(2) do |config|
         )
         node.vm.provision('setup-esearch', type: 'shell',
             inline: "useradd -U elasticsearch_esearch" )
-        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/elasticsearch_esearch",
+        node.vm.synced_folder("backup_share/elasticsearch_esearch", "/mnt/backup/cfdb/elasticsearch_esearch",
             type: 'virtualbox',
             owner: 'elasticsearch_esearch', group: 'elasticsearch_esearch',
             create: true,
