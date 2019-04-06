@@ -26,6 +26,20 @@ cfnetwork::ifaces:
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
 
+cfbackup::type: sftp
+cfbackup::sftp::user: sftp_user2
+cfbackup::sftp::host: maint.example.com
+cfbackup::sftp::port: 22
+cfbackup::sftp::ssh_key: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+    QyNTUxOQAAACB//LFIIU8GuQX3RKRnS8VoSwhkUi7YoFV5ut+XU5+I1QAAAKhVp7UKVae1
+    CgAAAAtzc2gtZWQyNTUxOQAAACB//LFIIU8GuQX3RKRnS8VoSwhkUi7YoFV5ut+XU5+I1Q
+    AAAEAEcT3jFiXt+zZ3+y9UYnEWGT8M3jfsMk5eVI8KhH5Zy3/8sUghTwa5BfdEpGdLxWhL
+    CGRSLtigVXm635dTn4jVAAAAIGVydHhhQGNmc2VydmVyMS5jb2RpbmdmdXR1cmUubmV0AQ
+    IDBAU=
+    -----END OPENSSH PRIVATE KEY-----
+
 cftotalcontrol::auth::control_scope:
     - cftc_dba
     
