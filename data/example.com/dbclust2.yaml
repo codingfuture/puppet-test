@@ -26,6 +26,12 @@ cfnetwork::ifaces:
 cfsystem::puppet_host: 'puppetback.example.com'
 cfsystem::puppet_cahost: 'puppet.example.com'
 
+cfbackup::type: s3
+cfbackup::s3::url: https://s3.example.com
+cfbackup::s3::bucket: backup.example.com
+cfbackup::s3::access_key: test123
+cfbackup::s3::secret_key: test234
+
 cftotalcontrol::auth::control_scope:
     - cftc_dba
     
