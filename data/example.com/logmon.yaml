@@ -49,9 +49,9 @@ cflogsink::server: true
 cfmetrics::netdata::server: true
 cfmetrics::netdata::iface: any
 cfmetrics::netdata::port: 19999
-cfmetrics::netdata::logstash:
-    dbaccess:
-        cluster: logsink
+#cfmetrics::netdata::logstash:
+#    dbaccess:
+#        cluster: logsink
         
 cfmetrics::netdata::registry: true
 cfmetrics::netdata::alerta:
