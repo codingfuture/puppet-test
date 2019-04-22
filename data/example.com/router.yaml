@@ -51,6 +51,7 @@ cfnetwork::describe_services:
         server:
             - 'tcp/1025'
             - 'tcp/1026'
+            - 'tcp/1027'
             - 'tcp/3306'
             - 'tcp/3307'
             - 'tcp/3357'
@@ -59,8 +60,12 @@ cfnetwork::describe_services:
             - 'tcp/5351'
             - 'tcp/2900'
             - 'tcp/2950'
+            - 'tcp/27000'
+            - 'tcp/27001'
+            - 'tcp/6300'
     logsink:
         server:
+            - 'tcp/1025'
             - 'tcp/2514'
             - 'tcp/3514'
             - 'tcp/19999'

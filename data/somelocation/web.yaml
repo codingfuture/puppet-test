@@ -1,5 +1,8 @@
 ---
 
+cfnetwork::is_router: true
+cfnetwork::sysctl::enable_bridge_filter: true
+
 cfweb::deployuser_auth_keys:
     user@somehost:
         key: '1234'
@@ -91,12 +94,12 @@ cfweb::global::sites:
                 clientpki: puppet_source
                 verify: optional
     kibana:
-        type: 'cfwebapp::kibana'
+        type: 'cfwebapp::docker::kibana'
         server_name: kibana.example.com
         shared_cert: test_cert
         app_dbaccess:
             cluster: logsink
-        memory_max: 128
+        memory_max: 512
         site_params:
             require_x509: pki_direct
     netdata:

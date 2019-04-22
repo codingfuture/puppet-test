@@ -35,12 +35,12 @@ cfsystem::puppet_cahost: 'puppet.example.com'
 
 cfweb::cluster: testweb
 cfweb::standalone:
-    #- kibana
-    - alerta
+    - kibana
+    #- alerta
     #- nodedemo
-    - phpdemo
+    #- phpdemo
     #- pythondemo
-    - redmine
+    #- redmine
     - netdata
     - proxy_test
 
