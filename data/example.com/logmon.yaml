@@ -57,3 +57,17 @@ cfmetrics::netdata::registry: true
 cfmetrics::netdata::alerta:
     url: https://alerta.example.com/api
     key: 'FwIQG4pQzjqlIKnoxlN2ZyRMpFP0XtTJ'
+
+# cfweb/docker stuff
+
+cfnetwork::is_router: true
+cfnetwork::sysctl::enable_bridge_filter: true
+cfweb::cluster: logmon
+cfweb::pki::x509_c: 'US'
+cfweb::pki::x509_st: 'Denial'
+cfweb::pki::x509_l: 'Springfield'
+cfweb::pki::x509_o: 'SomeOrg'
+cfweb::pki::x509_ou: 'SomeUnit'
+cfweb::pki::x509_email: 'admin@example.com'
+
+cfmetrics::prometheus: true
