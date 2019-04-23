@@ -103,6 +103,12 @@ cfweb::global::sites:
         ifaces: ['main']
         #kibana_tune:
         #    'logging.verbose': true
+    grafana:
+        type: 'cfwebapp::docker::grafana'
+        server_name: grafana.example.com
+        shared_cert: test_cert
+        memory_max: 512
+        ifaces: ['main']
     netdata:
         server_name: netdata.example.com
         shared_cert: test_cert
