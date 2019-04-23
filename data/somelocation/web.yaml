@@ -100,8 +100,9 @@ cfweb::global::sites:
         app_dbaccess:
             cluster: logsink
         memory_max: 512
-        site_params:
-            require_x509: pki_direct
+        ifaces: ['main']
+        #kibana_tune:
+        #    'logging.verbose': true
     netdata:
         server_name: netdata.example.com
         shared_cert: test_cert
